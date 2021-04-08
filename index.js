@@ -13,7 +13,8 @@ const app = express();
 
 // since we presume cors is enabled, this next step is not optional, so cors
 // is enable here instead of in options
-app.use(cors({ origin: CLIENT_LOCAL_ORIGIN, credentials: true }));
+// app.use(cors({ origin: CLIENT_LOCAL_ORIGIN, credentials: true }));
+app.use(cors());
 
 const corsPolicy = async(req, res, next) => {
 	res.set("Access-Control-Allow-Origin", req.headers.origin);
