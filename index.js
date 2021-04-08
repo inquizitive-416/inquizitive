@@ -11,12 +11,12 @@ const { MONGO_URI, BACKEND_PORT, CLIENT_LOCAL_ORIGIN, SERVER_LOCAL_DOMAIN } = pr
 // create express server handling our middleware 
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('client/public'));
+if (process.env.NODE_ENV === 'production' && process.env.NODE_ENV === 'staging') {
+	app.use(express.static('client/build'));
 }
 
 app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname, 'client/public', 'index.html'));
+	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 // since we presume cors is enabled, this next step is not optional, so cors
