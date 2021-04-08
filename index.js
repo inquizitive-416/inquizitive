@@ -41,6 +41,7 @@ server.applyMiddleware({ app , cors: false});
 
 mongoose.connect(MONGO_URI, {useNewUrlParser: true , useUnifiedTopology: true})
         .then(() => {
+            console.log(process.env.PORT)
             app.listen(process.env.PORT || BACKEND_PORT, () => {
                 console.log(`Server ready at ${SERVER_LOCAL_DOMAIN}:${BACKEND_PORT}`);
             })
