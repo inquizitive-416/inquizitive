@@ -31,7 +31,7 @@ const BACKEND_LOCATION = 'http://localhost:4000/graphql';
 const client = new ApolloClient({
 	uri: BACKEND_LOCATION,
 	// Credentials: include is necessary to pass along the auth cookies with each server request
-	credentials: 'include',
+	//credentials: 'include',
 	cache: cache,
 });
 
