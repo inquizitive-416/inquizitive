@@ -42,7 +42,9 @@ const server = new ApolloServer({
 // works as well
 server.applyMiddleware({ app , cors: false});
 
-mongoose.connect(MONGO_URI, {useNewUrlParser: true , useUnifiedTopology: true})
+const mongo_uri = "mongodb+srv://InQuizer:InQuizItive-416@inquizitive-cluster.empk7.mongodb.net/InQuizItiveData?retryWrites=true&w=majority";
+
+mongoose.connect(mongo_uri, {useNewUrlParser: true , useUnifiedTopology: true})
         .then(() => {
             app.listen(BACKEND_PORT)
         })
