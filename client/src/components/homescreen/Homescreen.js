@@ -39,6 +39,7 @@ const Homescreen = (props) => {
 	if(loading) { console.log(loading, 'loading'); }
 	if(error) { console.log(error, 'error'); }
 	if(data) { todolists = data.getAllTodos; }
+	console.log(todolists)
 
 	const auth = props.user === null ? false : true;
 
