@@ -42,11 +42,23 @@ const server = new ApolloServer({
 // works as well
 server.applyMiddleware({ app , cors: false});
 
+// ... other imports 
+const path = require("path")
+
+// ... other app.use middleware 
+app.use(express.static(path.join(__dirname, "client", "build")))
+
+// ...
+// Right before your app.listen(), add this:
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+
 const mongo_uri = "mongodb+srv://InQuizer:InQuizItive-416@inquizitive-cluster.empk7.mongodb.net/InQuizItiveData?retryWrites=true&w=majority";
 
 mongoose.connect(mongo_uri, {useNewUrlParser: true , useUnifiedTopology: true})
         .then(() => {
-            app.listen(BACKEND_PORT, () => {
+            app.listen(process.env.PORT || BACKEND_PORT, () => {
                 console.log(`Server ready at ${BACKEND_PORT}`);
             })
         })
