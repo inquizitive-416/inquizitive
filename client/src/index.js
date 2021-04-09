@@ -27,7 +27,7 @@ const cache = new InMemoryCache({
 
 // bad hardcoding, localhost port should match port in the backend's .env file
 //const BACKEND_LOCATION = 'http://localhost:4000/graphql';
-const BACKEND_LOCATION = 'https://inquizitive-staging.herokuapp.com:4000/graphql';
+const BACKEND_LOCATION = '/graphql';
 
 const client = new ApolloClient({
 	uri: BACKEND_LOCATION,

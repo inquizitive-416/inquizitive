@@ -46,7 +46,9 @@ const mongo_uri = "mongodb+srv://InQuizer:InQuizItive-416@inquizitive-cluster.em
 
 mongoose.connect(mongo_uri, {useNewUrlParser: true , useUnifiedTopology: true})
         .then(() => {
-            app.listen(BACKEND_PORT)
+            app.listen(BACKEND_PORT, () => {
+                console.log(`Server ready at ${BACKEND_PORT}`);
+            })
         })
         .catch(error => {
             console.log(error)
