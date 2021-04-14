@@ -45,27 +45,20 @@ const LoggedIn = (props) => {
 
 const LoggedOut = (props) => {
     return (
-        <Navbar bg="light" expand="lg">
-  <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-  <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar bg="dark" variant="dark">
+    <Navbar.Brand href="/home">In<span style={{color: '#f5ae31'}}>Quiz</span>Itive</Navbar.Brand>
     <Nav className="mr-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#link">Link</Nav.Link>
-      <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-      </NavDropdown>
+        <Nav.Link href="/explore">Explore</Nav.Link>
+        <Nav.Link href="/create">Create</Nav.Link>
+        <Nav.Link href="/tournaments">Tournaments</Nav.Link>
+        <Nav.Link href="/shop">Shop</Nav.Link>
     </Nav>
-    <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-      <Button variant="outline-success">Search</Button>
-    </Form>
-  </Navbar.Collapse>
-</Navbar>
+    <Nav>
+        <Nav.Link href="/shop">Currency</Nav.Link>
+        <Nav.Link href="/settings">Settings</Nav.Link>
+        <Nav.Link href="/profile">Profile</Nav.Link>
+    </Nav>
+  </Navbar>
     );
 };
 
