@@ -1,10 +1,10 @@
 import React, { useState, useEffect } 	from 'react';
-import Navbar_ 					from '../navbar/Navbar_';
+import NavbarTop 					from '../navbar/NavbarTop';
 
 const Explorescreen = (props) => {
 
 	return (
-		<Navbar_/>
+		<NavbarTop/>
 	);
 };
 
