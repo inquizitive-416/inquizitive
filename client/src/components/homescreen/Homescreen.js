@@ -1,6 +1,6 @@
 import React, { useState, useEffect } 	from 'react';
 import Logo 							from '../navbar/Logo';
-import NavbarOptions 					from '../navbar/NavbarOptions';
+import NavbarOptions 					from '../navbar/Navbar_';
 import MainContents 					from '../main/MainContents';
 import SidebarContents 					from '../sidebar/SidebarContents';
 import Login 							from '../modals/Login';
@@ -16,7 +16,6 @@ import { UpdateListField_Transaction,
 	ReorderItems_Transaction, 
 	EditItem_Transaction } 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
-
 
 const Homescreen = (props) => {
 
@@ -188,69 +187,11 @@ const Homescreen = (props) => {
 	}
 
 	return (
-		<WLayout wLayout="header-lside">
-			<WLHeader>
-				<WNavbar color="colored">
-					<ul>
-						<WNavItem>
-							<Logo className='logo' />
-						</WNavItem>
-					</ul>
-					<ul>
-						<NavbarOptions
-							fetchUser={props.fetchUser} auth={auth} 
-							setShowCreate={setShowCreate} setShowLogin={setShowLogin}
-							refetchTodos={refetch} setActiveList={setActiveList}
-						/>
-					</ul>
-				</WNavbar>
-			</WLHeader>
-
-			<WLSide side="left">
-				<WSidebar>
-					{
-						activeList ?
-							<SidebarContents
-								todolists={todolists} activeid={activeList.id} auth={auth}
-								handleSetActive={handleSetActive} createNewList={createNewList}
-								undo={tpsUndo} redo={tpsRedo}
-								updateListField={updateListField}
-							/>
-							:
-							<></>
-					}
-				</WSidebar>
-			</WLSide>
-			<WLMain>
-				{
-					activeList ? 
-							<div className="container-secondary">
-								<MainContents
-									addItem={addItem} deleteItem={deleteItem}
-									editItem={editItem} reorderItem={reorderItem}
-									setShowDelete={setShowDelete}
-									activeList={activeList} setActiveList={setActiveList}
-								/>
-							</div>
-						:
-							<div className="container-secondary" />
-				}
-
-			</WLMain>
-
-			{
-				showDelete && (<Delete deleteList={deleteList} activeid={activeList._id} setShowDelete={setShowDelete} />)
-			}
-
-			{
-				showCreate && (<CreateAccount fetchUser={props.fetchUser} setShowCreate={setShowCreate} />)
-			}
-
-			{
-				showLogin && (<Login fetchUser={props.fetchUser} refetchTodos={refetch}setShowLogin={setShowLogin} />)
-			}
-
-		</WLayout>
+		<NavbarOptions
+			fetchUser={props.fetchUser} auth={auth} 
+			setShowCreate={setShowCreate} setShowLogin={setShowLogin}
+			refetchTodos={refetch} setActiveList={setActiveList}
+		/>
 	);
 };
 
