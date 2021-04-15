@@ -20,10 +20,10 @@ const LoggedOut = (props) => {
     );
 };
 
-const Navbar_ = (props) => {
+const NavbarTop = (props) => {
     return (
         <LoggedOut/>
     );
 };
 
-export default Navbar_;
+export default NavbarTop;

@@ -24,10 +24,11 @@ const cache = new InMemoryCache({
 	},
 });
 
-// rebuild
-// bad hardcoding, localhost port should match port in the backend's .env file
-//const BACKEND_LOCATION = 'http://localhost:4000/graphql';
-const BACKEND_LOCATION = '/graphql';
+var BACKEND_LOCATION = 'http://localhost:4000/graphql';
+
+if (process.env.SERVER === 'true') {
+	BACKEND_LOCATION = '/graphql';
+}
 
 const client = new ApolloClient({
 	uri: BACKEND_LOCATION,
