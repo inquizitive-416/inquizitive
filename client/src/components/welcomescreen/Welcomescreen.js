@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
+import Explorescreen 		from '../explorescreen/Explorescreen';
 import Button from "react-bootstrap/Button";
 import "./Welcomescreen.css";
 
@@ -11,9 +12,9 @@ const Welcome = (props) => {
         return email.length > 0 && password.length > 0;
     }
 
-    function handleSubmit(event) {
+    function handleLogin() {
+        window.location.replace('../explorescreen/Explorescreen');
         
-        event.preventDefault();
     }
 
     return (
@@ -25,7 +26,7 @@ const Welcome = (props) => {
                 Welcome to In<span style={{color: '#f5ae31'}}>Quiz</span>Itive, a place with all the tools needed to give every user the confidence to learn and succeed.
             </div>
             <div className="Login" >
-            <Form onSubmit={handleSubmit}>
+            <Form >
                 <Form.Group size="lg" controlId="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -46,7 +47,7 @@ const Welcome = (props) => {
             
                 <div class="row">
                 <div class="col">
-                    <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={!validateForm()} >
+                    <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={!validateForm()} onClick={handleLogin}>
                         Login
                     </Button></div>
                 <div class="col">

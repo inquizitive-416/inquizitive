@@ -1,13 +1,14 @@
 import React 			from 'react';
-import Explorescreen 		from './components/explorescreen/Explorescreen';
+
 import Welcomescreen 		from './components/welcomescreen/Welcomescreen';
+import Regscreen 		from './components/welcomescreen/RegisterModal';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
  
 const App = () => {
 
 	return(
 		// render={() => 
-			<Welcomescreen/>
+			<Regscreen/>
 		// } 
 		// <BrowserRouter>
 		// 	<Switch>
