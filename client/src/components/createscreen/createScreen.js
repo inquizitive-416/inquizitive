@@ -71,6 +71,29 @@ const createScreen = (props) => {
             </select>
          </div>
 
+         <div style= {{paddingLeft: 17}}class="form-group">
+                <label for="formGroupExampleInput">Enter Hashtags</label>
+                <input style= {{ backgroundColor: "#838383", width:400}} type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 1"/>
+                <input style= {{ backgroundColor: "#838383", width:400}} type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 2"/>
+                <input style= {{ backgroundColor: "#838383", width:400}} type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 3"/>
+         </div>
+
+
+         <div style= {{paddingLeft: 17, width:925}} class="input-group mb-3">
+            <select style= {{ backgroundColor: "#838383", width:900}} class="custom-select" id="inputGroupSelect02">
+                <option  selected>Choose Difficulty</option>
+                <option value="2">Easy</option>
+                <option value="1">Medium</option>
+                <option value="2">Hard</option>
+            </select>
+         </div>
+
+
+         
+
+
+
+
           </form>
         </div>
 	);
