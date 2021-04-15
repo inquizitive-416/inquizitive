@@ -34,13 +34,14 @@ const createScreen = (props) => {
 
 
             <fieldset style= {{paddingLeft: 17}} class="form-group">
-            <div class="row">
-            <legend class="col-form-label col-sm-2 pt-0">Question Types</legend>
-             <div class="col-sm-10">
+                <div class="row">
+                    <legend class="col-form-label col-sm-2 pt-0">Question Types</legend>
+                    <div class="col-sm-10">
 
-            <div class="form-check">
-            <input class="form-check-input"  type="radio" name="gridRadios" id="gridRadios1" value="option1" checked/>
-             <label class="form-check-label" for="gridRadios1">Multiple Choice</label>  </div>
+                     <div class="form-check">
+                    <input class="form-check-input"  type="radio" name="gridRadios" id="gridRadios1" value="option1" checked/>
+                    <label class="form-check-label" for="gridRadios1">Multiple Choice</label>  
+                    </div>
 
             <div class="form-check">
             <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2"/>
@@ -49,10 +50,27 @@ const createScreen = (props) => {
             <div class="form-check ">
             <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" />
             <label class="form-check-label" for="gridRadios3">Matching Question</label>
-        </div>
-      </div>
-    </div>
-  </fieldset>
+          </div>
+          </div>
+          </div>
+          </fieldset>
+
+        <div style= {{paddingLeft: 17, width:925}} class="input-group mb-3">
+            <select style= {{ backgroundColor: "#838383", width:900}} class="custom-select" id="inputGroupSelect02">
+                <option  selected>Choose categories</option>
+                <option value="1">Geography</option>
+                <option value="2">Computer Science</option>
+                <option value="3">Mathematics</option>
+                <option value="4">World Maps</option>
+                <option value="5">Movies</option>
+                <option value="6">Languages</option>
+                <option value="7">Cartoons</option>
+                <option value="8">Chemistry</option>
+                <option value="9">Physics</option>
+                <option value="10">Biology</option>
+            </select>
+         </div>
+
           </form>
         </div>
 	);
