@@ -16,29 +16,26 @@ const createScreen = (props) => {
             </div>
             <form>
              <div style= {{paddingLeft: 17}}class="form-group">
-                <label for="formGroupExampleInput">Example label</label>
+                <label for="formGroupExampleInput">Enter Quiz Name</label>
                 <input style= {{ backgroundColor: "#838383", width:900}} type="text" class="form-control" id="formGroupExampleInput" placeholder="Add Quiz Name"/>
             </div>
 
             <div style= {{paddingLeft: 17}} class="form-group">
-            <label for="formGroupExampleInput2">Another label</label>
-            <input  style= {{  textAlign: "top",backgroundColor: "#838383",width:900,height:150}} type="text" class="form-control" id="formGroupExampleInput2" placeholder="Add Quiz Description" autoFocus/>
+            <label for="exampleFormControlTextarea1">Enter Description</label>
+             <textarea  style= {{ backgroundColor: "#838383", width:900}} class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
 
-            <div class="input-group mb-3">
+            <div  style= {{paddingLeft: 17}} class="form-group">
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="inputGroupFile02"/>
                         <label style= {{ backgroundColor: "#838383", width:900}} class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
                 </div>
-            <div class="input-group-append">
-            
-            </div>
             </div>
 
 
-            <fieldset class="form-group">
+            <fieldset style= {{paddingLeft: 17}} class="form-group">
             <div class="row">
-            <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
+            <legend class="col-form-label col-sm-2 pt-0">Question Types</legend>
              <div class="col-sm-10">
 
             <div class="form-check">
