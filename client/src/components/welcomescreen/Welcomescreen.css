@@ -3,18 +3,18 @@
 .Welcome{
     
     background-image: url("squirrel.jpg");
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
 
-  /* Center and scale the image nicely */
-  background-position:right;
-  background-repeat: no-repeat;
-  background-size: cover;
+    /* Center and scale the image nicely */
+    background-position:right;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .Login {
     padding-top: 0px;
     padding-left: 0px;
-    padding-bottom: 0px;
+    padding-bottom: 20px;
 }
 .Login form label{
     font-family: "Century Gothic";

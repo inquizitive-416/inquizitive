@@ -1,31 +1,54 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
+import Modal from 'react-modal';
+import Form from "react-bootstrap/Form";
 
-
-
-const RegisterModal = (props) => {
-    return(
-        <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
+Modal.setAppElement('#root');
+const RegisterModal = ({isOpen,regModal}) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
+    return (
+        
+            <Modal
+            //{...props}
+            isOpen={isOpen}
+            //size="lg"
+            //aria-labelledby="contained-modal-title-vcenter"
+            centered
+            >
+                <Form>
+                    <Form.Group size="lg" controlId="email">
+                    <Form.Label>Email</Form.Label>
+                        <Form.Control
+                            autoFocus
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </Form.Group>
+                    
+                    <Form.Group size="lg" controlId="password">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </Form.Group>
+                </Form>
 
-  </div>
-</div>
-    );
-
-};
+                {/* <h4>Centered Modal</h4>
+                <p>
+                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+                consectetur ac, vestibulum at eros.
+                </p> */}
+            
+                <Button onClick={regModal}>Close</Button>
+            </Modal>
+        
+     );
+}
 
 export default RegisterModal;
