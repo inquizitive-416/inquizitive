@@ -13,12 +13,13 @@ module.exports = {
 		 	@param 	 {object} args - a user id
 			@returns {object} a user on success and an empty object on failure
 		**/
-    getUserById: async (_, args) => {
-      const { _id } = args;
-      const objectId = new ObjectId(_id);
-      const user = await User.findOne({ _id: objectId });
-      if (user) return user;
-      else return {};
+      getUserById: async (_, args) => {
+        const { _id } = args;
+        const objectId = new ObjectId(_id);
+        const user = await User.findOne({ _id: objectId });
+        if (user) return user;
+        else return {};
+      },
     },
 
     Mutation: {
@@ -105,115 +106,114 @@ module.exports = {
             @param {object} res - response object containing current access/refresh tokens
             @returns {object} returns User on success, error message on fail
         **/
-      userLogin: async (_, args, { res }) => {
-        const { username, password } = args;
-        if (!username || !password) {
-          return { username: "Please enter both username and password" };
-        }
-        const user = await User.findOne({ username: username });
-        if (!user) {
-          return { username: "User not found" };
-        }
-        const valid = await bcrypt.compare(password, user.password);
-        if (!valid) {
-          return { username: "Password is incorrect" };
-        }
-        const accessToken = tokens.generateAccessToken(user);
-        const refreshToken = tokens.generateRefreshToken(user);
-        res.cookie("refresh-token", refreshToken, { httpOnly: true });
-        res.cookie("access-token", accessToken, { httpOnly: true });
-        return user;
-      },
+      // userLogin: async (_, args, { res }) => {
+      //   const { username, password } = args;
+      //   if (!username || !password) {
+      //     return { username: "Please enter both username and password" };
+      //   }
+      //   const user = await User.findOne({ username: username });
+      //   if (!user) {
+      //     return { username: "User not found" };
+      //   }
+      //   const valid = await bcrypt.compare(password, user.password);
+      //   if (!valid) {
+      //     return { username: "Password is incorrect" };
+      //   }
+      //   const accessToken = tokens.generateAccessToken(user);
+      //   const refreshToken = tokens.generateRefreshToken(user);
+      //   res.cookie("refresh-token", refreshToken, { httpOnly: true });
+      //   res.cookie("access-token", accessToken, { httpOnly: true });
+      //   return user;
+      // },
       /** 
 			@param 	 {object} res - response object containing the current access/refresh tokens  
 			@returns {boolean} returns true 
 		**/
-      userLogout: (_, __, { res }) => {
-        res.clearCookie("refresh-token");
-        res.clearCookie("access-token");
-        return true;
-      },
+      // userLogout: (_, __, { res }) => {
+      //   res.clearCookie("refresh-token");
+      //   res.clearCookie("access-token");
+      //   return true;
+      // },
       /**
             @param {object} args - required fields
             @param {object} res - response object containing current access/refresh tokens
             @returns {object} returns new User on success, error message on fail
         **/
-      userRegister: async (_, args, { res }) => {
-        const {
-          username,
-          password,
-          email,
-          dateOfBirth,
-          firstName,
-          lastName,
-          securityQuestionOne,
-          securityAnswerOne,
-          securityQuestionTwo,
-          securityAnswerTwo,
-          confirmPassword,
-        } = args;
-        if (
-          !username ||
-          !email ||
-          !password ||
-          !firstName ||
-          !lastName ||
-          !dateOfBirth ||
-          !securityQuestionOne ||
-          !securityAnswerOne ||
-          !securityQuestionTwo ||
-          !securityAnswerTwo ||
-          !confirmPassword
-        ) {
-          return {
-            username: "All fields must be filled out",
-          };
-        }
-        const usernameExists = await User.findOne({ username: username });
-        if (usernameExists) {
-          return {
-            username: "This username is already taken",
-          };
-        }
-        const emailExists = await User.findOne({ email: email });
-        if (emailExists) {
-          return {
-            username: "An account with this email has already been registered",
-          };
-        }
-        const valid = await bcrypt.compare(password, confirmPassword);
-        if (!valid) {
-          return {
-            username: "Passwords do not match",
-          };
-        }
-        const hashed_password = await bcrypt.hash(password, 10);
-        const _id = new ObjectId();
-        const newUser = new User({
-          _id: objectId,
-          userId: 0,
-          firstName: "",
-          lastName: "",
-          email: "",
-          username: "",
-          password: hashed_password,
-          dateOfBirth: "",
-          securityQuestionOne: "",
-          securityAnswerOne: "",
-          securityQuestionTwo: "",
-          securityAnswerTwo: "",
-          profilePicture: "",
-          profilePublic: false,
-          coins: 0,
-        });
-        const saved = await newUser.save();
+      // userRegister: async (_, args, { res }) => {
+      //   const {
+      //     username,
+      //     password,
+      //     email,
+      //     dateOfBirth,
+      //     firstName,
+      //     lastName,
+      //     securityQuestionOne,
+      //     securityAnswerOne,
+      //     securityQuestionTwo,
+      //     securityAnswerTwo,
+      //     confirmPassword,
+      //   } = args;
+      //   if (
+      //     !username ||
+      //     !email ||
+      //     !password ||
+      //     !firstName ||
+      //     !lastName ||
+      //     !dateOfBirth ||
+      //     !securityQuestionOne ||
+      //     !securityAnswerOne ||
+      //     !securityQuestionTwo ||
+      //     !securityAnswerTwo ||
+      //     !confirmPassword
+      //   ) {
+      //     return {
+      //       username: "All fields must be filled out",
+      //     };
+      //   }
+      //   const usernameExists = await User.findOne({ username: username });
+      //   if (usernameExists) {
+      //     return {
+      //       username: "This username is already taken",
+      //     };
+      //   }
+      //   const emailExists = await User.findOne({ email: email });
+      //   if (emailExists) {
+      //     return {
+      //       username: "An account with this email has already been registered",
+      //     };
+      //   }
+      //   const valid = await bcrypt.compare(password, confirmPassword);
+      //   if (!valid) {
+      //     return {
+      //       username: "Passwords do not match",
+      //     };
+      //   }
+      //   const hashed_password = await bcrypt.hash(password, 10);
+      //   const _id = new ObjectId();
+      //   const newUser = new User({
+      //     _id: objectId,
+      //     userId: 0,
+      //     firstName: "",
+      //     lastName: "",
+      //     email: "",
+      //     username: "",
+      //     password: hashed_password,
+      //     dateOfBirth: "",
+      //     securityQuestionOne: "",
+      //     securityAnswerOne: "",
+      //     securityQuestionTwo: "",
+      //     securityAnswerTwo: "",
+      //     profilePicture: "",
+      //     profilePublic: false,
+      //     coins: 0,
+      //   });
+      //   const saved = await newUser.save();
 
-        const accessToken = tokens.generateAccessToken(newUser);
-        const refreshToken = tokens.generateRefreshToken(newUser);
-        res.cookie("refresh-token", refreshToken, { httpOnly: true });
-        res.cookie("access-token", accessToken, { httpOnly: true });
-        return newUser;
-      },
-    },
-  },
-};
+      //   const accessToken = tokens.generateAccessToken(newUser);
+      //   const refreshToken = tokens.generateRefreshToken(newUser);
+      //   res.cookie("refresh-token", refreshToken, { httpOnly: true });
+      //   res.cookie("access-token", accessToken, { httpOnly: true });
+      //   return newUser;
+      // }
+    }
+  }

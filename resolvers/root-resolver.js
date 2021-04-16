@@ -1,4 +1,3 @@
-const userResolvers = require('./user-resolvers');
-const todolistResolvers = require('./todolist-resolvers');
+const usersResolvers = require('./users-resolvers');
 
-module.exports = [userResolvers, todolistResolvers];
+module.exports = [usersResolvers];
