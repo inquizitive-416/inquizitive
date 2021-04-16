@@ -2,6 +2,7 @@ import React from 'react';
 import Welcome from './components/welcomescreen/Welcomescreen';
 import Explorescreen from './components/explorescreen/Explorescreen';
 import CreateScreen from './components/createscreen/createScreen';
+import Settingsscreen from './components/settingsscreen/Settingsscreen';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
  
 const App = () => {
@@ -29,6 +30,13 @@ const App = () => {
 					name="create" 
 					render={() => 
 						<CreateScreen/>
+					} 
+				/>
+				<Route 
+					path="/settings" 
+					name="settings" 
+					render={() => 
+						<Settingsscreen/>
 					} 
 				/>
 			</Switch>
