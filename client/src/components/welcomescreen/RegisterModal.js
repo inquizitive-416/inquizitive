@@ -16,6 +16,16 @@ const RegisterModal = ({isOpen,regModal}) => {
     const [sec1, setSec1] = useState("");
     const [sec2, setSec2] = useState("");
     
+
+    function validateEmail() {
+        return email.length > 0 && email.indexOf('.')>0 && email.indexOf('@')>0 && email.length-1>email.indexOf('.');
+    }
+    function validatePassword() {
+        return password.length >0;
+    }
+    function checkPassword(){
+        return password==cpassword;
+    }
     return (
         <div >
             <Modal
@@ -60,6 +70,7 @@ const RegisterModal = ({isOpen,regModal}) => {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                style={{color: validateEmail() ? "":"red"}}
                             />
                         </Form.Group>
                     </div>
@@ -84,6 +95,7 @@ const RegisterModal = ({isOpen,regModal}) => {
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                style={{color: validatePassword() ? "":"red"}}
                             />
                         </Form.Group>
                     </div>
@@ -94,6 +106,7 @@ const RegisterModal = ({isOpen,regModal}) => {
                                 type="password"
                                 value={cpassword}
                                 onChange={(e) => setCpassword(e.target.value)}
+                                style={{color: checkPassword() ? "":"red"}}
                             />
                         </Form.Group>
                     </div>
