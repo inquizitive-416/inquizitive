@@ -4,6 +4,7 @@ import Explorescreen 		from '../explorescreen/Explorescreen';
 import Button from "react-bootstrap/Button";
 import "./Welcomescreen.css";
 import RegisterModal from "./RegisterModal";
+import ForgotPassword from "./ForgotPassword";
 //import Modal from 'react-modal';
 
 
@@ -16,18 +17,23 @@ const Welcome = (props) => {
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [modalShow, setModalShow] = React.useState(false);
+    const [regmodalShow, setRegmodalShow] = React.useState(false);
+    const [formodalShow, setFormodalShow] = React.useState(false);
 
     function validateForm() {
         return email.length > 0 && password.length > 0;
     }
     function getOpen(){
-        console.log(modalShow)
-        return modalShow;
+        //console.log(regmodalShow)
+        return regmodalShow;
     }
     function regModal(){
-        console.log(modalShow)
-        setModalShow(!modalShow);
+        //console.log(regmodalShow)
+        setRegmodalShow(!regmodalShow);
+    }
+    function forModal(){
+        //console.log(regmodalShow)
+        setFormodalShow(!formodalShow);
     }
     function handleLogin() {
         window.location.replace('../explorescreen/Explorescreen');
@@ -64,7 +70,12 @@ const Welcome = (props) => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 </Form.Group>
-            
+            <div>
+                
+                <Form.Label style={{textDecorationLine: 'underline'}} onClick={forModal}>Forgot Password?</Form.Label>
+                    
+                
+            </div>
                 <div class="row">
                     <div class="col">
                         <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={!validateForm()} onClick={handleLogin}>
@@ -78,11 +89,19 @@ const Welcome = (props) => {
                     
                 </div>
                 <RegisterModal
-                    //isOpen={modalShow}
-                    isOpen={modalShow}
-                    // onHide={() => setModalShow(false)}
+                    //isOpen={regmodalShow}
+                    isOpen={regmodalShow}
+                    // onHide={() => setRegmodalShow(false)}
                     regModal={regModal}
                 />
+                
+                <ForgotPassword
+                    //isOpen={regmodalShow}
+                    isOpen={formodalShow}
+                    // onHide={() => setRegmodalShow(false)}
+                    forModal={forModal}
+                />
+                
             </Form>
             </div>
             
