@@ -1,9 +1,12 @@
 import React 			from 'react';
 import Explorescreen 		from './components/explorescreen/Explorescreen';
-import createScreen         from './components/createscreen/createScreen';
+import CreateScreen         from './components/createscreen/CreateScreen';
+
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+
  
 const App = () => {
+ 
 
 	return(
 		<BrowserRouter>
@@ -16,7 +19,7 @@ const App = () => {
 					<Route 
 					path="/create" 
 					name="create" 
-					component = {createScreen}/>
+					component = {CreateScreen}/>
 				<Route/>
 			</Switch>
 		</BrowserRouter>
