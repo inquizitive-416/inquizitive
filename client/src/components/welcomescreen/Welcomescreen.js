@@ -66,24 +66,23 @@ const Welcome = (props) => {
                 </Form.Group>
             
                 <div class="row">
-                <div class="col">
-                    <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={!validateForm()} onClick={handleLogin}>
-                        Login
-                    </Button></div>
-                <div class="col">
-                    <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={false} onClick={regModal}>
-                        Register
-                    </Button>
-
-                    <RegisterModal
-                        //isOpen={modalShow}
-                        isOpen={modalShow}
-                        // onHide={() => setModalShow(false)}
-                        regModal={regModal}
-                    />
+                    <div class="col">
+                        <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={!validateForm()} onClick={handleLogin}>
+                            Login
+                        </Button></div>
+                    <div class="col">
+                        <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={false} onClick={regModal}>
+                            Register
+                        </Button>
                     </div>
+                    
                 </div>
-                
+                <RegisterModal
+                    //isOpen={modalShow}
+                    isOpen={modalShow}
+                    // onHide={() => setModalShow(false)}
+                    regModal={regModal}
+                />
             </Form>
             </div>
             
