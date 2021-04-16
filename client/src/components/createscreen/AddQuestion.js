@@ -2,7 +2,8 @@ import React, { useState, useEffect } 	from 'react';
 
 const AddQuestion = (props) => {
      return (
-            <div style= {{paddingTop: 40}}>
+        <div style= {{paddingTop: 40}}>
+            <form> 
                 <fieldset style= {{paddingLeft: 17}} class="form-group">
                         <div class="row">
                             <legend class="col-form-label col-sm-2 pt-0">Question Types</legend>
@@ -26,8 +27,7 @@ const AddQuestion = (props) => {
                         </div>
                     </fieldset>
 
-                
-
+                </form>
             </div>
 
             

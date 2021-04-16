@@ -1,12 +1,8 @@
 import React 			from 'react';
 import Explorescreen 		from './components/explorescreen/Explorescreen';
-import CreateScreen         from './components/createscreen/CreateScreen';
-
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-
  
 const App = () => {
- 
 
 	return(
 		<BrowserRouter>
@@ -15,11 +11,10 @@ const App = () => {
 				<Route 
 					path="/explore" 
 					name="explore" 
-	                 render={() => <Explorescreen /> }/>
-					<Route 
-					path="/create" 
-					name="create" 
-					component = {CreateScreen}/>
+					render={() => 
+						<Explorescreen/>
+					} 
+				/>
 				<Route/>
 			</Switch>
 		</BrowserRouter>
