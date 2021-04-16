@@ -6,7 +6,7 @@ import "./Welcomescreen.css";
 import RegisterModal from "./RegisterModal";
 import ForgotPassword from "./ForgotPassword";
 //import Modal from 'react-modal';
-
+//j
 
 // const PegisterModal = () => {
     
