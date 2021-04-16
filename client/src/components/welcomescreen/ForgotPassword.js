@@ -11,6 +11,10 @@ const ForgotPassword = ({isOpen,forModal}) => {
     const [sec1, setSec1] = useState("");
     const [sec2, setSec2] = useState("");
     
+    function validateEmail() {
+        return email.length > 0 && email.indexOf('.')>0 && email.indexOf('@')>0 && email.length-1>email.indexOf('.');
+    }
+
     return (
         <div >
             <Modal
@@ -31,6 +35,7 @@ const ForgotPassword = ({isOpen,forModal}) => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            style={{color: validateEmail() ? "":"red"}}
                         />
                     </Form.Group>
                     
