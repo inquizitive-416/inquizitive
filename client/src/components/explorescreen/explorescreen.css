@@ -1,0 +1,36 @@
+.body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: auto;
+  height: 100vh;
+  background-color: grey !important;
+}
+.dropdownStyle {
+  margin: 20px;
+  background-color: #f5ae31;
+  border-radius: 10px;
+}
+.searchStyle {
+  margin: 20px;
+}
+.exploreCardStyle {
+  margin: 20px;
+  width: 18rem;
+  height: 10rem;
+  background-color: darkgrey;
+  color: white;
+  border-radius: 10px;
+}
+.headerStyle {
+  color: #f5ae31;
+  margin-left: 40px;
+  font-size: 30px;
+  text-decoration: underline;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
