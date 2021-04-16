@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import "./Welcomescreen.css";
 import RegisterModal from "./RegisterModal";
 import ForgotPassword from "./ForgotPassword";
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Navbar, Nav } from 'react-bootstrap'
 //import Modal from 'react-modal';
 //j
 
@@ -20,13 +22,13 @@ const Welcome = (props) => {
     const [regmodalShow, setRegmodalShow] = React.useState(false);
     const [formodalShow, setFormodalShow] = React.useState(false);
 
-    function validateForm() {
-        return email.length > 0 && password.length > 0;
+    function validateEmail() {
+        return email.length > 0 && email.indexOf('.')>0 && email.indexOf('@')>0 && email.length-1>email.indexOf('.');
     }
-    function getOpen(){
-        //console.log(regmodalShow)
-        return regmodalShow;
+    function validatePassword() {
+        return password.length >0;
     }
+    
     function regModal(){
         //console.log(regmodalShow)
         setRegmodalShow(!regmodalShow);
@@ -36,7 +38,20 @@ const Welcome = (props) => {
         setFormodalShow(!formodalShow);
     }
     function handleLogin() {
-        window.location.replace('../explorescreen/Explorescreen');
+        return(
+        <BrowserRouter>
+			<Switch>
+				<Redirect exact from="/welcome" to={ {pathname: "/explore"} } />
+				<Route 
+					path="/explore" 
+					name="explore" 
+					render={() => 
+						<Explorescreen/>
+					} 
+				/>
+                </Switch>
+		</BrowserRouter>
+        );
         
     }
     
@@ -60,6 +75,7 @@ const Welcome = (props) => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    style={{color: !validateEmail() ? 'red': ""}}
                 />
                 </Form.Group>
                 <Form.Group size="lg" controlId="password">
@@ -68,6 +84,7 @@ const Welcome = (props) => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    style={{color: !validatePassword() ? 'red': ""}}
                 />
                 </Form.Group>
             <div>
@@ -78,8 +95,9 @@ const Welcome = (props) => {
             </div>
                 <div class="row">
                     <div class="col">
-                        <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={!validateForm()} onClick={handleLogin}>
-                            Login
+                        <Button style={{backgroundColor:"#f5ae31"}} block size="sm" disabled={!(validatePassword() && validateEmail())}>
+                            <Nav.Link href="/explore" style={{color:'white'}} disabled={!(validatePassword() && validateEmail())}>Login</Nav.Link>
+                            
                         </Button></div>
                     <div class="col">
                         <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={false} onClick={regModal}>

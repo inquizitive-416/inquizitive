@@ -3,6 +3,7 @@ import Welcome from './components/welcomescreen/Welcomescreen';
 import Explorescreen from './components/explorescreen/Explorescreen';
 import CreateScreen from './components/createscreen/createScreen';
 import Settingsscreen from './components/settingsscreen/Settingsscreen';
+import Shopscreen from './components/shopscreen/Shopscreen';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
  
 const App = () => {
@@ -37,6 +38,13 @@ const App = () => {
 					name="settings" 
 					render={() => 
 						<Settingsscreen/>
+					} 
+				/>
+				<Route 
+					path="/shop" 
+					name="shop" 
+					render={() => 
+						<Shopscreen/>
 					} 
 				/>
 			</Switch>
