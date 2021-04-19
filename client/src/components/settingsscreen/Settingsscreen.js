@@ -152,17 +152,17 @@ const ChangeProfileVisibility = (props) => {
 
 const Settingsscreen = (props) => {
 
-    // let currentUser = 'base'
+    let currentUser = 'base'
 
-    // const { loading, error, data } = useQuery(GET_CURRENT_USER, {
-    //     variables: {_id: '6078c4f6f08fd0add52045bf'}
-    // })
-    // if (loading) {console.log(loading, 'loading'); }
-    // if(error) { console.log(error, 'error'); }
-	// if(data) { currentUser = data.getUserById.username }
+    const { loading, error, data } = useQuery(GET_CURRENT_USER, {
+        variables: {_id: '6078c4f6f08fd0add52045bf'}
+    })
+    if (loading) {console.log(loading, 'loading'); }
+    if(error) { console.log(error, 'error'); }
+	if(data) { currentUser = data.getUserById.username }
 
-    // console.log("hi")
-    // console.log(currentUser)
+    console.log("hi")
+    console.log(currentUser)
 
 	return (
 		<div className="bg-dark">
