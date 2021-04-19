@@ -24,10 +24,10 @@ const cache = new InMemoryCache({
 	},
 });
 
-var BACKEND_LOCATION = 'http://localhost:4000/graphql';
+var BACKEND_LOCATION = '/graphql';
 
-if (process.env.SERVER === 'true') {
-	BACKEND_LOCATION = '/graphql';
+if (process.env.SERVER !== 'true') {
+	BACKEND_LOCATION = 'http://localhost:4000/graphql';
 }
 
 const client = new ApolloClient({
