@@ -8,11 +8,11 @@ const typeDefs = gql`
 		idOfCreator: Int!
 		title: String!
 		description: String!
-		coverImage: !
-		categories: !
-		hashtags: !
+		coverImage: String!
+		categories: String!
+		hashtags: String!
 		timer: Int!
-		questions: !
+		questions: String!
 		quizPosted: Boolean!
 		ratings: [Int]!
 		averageRating: Float!
@@ -23,30 +23,25 @@ const typeDefs = gql`
 		getQuizById(_id: String!): Quiz
 	}
 	extend type Mutation {
-		addQuiz(quiz: Quiz!): String
+		addQuiz(quiz: QuizInput!): String
 		deleteQuiz(_id: String!): Boolean
 		updateQuizField(_id: String!, field: String!, value: String!): Boolean
 	}
 
-	input FieldInput {
-		_id: String
-		field: String
-		value: String
-	}
 	input QuizInput {
 		_id: String
 		quizId: Int
 		idOfCreator: Int
 		title: String
 		description: String
-		coverImage:
-		categories:
-		hashtags:
+		coverImage: String
+		categories: String
+		hashtags: String
 		timer: Int
-		questions:
+		questions: String
 		quizPosted: Boolean
-		ratings:
-		averageRating: Double
+		ratings: String
+		averageRating: Float
 		numOfTimesPlayed: Int
 	}
 `;

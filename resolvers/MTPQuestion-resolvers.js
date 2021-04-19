@@ -1,5 +1,5 @@
 const ObjectId = require('mongoose').Types.ObjectId;
-const MTPQuestion = require('../models/matchingQuestionSchema');
+const MTPQuestion = require('../models/matchingQuestion-model');
 module.exports = {
     Query:{
         getMTPQuestionById: async (_, args) => {
@@ -8,6 +8,7 @@ module.exports = {
 			const mtpques = await MTPQuestion.findOne({_id: objectId});
 			if(mtpques) return mtpques;
 			else return ({});
+		},
     },
     Mutation: {
         addMTPQuestion: async (_, args) => {
@@ -49,4 +50,3 @@ module.exports = {
   
 	}
 }  
-}

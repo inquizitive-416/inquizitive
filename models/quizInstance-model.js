@@ -3,40 +3,40 @@ const quizInstanceSchema = new Schema(
     {
         _id: {
 			type: ObjectId,
-			required: true
+			required: true,
 		},
         quizId:{
-            type:Number,
-            required:True
+            type: Number,
+            required: true,
         },
         userId:{
-            type:Number,
-            required:True
+            type: Number,
+            required: true,
         },
         finished:{
-            type:Boolean,
-            required:True
+            type: Boolean,
+            required: true,
         },
         score:{
-            type:Number,
-            required:True
+            type: Number,
+            required: true,
         },
         timeRemaining:{
-            type:Number,
-            required:True
+            type: Number,
+            required: true,
         },
         lastAccessed:{
-            type:Date,
-            required: True
+            type: Date,
+            required: true,
         },
         questions:[{
             questionId:{
-                type:Number,
-                required:True
+                type: Number,
+                required: true,
             },
             questionType:{
-                type:String,
-                required:True
+                type: String,
+                required: true,
             }
         }]
     }

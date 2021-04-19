@@ -18,8 +18,9 @@ module.exports = {
       if (multipleChoice) return multipleChoice;
       else return {};
     },
+  },
 
-    Mutation: {
+  Mutation: {
       /**
 			addMultipleChoice,
 			deleteMultipleChoice,
@@ -70,5 +71,4 @@ module.exports = {
         else return false;
       },
     },
-  },
-};
+  }

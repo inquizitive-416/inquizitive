@@ -26,7 +26,7 @@ const matchingQuestionSchema = new Schema({
           type: String,
         },
         pairImage: {
-          type: binData,
+          type: String,
         },
       },
     ],
@@ -45,7 +45,7 @@ const matchingQuestionSchema = new Schema({
           type: String,
         },
         pairImage: {
-          type: binData,
+          type: String,
         },
       },
     ],

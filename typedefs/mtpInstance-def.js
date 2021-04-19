@@ -6,19 +6,19 @@ const typeDefs = gql `
         quizId: Int!
         userChoice: String!
     }
-    input mcqInstanceInput {
+    input mtpInstanceInput {
         _id: String!
         id: Int!
         quizId: Int!
         userChoice: String!
     }
     extend type Query{
-        getMCQInstanceById(_id: String!): mcqInstance
+        getMTPInstanceById(_id: String!): mtpInstance
     }
     extend type Mutation{
-        addMCQInstance(id: Int!, quizId: Int!, questionId: Int!, userMatch: [pairId: Int!, selectedOrder: Int!]): String
-        updateMCQInstance(_id: String!, id: Int!, quizId: Int!, questionId: Int!, userMatch: [pairId: Int!, selectedOrder: Int!]): Boolean
-        deleteMCQInstance(_id: String!): Boolean
+        addMTPInstance(id: Int!, quizId: Int!, questionId: Int!, userMatch: String!): String
+        updateMTPInstance(_id: String!, id: Int!, quizId: Int!, questionId: Int!, userMatch: String!): Boolean
+        deleteMTPInstance(_id: String!): Boolean
     }
 `;
 module.exports = { typeDefs: typeDefs }

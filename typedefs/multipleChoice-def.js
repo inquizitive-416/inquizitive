@@ -6,28 +6,23 @@ const typeDefs = gql`
 		_id: String!
 		questionId: Int!
 		questionString: String!
-		choice: !
+		choice: String!
 	}
 
 	extend type Query {
 		getMultipleChoiceById(_id: String!): MultipleChoice
 	}
 	extend type Mutation {
-		addMultipleChoice(multipleChoice: MultipleChoice!): String
+		addMultipleChoice(multipleChoice: MultipleChoiceInput!): String
 		deleteMultipleChoice(_id: String!): Boolean
 		updateMultipleChoiceField(_id: String!, field: String!, value: String!): Boolean
 	}
 
-	input FieldInput {
-		_id: String
-		field: String
-		value: String
-	}
 	input MultipleChoiceInput {
 		_id: String
 		questionId: Int
 		questionString: String
-		choice:
+		choice: String
 	}
 `;
 

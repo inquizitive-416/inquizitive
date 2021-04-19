@@ -13,7 +13,7 @@ const typeDefs = gql`
     getFillInTheBlankById(_id: String!): FillInTheBlank
   }
   extend type Mutation {
-    addFillInTheBlank(fillInTheBlank: FillInTheBlank!): String
+    addFillInTheBlank(fillInTheBlank: FillInTheBlankInput!): String
     deleteFillInTheBlank(_id: String!): Boolean
     updateFillInTheBlankField(
       _id: String!
@@ -22,11 +22,6 @@ const typeDefs = gql`
     ): Boolean
   }
 
-  input FieldInput {
-    _id: String
-    field: String
-    value: String
-  }
   input FillInTheBlankInput {
     _id: String
     questionId: Int

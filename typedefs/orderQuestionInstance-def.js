@@ -6,7 +6,7 @@ const typeDefs = gql `
     type orderQuestionInstance {
         _id: String!
         QuestionId: Int!
-        cards: 
+        cards: String!
     }
     
     extend type Query {
@@ -14,16 +14,16 @@ const typeDefs = gql `
     }
     
     extend type Mutation {
-        addOrderQuestionInstance(_id: String!, questionId: Int, cards): Int
-        deleteAllOrderQuestionInstance(): Boolean
+        addOrderQuestionInstance(_id: String!, questionId: Int, cards: String!): Int
+        deleteAllOrderQuestionInstance: Boolean
         deleteOrderQuestionInstance(_id : String!): Boolean
-        updateOrderQuestionInstance(_id: String!, questionId: Int!, cards): Boolean
+        updateOrderQuestionInstance(_id: String!, questionId: Int!, cards: String!): Boolean
     }
 
-    input orderQuestionInstance {
+    input orderQuestionInstanceInput {
         _id: String
         QuestionId: Int!
-        cards: 
+        cards: String
        
     }
 `;

@@ -1,5 +1,5 @@
 const ObjectId = require("mongoose").Types.ObjectId;
-const orderQuestion = require("../models/orderQuestion");
+const orderQuestion = require("../models/orderQuestion-model");
 
 module.exports = {
     Query: {

@@ -18,8 +18,9 @@ module.exports = {
       if (fillInTheBlank) return fillInTheBlank;
       else return {};
     },
+  },
 
-    Mutation: {
+  Mutation: {
       /**
 			addFillInTheBlank,
 			deleteFillInTheBlank,
@@ -70,5 +71,4 @@ module.exports = {
         else return false;
       },
     },
-  },
-};
+  }

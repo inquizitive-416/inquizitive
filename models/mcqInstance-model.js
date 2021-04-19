@@ -5,16 +5,16 @@ const mcqInstanceSchema = new Schema({
 		required: true
 	},
     id:{
-        type:Number,
-        required:True
+        type: Number,
+        required: true
     },
     quizId:{
-        type:Number,
-        required:True
+        type: Number,
+        required: true
     },
     userChoice:{
-        type:String,
-        required:true
+        type: String,
+        required: true
     }
 });
 const mcqInstance = model('mcqInstance', mcqInstanceSchema);

@@ -19,6 +19,8 @@ module.exports = {
       else return {};
     },
 
+  },
+
     Mutation: {
       /**
 			addQuiz,
@@ -97,10 +99,9 @@ module.exports = {
       /**
             @return {array} - return array of reported Quizzes
         **/
-      getAllReportedQuizzes: async (_, __) => {
-        const reportedQuizzes = await Quiz.find({ isReported: True });
-        if (reportedQuizzes) return reportedQuizzes;
-      },
+      // getAllReportedQuizzes: async (_, __) => {
+      //   const reportedQuizzes = await Quiz.find({ isReported: True });
+      //   if (reportedQuizzes) return reportedQuizzes;
+      // },
     },
-  },
-};
+  }

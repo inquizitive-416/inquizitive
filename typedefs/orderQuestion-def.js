@@ -7,7 +7,7 @@ const typeDefs = gql `
         _id: String!
         QuestionId: Int!
         promptString: String!
-        cards: 
+        cards: String!
     }
     
     extend type Query {
@@ -15,18 +15,17 @@ const typeDefs = gql `
     }
     
     extend type Mutation {
-        addOrderQuestionInstance(_id: String!, questionId: Int!,promptString: String !, cards): Int
-        deleteAllOrderQuestionInstance(): Boolean
-        deleteOrderQuestionInstance(_id : String!): Boolean
-        updateOrderQuestionInstance(_id: String!, questionId: Int ! ,promptString: String !, cards): Boolean
+        addOrderQuestion(_id: String!, questionId: Int!, promptString: String!, cards: String!): Int
+        deleteAllOrderQuestion: Boolean
+        deleteOrderQuestion(_id : String!): Boolean
+        updateOrderQuestion(_id: String!, questionId: Int!, promptString: String!, cards: String!): Boolean
     }
 
-    input orderQuestion {
+    input orderQuestionInput {
         _id: String
         QuestionId: Int
         promptString: String
-        cards: 
-       
+        cards: String
     }
 `;
 

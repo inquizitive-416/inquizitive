@@ -5,21 +5,21 @@ const mtpInstanceSchema = new Schema({
 		required: true
 	},
     quizId:{
-        type:Number,
-        required:True
+        type: Number,
+        required: true
     },
     questionId:{
-        type:Number,
-        required:True
+        type: Number,
+        required: true
     },
     userMatch:[{
         pairId:{
-            type:Number,
-            required:true
+            type: Number,
+            required: true
         },
         selectedOrder:{
-            type:Number,
-            required:True
+            type: Number,
+            required: true
         }   
     }]
 });

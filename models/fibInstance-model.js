@@ -5,16 +5,16 @@ const fibInstanceSchema = new Schema({
 		required: true
 	},
     quizId:{
-        type:Number,
-        required:True
+        type: Number,
+        required: true
     },
     questionId:{
-        type:Number,
-        required:True
+        type: Number,
+        required: true
     },
     answer:{
-        type:String,
-        required:true
+        type: String,
+        required: true
     }
 });
 const fibInstance = model('fibInstance', fibInstanceSchema);

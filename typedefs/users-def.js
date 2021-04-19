@@ -24,16 +24,11 @@ const typeDefs = gql`
     getUserById(_id: String!): User
   }
   extend type Mutation {
-    addUser(user: String!): String
+    addUser(user: UserInput!): String
     deleteUser(_id: String!): Boolean
     updateUserField(_id: String!, field: String!, value: String!): Boolean
   }
 
-  input FieldInput {
-    _id: String
-    field: String
-    value: String
-  }
   input UserInput {
     _id: String
     userId: Int
