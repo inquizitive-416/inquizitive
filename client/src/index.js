@@ -25,8 +25,9 @@ const cache = new InMemoryCache({
 });
 
 var BACKEND_LOCATION = 'http://localhost:4000/graphql';
+console.log("Server env variable: " + process.env.REACT_APP_SERVER);
 
-if (process.env.SERVER === 'true') {
+if (process.env.REACT_APP_SERVER === 'true') {
 	console.log("using server backend location")
 	BACKEND_LOCATION = '/graphql';
 }
