@@ -3,10 +3,7 @@ import NavbarTop					from '../navbar/NavbarTop';
 import AddQuestion					from './AddQuestion';
 import QuestionList                 from './QuestionList'
 import CreateQuestion					from '../createQuestion/CreateQuestion';
-import ListGroup from 'react-bootstrap/ListGroup'
-import Accordion from 'react-bootstrap/Accordion'
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
+
 
 import './createscreen.css'
 import { AddArgumentsAsVariables } from 'graphql-tools';
@@ -15,17 +12,26 @@ const CreateScreen = (props) => {
     const [questions , setQuestions] = useState([])
     const [showAdd , setShowAdd] = useState(false)
 
-    // const deleteQuestion =(id)={
+       const onDelete =(id)=>{
+           
+           setQuestions(questions.filter( ques => ques.id !== id))
+           console.log("new ques", questions)
+           
 
-    //     setQuestions(questions,filter((ques) => ques.id !== id))
+        }
 
-    // }
+     const addQues = (question)=>{
+         //console.log("yoooooo")
+         //console.log(questions)
+         const id = Math.floor(Math.random() * 10000) + 1
+         const newQuestion = {id, question }
+         //console.log(newQuestion)
+         //questions.push(question)
+         setQuestions([...questions, newQuestion])
 
-    // const addQuestion =(id)=>{
-    //    // const newQuestion = 
+         console.log("old ques", questions)
        
-
-    // }
+     }
 
     const onAdd = ()=>
     {
@@ -91,31 +97,19 @@ const CreateScreen = (props) => {
                         </select>
                     </div>
                </form>
-
+               
                <div class="d-grid gap-2 col-6 mx-auto">
-                  <button onClick={onAdd} class="btn btn-primary" type="button">Add a New Question</button>
+                  <button style= {{backgroundColor: "#ffa343"}}  onClick={onAdd} class="btn btn-primary" type="button">Add a New Question</button>
                   
                </div>
-               {showAdd && <AddQuestion />}
-
-            {/* <Accordion defaultActiveKey="0">
-                <Card>
-                     <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="0">  Click me</Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                        <Card.Body> <CreateQuestion/> </Card.Body>
-                     </Accordion.Collapse>
-               </Card>
-            </Accordion> */}
-
+               {showAdd && <AddQuestion  addQues ={addQues} onAdd = {onAdd}/>}
+               <QuestionList questions= {questions} onDelete = {onDelete}/>
                
-          
-         
-          
+                
         </div>
         </div>
 	);
 };
 
 export default CreateScreen;
+//{showAdd && <AddQuestion  addQues ={addQues}/>}
