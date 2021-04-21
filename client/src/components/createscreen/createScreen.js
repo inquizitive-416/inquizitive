@@ -12,13 +12,7 @@ const CreateScreen = (props) => {
     const [questions , setQuestions] = useState([])
     const [showAdd , setShowAdd] = useState(false)
 
-       const onDelete =(id)=>{
-           
-           setQuestions(questions.filter( ques => ques.id !== id))
-           console.log("new ques", questions)
-           
-
-        }
+       
 
      const addQues = (question)=>{
          //console.log("yoooooo")
