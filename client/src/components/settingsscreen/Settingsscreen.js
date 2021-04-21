@@ -132,6 +132,7 @@ const ChangeSecurityQuestions = (props) => {
                                          answer2: props.user.securityAnswer2});
 
     console.log(input)
+    console.log("hi")
 
     return (
         <Card className="bg-secondary text-white">
