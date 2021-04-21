@@ -20,7 +20,7 @@ const CreateQuestion = ({question,onDelete}) => {
              </Card.Header>
              <Accordion.Collapse eventKey="0">
                  <Card.Body> <div>
-                <div style= {{paddingLeft: 17}}>
+                <div style= {{paddingLeft: 20}}>
                     <label for="formGroupExampleInput">Enter Question Prompt:</label>
                      <input style= {{ backgroundColor: "#838383", width:900}} type="text" class="form-control" id="formGroupExampleInput" placeholder="Add Quiz Name"/>
                     
