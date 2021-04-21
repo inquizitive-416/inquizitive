@@ -8,6 +8,15 @@ export const GET_CURRENT_USER = gql`
 			lastName
 			email
             username
+			password
+			securityQuestion1
+			securityAnswer1
+			securityQuestion2
+			securityAnswer2
+			dateOfBirth
+			profilePicture
+			coins
+			profilePublic
 		}
 	}
 `;

@@ -11,12 +11,12 @@ const typeDefs = gql`
     username: String!
     password: String!
     dateOfBirth: String!
-    securityQuestionOne: String!
-    securityAnswerOne: String!
-    securityQuestionTwo: String!
-    securityAnswerTwo: String!
+    securityQuestion1: String!
+    securityAnswer1: String!
+    securityQuestion2: String!
+    securityAnswer2: String!
     profilePicture: String!
-    profileVisible: Boolean!
+    profilePublic: Boolean!
     coins: Int!
   }
 
@@ -38,12 +38,12 @@ const typeDefs = gql`
     username: String
     password: String
     dateOfBirth: String
-    securityQuestionOne: String
-    securityAnswerOne: String
-    securityQuestionTwo: String
-    securityAnswerTwo: String
+    securityQuestion1: String
+    securityAnswer1: String
+    securityQuestion2: String
+    securityAnswer2: String
     profilePicture: String
-    profileVisible: Boolean
+    profilePublic: Boolean
     coins: Int
   }
 `;
