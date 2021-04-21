@@ -47,10 +47,10 @@ module.exports = {
           username,
           password,
           dateOfBirth,
-          securityQuestionOne,
-          securityAnswerOne,
-          securityQuestionTwo,
-          securityAnswerTwo,
+          securityQuestion1,
+          securityAnswer1,
+          securityQuestion2,
+          securityAnswer2,
           profilePicture,
           profilePublic,
           coins,
@@ -64,10 +64,10 @@ module.exports = {
           username: username,
           password: password,
           dateOfBirth: dateOfBirth,
-          securityQuestionOne: securityQuestionOne,
-          securityAnswerOne: securityAnswerOne,
-          securityQuestionTwo: securityQuestionTwo,
-          securityAnswerTwo: securityAnswerTwo,
+          securityQuestion1: securityQuestion1,
+          securityAnswer1: securityAnswer1,
+          securityQuestion2: securityQuestion2,
+          securityAnswer2: securityAnswer2,
           profilePicture: profilePicture,
           profilePublic: profilePublic,
           coins: coins,
@@ -147,10 +147,10 @@ module.exports = {
       //     dateOfBirth,
       //     firstName,
       //     lastName,
-      //     securityQuestionOne,
-      //     securityAnswerOne,
-      //     securityQuestionTwo,
-      //     securityAnswerTwo,
+      //     securityQuestion1,
+      //     securityAnswer1,
+      //     securityQuestion2,
+      //     securityAnswer2,
       //     confirmPassword,
       //   } = args;
       //   if (
@@ -160,10 +160,10 @@ module.exports = {
       //     !firstName ||
       //     !lastName ||
       //     !dateOfBirth ||
-      //     !securityQuestionOne ||
-      //     !securityAnswerOne ||
-      //     !securityQuestionTwo ||
-      //     !securityAnswerTwo ||
+      //     !securityQuestion1 ||
+      //     !securityAnswer1 ||
+      //     !securityQuestion2 ||
+      //     !securityAnswer2 ||
       //     !confirmPassword
       //   ) {
       //     return {
@@ -199,10 +199,10 @@ module.exports = {
       //     username: "",
       //     password: hashed_password,
       //     dateOfBirth: "",
-      //     securityQuestionOne: "",
-      //     securityAnswerOne: "",
-      //     securityQuestionTwo: "",
-      //     securityAnswerTwo: "",
+      //     securityQuestion1: "",
+      //     securityAnswer1: "",
+      //     securityQuestion2: "",
+      //     securityAnswer2: "",
       //     profilePicture: "",
       //     profilePublic: false,
       //     coins: 0,
