@@ -5,18 +5,17 @@ const AddQuestion = ({addQues, onAdd}) => {
 
     const [questype, setQuestype] = useState('')
 
+   
+
     const submitform =(e)=>{
         e.preventDefault()
-        addQues({questype})
+        addQues(questype)
         onAdd()
-
-        
-    
-
     }
 
      return (
         <div style= {{paddingTop: 40}}>
+            <card> 
             <form onSubmit={submitform}> 
                 <fieldset style= {{paddingLeft: 17}} class="form-group">
                         <div class="row">
@@ -24,7 +23,7 @@ const AddQuestion = ({addQues, onAdd}) => {
                             <div class="col-sm-10">
 
                                 <div class="form-check">
-                                     <input onChange={(e) => setQuestype(e.currentTarget.value) } class="form-check-input"  type="radio" name="gridRadios" id="gridRadios1" value="MTP" checked/>
+                                     <input onChange={(e) => setQuestype(e.currentTarget.value) } class="form-check-input"  type="radio" name="gridRadios" id="gridRadios1" value="MTP" />
                                      <label class="form-check-label" for="gridRadios1">Multiple Choice</label>  
                                 </div>
 
@@ -48,8 +47,8 @@ const AddQuestion = ({addQues, onAdd}) => {
                     <button style= {{backgroundColor: "orange"}} type="submit" class="btn btn-primary">Submit</button>
                     </div>
                     
-
                 </form>
+                </card>
             </div>
 
             
