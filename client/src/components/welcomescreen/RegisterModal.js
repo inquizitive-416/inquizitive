@@ -1,61 +1,98 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from 'react-modal';
 import Form from "react-bootstrap/Form";
 import "./RegisterModal.css";
+import {REGISTER} from "../../cache/mutation"
+import React, { useState, useContext } from "react";
+import { apolloError } from 'apollo-server-errors';
+// import Axios from "axios";
+import { graphql,useMutation } from '@apollo/client';
+import { flowRight as compose } from 'lodash';
+// import ErrorNotice from "../misc/error";
+// import logo from '../../images/logo2.png';
+// import "../../CSS/auth/register.css"
 
 
 Modal.setAppElement('#root');
-const RegisterModal = ({isOpen,regModal}) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [fname, setFname] = useState("");
-    const [lname, setLname] = useState("");
-    const [username, setUsername] = useState("");
-    const [cpassword, setCpassword] = useState("");
-    const [sec1, setSec1] = useState("");
-    const [sec2, setSec2] = useState("");
+const RegisterModal = (props) => {
+
+    const [error, setError] = useState({});
+    const [cpass, setCpass] = useState("");
     
 
+      const [userInfo,setUserInfo] = useState(
+        {
+            firstName: "",
+            lastName:"",
+            email:"",
+            username:"",
+            password:"",
+            securityQuestionOne:"",
+            securityAnswerOne:"",
+            securityQuestionTwo:"",
+            securityAnswerTwo:""
+        }
+    )
+    const errror = apolloError
+
+    const [addUser]=useMutation(REGISTER)
+    
+    const onChange =(e)=>{
+        setUserInfo({...userInfo,[e.target.name]:e.target.value});
+    }
+    const onSubmit= async(e)=>{
+        e.preventDefault();
+        
+        console.log(userInfo);
+        const { error, data } = await addUser({ variables: { ...userInfo } });
+        // if (loading) { toggleLoading(true) };
+        if (error) { return `Error: ${error.message}` };
+        if(data){
+            console.log(data);
+        }
+            // addUser({variables:userInfo});
+        
+    }
+
+
     function validateEmail() {
-        return email.length > 0 && email.indexOf('.')>0 && email.indexOf('@')>0 && email.length-1>email.indexOf('.');
+        return userInfo.email.length > 0 && userInfo.email.indexOf('.')>0 && userInfo.email.indexOf('@')>0 && userInfo.email.length-1>userInfo.email.indexOf('.');
     }
     function validatePassword() {
-        return password.length >0;
+        return userInfo.password.length >0;
     }
     function checkPassword(){
-        return password==cpassword;
+        return userInfo.password===cpass;
     }
     return (
         <div >
             <Modal
-            
-            animation={true}
-            isOpen={isOpen}
-            //size="lg"
-            //aria-labelledby="contained-modal-title-vcenter"
+            isOpen={props.isOpen}
             centered
             >
-                <Form>
+                <Form onSubmit={onSubmit}>
                 <div class="row">
                     <div class="col">
-                        <Form.Group size="lg" controlId="fname">
+                        <Form.Group size="lg" controlId="firstName">
                         <Form.Label>First Name</Form.Label>
                             <Form.Control
                                 autoFocus
-                                type="fname"
-                                value={fname}
-                                onChange={(e) => setFname(e.target.value)}
+                                type="firstName"
+                                name="firstName"
+                                value={userInfo.firstName}
+                                onChange={onChange}
                             />
                         </Form.Group>
                     </div>
                     <div class="col">
-                        <Form.Group size="lg" controlId="lname">
+                        <Form.Group size="lg" controlId="lastName">
                             <Form.Label>Last Name</Form.Label>
                             <Form.Control
-                                type="lname"
-                                value={lname}
-                                onChange={(e) => setLname(e.target.value)}
+                                type="lastName"
+                                name="lastName"
+                                value={userInfo.lastName}
+                                onChange={onChange}
                             />
                         </Form.Group>
                     </div>
@@ -68,8 +105,9 @@ const RegisterModal = ({isOpen,regModal}) => {
                             <Form.Control
                                 autoFocus
                                 type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                name="email"
+                                value={userInfo.email}
+                                onChange={onChange}
                                 style={{color: validateEmail() ? "":"red"}}
                             />
                         </Form.Group>
@@ -79,8 +117,9 @@ const RegisterModal = ({isOpen,regModal}) => {
                             <Form.Label>Username</Form.Label>
                             <Form.Control
                                 type="username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                name="username"
+                                value={userInfo.username}
+                                onChange={onChange}
                             />
                         </Form.Group>
                     </div>
@@ -93,8 +132,9 @@ const RegisterModal = ({isOpen,regModal}) => {
                             <Form.Control
                                 autoFocus
                                 type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                name="password"
+                                value={userInfo.password}
+                                onChange={onChange}
                                 style={{color: validatePassword() ? "":"red"}}
                             />
                         </Form.Group>
@@ -104,97 +144,83 @@ const RegisterModal = ({isOpen,regModal}) => {
                             <Form.Label>Confirm Password</Form.Label>
                             <Form.Control
                                 type="password"
-                                value={cpassword}
-                                onChange={(e) => setCpassword(e.target.value)}
+                                name="cpassword"
+                                value={cpass}
+                                onChange={(e) => setCpass(e.target.value)}
                                 style={{color: checkPassword() ? "":"red"}}
                             />
                         </Form.Group>
                     </div>
                     
                 </div>
-                    
-                {/* <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Dropdown Button
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown> */}
+            
                 <div className="sec" class="sec1">
                     <Form.Group size="lg">
-                        <select class="custom-select" id="inputGroupSelect02">
-                            <option  selected>Choose categories</option>
-                            <option value="1">What primary school did you attend?</option>
-                            <option value="2">In what town or city was your first full time job?</option>
-                            <option value="3">In what town or city did you meet your spouse or partner?</option>
-                            <option value="4">What is your major?</option>
-                            <option value="5">What is your Mother's Maiden name?</option>
-                            <option value="6">What is the name of your high school?</option>
-                            <option value="7">What is your Father's middle name?</option>
-                            <option value="8">What time of the day were you born?</option>
-                            <option value="9">What is your hobby?</option>
-                            <option value="10">What is the name of your bestfriend?</option>
+                        <select class="custom-select" id="inputGroupSelect01" name="securityQuestionOne" onChange={onChange}>
+                            <option  value>Choose categories</option>
+                            <option value="What primary school did you attend?">What primary school did you attend?</option>
+                            <option value="In what town or city was your first full time job?">In what town or city was your first full time job?</option>
+                            <option value="In what town or city did you meet your spouse or partner?">In what town or city did you meet your spouse or partner?</option>
+                            <option value="What is your major?">What is your major?</option>
+                            <option value="What is your Mother's Maiden name?">What is your Mother's Maiden name?</option>
+                            <option value="What is the name of your high school?">What is the name of your high school?</option>
+                            <option value="What is your Father's middle name?">What is your Father's middle name?</option>
+                            <option value="What time of the day were you born?">What time of the day were you born?</option>
+                            <option value="What is your hobby?">What is your hobby?</option>
+                            <option value="What is the name of your bestfriend?">What is the name of your bestfriend?</option>
                         </select>
 
                         
                     </Form.Group>
-                    <Form.Group controlId="sec1">
+                    <Form.Group controlId="secans1">
                         <Form.Control
                             type="sec1"
-                            value={sec1}
-                            //onClick={(e)=>setSec1("")}
+                            name="securityAnswerOne"
+                            value={userInfo.securityAnswerOne}
                             placeholder={"Answer 1"}
-                            onChange={(e) => setSec1(e.target.value)}
+                            onChange={onChange}
                         />
                     </Form.Group>
                 </div>
                 <div className="sec" class="sec2">
                     <Form.Group size="lg">
-                        <select class="custom-select" id="inputGroupSelect02">
-                        <option  selected>Choose categories</option>
-                            <option value="1">What primary school did you attend?</option>
-                            <option value="2">In what town or city was your first full time job?</option>
-                            <option value="3">In what town or city did you meet your spouse or partner?</option>
-                            <option value="4">What is your major?</option>
-                            <option value="5">What is your Mother's Maiden name?</option>
-                            <option value="6">What is the name of your high school?</option>
-                            <option value="7">What is your Father's middle name?</option>
-                            <option value="8">What time of the day were you born?</option>
-                            <option value="9">What is your hobby?</option>
-                            <option value="10">What is the name of your bestfriend?</option>
+                        <select class="custom-select" id="inputGroupSelect02" name="securityQuestionTwo" onChange={onChange}>
+                        <option  value>Choose categories</option>
+                            <option value="What primary school did you attend?">What primary school did you attend?</option>
+                            <option value="In what town or city was your first full time job?">In what town or city was your first full time job?</option>
+                            <option value="In what town or city did you meet your spouse or partner?">In what town or city did you meet your spouse or partner?</option>
+                            <option value="What is your major?">What is your major?</option>
+                            <option value="What is your Mother's Maiden name?">What is your Mother's Maiden name?</option>
+                            <option value="What is the name of your high school?">What is the name of your high school?</option>
+                            <option value="What is your Father's middle name?">What is your Father's middle name?</option>
+                            <option value="What time of the day were you born?">What time of the day were you born?</option>
+                            <option value="What is your hobby?">What is your hobby?</option>
+                            <option value="What is the name of your bestfriend?">What is the name of your bestfriend?</option>
                         </select>
                     </Form.Group>
-                    <Form.Group controlId="sec2">
+                    <Form.Group controlId="secans2">
                         <Form.Control
                             type="sec2"
-                            value={sec2}
+                            name="securityAnswerTwo"
+                            value={userInfo.securityAnswerTwo}
                             placeholder={"Answer 2"}
-                            onChange={(e) => setSec2(e.target.value)}
+                            onChange={onChange}
                         />
                     </Form.Group>
                 </div>
                 <Form.Group>
-                    <Button onClick={regModal}>Register</Button>
+                    <input type="submit" value="Register" />
                 </Form.Group>
                     
             
                 </Form>
-
-                {/* <h4>Centered Modal</h4>
-                <p>
-                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                consectetur ac, vestibulum at eros.
-                </p> */}
-                
                 
             </Modal>
         </div>
      );
-}
+};
 
+// export default compose(
+//     graphql(REGISTER, { name: 'register' })
+// )(RegisterModal);
 export default RegisterModal;

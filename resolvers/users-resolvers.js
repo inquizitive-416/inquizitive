@@ -31,50 +31,82 @@ module.exports = {
       userLogout,
       userRegister
 		**/
+    login: async (_, args, { res }) => {
+      const { email, password } = args;
+      console.log(args);
+      if (!email || !password)         // Check that both email and password were sent
+          return ({ email: "Must provide both email and password." })
+
+      const user = await User.findOne({ email: email });
+      if (!user)                          // Check that an account with the sent email exists
+          return ({ email: "Account with that email not found." });
+
+      const valid = await bcrypt.compare(password, user.password);
+      if (!valid) {                       // Check that the password sent matches the stored hashed password
+          return ({ email: "Password does not match." });
+      }
+
+      const accessToken = tokens.generateAccessToken(user);
+      const refreshToken = tokens.generateRefreshToken(user);
+      res.cookie('refresh-token', refreshToken, { httpOnly: true});
+      res.cookie('access-token', accessToken, { httpOnly: true})
+      return user;
+    },
 
       /**
 		 	@param 	 {object} args - an empty user object
 			@returns {string} the objectID of the new user, or an error message
 		**/
-      addUser: async (_, args) => {
-        const { user } = args;
-        const objectId = new ObjectId();
-        const {
-          userId,
+      register: async (_, args,{res}) => {
+        
+        const { 
           firstName,
           lastName,
           email,
           username,
           password,
-          dateOfBirth,
           securityQuestionOne,
           securityAnswerOne,
           securityQuestionTwo,
-          securityAnswerTwo,
-          profilePicture,
-          profilePublic,
-          coins,
-        } = user;
-        const newUser = new User({
-          _id: objectId,
-          userId: userId,
+          securityAnswerTwo } = args;
+        // console.log(args)
+        // const objectId = new ObjectId();
+        
+        const username_exists = await User.findOne({ username: username });
+        if (username_exists) {
+            return ({ username: "Username Exists." });
+        }
+        
+        const email_exists = await User.findOne({ email: email });
+        if (email_exists) {
+            return ({ username: "Email Exists" });
+        }
+        const hashed_password = await bcrypt.hash(password, 10);
+        const _id = new ObjectId();
+
+        const user = new User({
+          _id: _id,
+          // userId: userId,
           firstName: firstName,
           lastName: lastName,
           email: email,
           username: username,
-          password: password,
-          dateOfBirth: dateOfBirth,
+          password: hashed_password,
+          dateOfBirth: "",
           securityQuestionOne: securityQuestionOne,
           securityAnswerOne: securityAnswerOne,
           securityQuestionTwo: securityQuestionTwo,
           securityAnswerTwo: securityAnswerTwo,
-          profilePicture: profilePicture,
-          profilePublic: profilePublic,
-          coins: coins,
+          profilePicture: "",
+          profilePublic: false,
+          coins: 0,
         });
-        const updated = await newUser.save();
-        if (updated) return objectId;
-        else return "Could not add user";
+        const reg = await user.save();
+        const accessToken = tokens.generateAccessToken(user);
+        const refreshToken = tokens.generateRefreshToken(user);
+        res.cookie('refresh-token', refreshToken, { httpOnly: true});
+        res.cookie('access-token', accessToken, { httpOnly: true});
+        return user;
       },
       /**
 		 	@param 	 {object} args - a user objectID

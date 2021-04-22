@@ -11,7 +11,7 @@ const App = () => {
 	return(
 		<BrowserRouter>
 			<Switch>
-				<Redirect exact from="/" to={ {pathname: "/explore"} } />
+				<Redirect exact from="/" to={ {pathname: "/welcome"} } />
 				<Route 
 					path="/explore" 
 					name="explore" 

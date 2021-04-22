@@ -5,10 +5,6 @@ const userSchema = new Schema({
     type: ObjectId,
     required: true,
   },
-  userId: {
-    type: Number,
-    required: true,
-  },
   firstName: {
     type: String,
     required: true,
@@ -31,7 +27,7 @@ const userSchema = new Schema({
   },
   dateOfBirth: {
     type: String,
-    required: true,
+    required: false,
   },
   securityQuestionOne: {
     type: String,
@@ -51,15 +47,15 @@ const userSchema = new Schema({
   },
   profilePicture: {
     type: String,
-    required: true,
+    required: false,
   },
   profilePublic: {
     type: Boolean,
-    required: true,
+    required: false,
   },
   coins: {
     type: Number,
-    required: true,
+    required: false,
   },
 });
 
