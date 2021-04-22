@@ -27,6 +27,7 @@ const typeDefs = gql`
     addUser(user: UserInput!): String
     deleteUser(_id: String!): Boolean
     updateUserField(_id: String!, field: String!, value: String!): Boolean
+    updateUserVisibility(_id: String!, value: Boolean!): Boolean
   }
 
   input UserInput {

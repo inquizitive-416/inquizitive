@@ -101,6 +101,17 @@ module.exports = {
         if (updated) return true;
         else return false;
       },
+
+      updateUserVisibility: async (_, args) => {
+        const { value, _id } = args;
+        const objectId = new ObjectId(_id);
+        const updated = await User.updateOne(
+          { _id: objectId },
+          { ["profilePublic"]: value }
+        );
+        if (updated) return true;
+        else return false;
+      },
       /**
             @param {object} args - username and password required
             @param {object} res - response object containing current access/refresh tokens
