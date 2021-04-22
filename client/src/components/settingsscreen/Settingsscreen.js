@@ -10,6 +10,11 @@ const ChangeProfilePicture = (props) => {
         <Row>
             <Col xs="1"></Col>
             <Col xs="2">
+                <Card className="bg-dark text-white text-center" border="dark">
+                    <Card.Body>
+                        <Form.Label className="text-warning">Change your Profile Picture</Form.Label>
+                    </Card.Body>
+                </Card>
             </Col>
             <Col xs="8">
                 <Card className="bg-secondary text-white text-center">
@@ -41,6 +46,11 @@ const ChangeUsername = (props) => {
         <Row>
             <Col xs="1"></Col>
             <Col xs="2">
+            <Card className="bg-dark text-white text-center" border="dark">
+                    <Card.Body>
+                        <Form.Label className="text-warning">Change your Username</Form.Label>
+                    </Card.Body>
+                </Card>
             </Col>
             <Col xs="8">
                 <Card className="bg-secondary text-white">
@@ -51,9 +61,11 @@ const ChangeUsername = (props) => {
                             <Form.Control type="username" value={username} onChange={updateUsername}/>
                         </Form.Group>
 
-                        <Button variant="light" onClick={handleSubmit}>
-                            Update Username
-                        </Button>
+                        <Form.Group className="text-center" controlId="formSubmitButton">
+                            <Button variant="light" onClick={handleSubmit}>
+                                Update Username
+                            </Button>
+                        </Form.Group>
                         </Form>
                     </Card.Body>
                 </Card>
@@ -103,9 +115,11 @@ const ChangePassword = (props) => {
                             <Form.Control type="password" name="confirmPassword" value={input.confirmPassword} onChange={updateInput} />
                         </Form.Group>
 
-                        <Button variant="light" onClick={handleSubmit}>
-                            Update Password
-                        </Button>
+                        <Form.Group className="text-center" controlId="formSubmitButton">
+                            <Button variant="light" onClick={handleSubmit}>
+                                Update Password
+                            </Button>
+                        </Form.Group>
                         </Form>
                     </Card.Body>
                 </Card>
@@ -173,6 +187,11 @@ const ChangeUserInfo = (props) => {
         <Row>
             <Col xs="1"></Col>
             <Col xs="2">
+                <Card className="bg-dark text-white text-center" border="dark">
+                    <Card.Body>
+                        <Form.Label className="text-warning">Change your User Info</Form.Label>
+                    </Card.Body>
+                </Card>
             </Col>
             <Col xs="8">
                 <Card className="bg-secondary text-white">
@@ -217,9 +236,11 @@ const ChangeUserInfo = (props) => {
                             </Form.Row>
                         </Form.Group>
 
-                        <Button variant="light" onClick={handleSubmit}>
-                            Update User Info
-                        </Button>
+                        <Form.Group className="text-center" controlId="formSubmitButton">
+                            <Button variant="light" onClick={handleSubmit}>
+                                Update User Info
+                            </Button>
+                        </Form.Group>
                         </Form>
                     </Card.Body>
                 </Card>
@@ -258,6 +279,11 @@ const ChangeSecurityQuestions = (props) => {
         <Row>
             <Col xs="1"></Col>
             <Col xs="2">
+                <Card className="bg-dark text-white text-center" border="dark">
+                    <Card.Body>
+                        <Form.Label className="text-warning">Change your Security Questions</Form.Label>
+                    </Card.Body>
+                </Card>
             </Col>
             <Col xs="8">
                 <Card className="bg-secondary text-white">
@@ -293,9 +319,11 @@ const ChangeSecurityQuestions = (props) => {
                             <Form.Control name="answer2" value={input.answer2} onChange={updateInput} />
                         </Form.Group>
 
-                        <Button variant="light" onClick={handleSubmit}>
-                            Update Security Questions
-                        </Button>
+                        <Form.Group className="text-center" controlId="formSubmitButton">
+                            <Button variant="light" onClick={handleSubmit}>
+                                Update Security Questions
+                            </Button>
+                        </Form.Group>
                         </Form>
                     </Card.Body>
                 </Card>
@@ -320,6 +348,11 @@ const ChangeProfileVisibility = (props) => {
         <Row>
             <Col xs="1"></Col>
             <Col xs="2">
+                <Card className="bg-dark text-white text-center" border="dark">
+                    <Card.Body>
+                        <Form.Label className="text-warning">Change your Profile Visibility</Form.Label>
+                    </Card.Body>
+                </Card>
             </Col>
             <Col xs="8">
                 <Card className="bg-secondary text-white">
