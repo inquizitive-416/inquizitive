@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import NavbarTop from '../navbar/NavbarTop';
-import { Card, Button, Form } from 'react-bootstrap'
+import { Card, Button, Form, Col } from 'react-bootstrap'
 import { GET_CURRENT_USER } from './queries'
-import { UPDATE_USER_FIELD, UPDATE_USER_INFO } from './mutations'
+import { UPDATE_USER_FIELD, UPDATE_USER_INFO, UPDATE_SECURITY_QUESTIONS } from './mutations'
 
 const ChangeProfilePicture = (props) => {
     return (
@@ -80,9 +80,19 @@ const ChangePassword = (props) => {
 
 const ChangeUserInfo = (props) => {
 
-    const [input, setInput] = useState({ firstName: props.user.firstName,
-                                         lastName: props.user.lastName,
-                                         email: props.user.email});
+    var date = new Date(props.user.dateOfBirth)
+    var month = date.getMonth().toString()
+    var day = date.getDate().toString()
+    var year = date.getFullYear().toString()
+
+    const [input, setInput] = useState({ 
+        firstName: props.user.firstName,
+        lastName: props.user.lastName,
+        email: props.user.email,
+        month: month,
+        day: day,
+        year: year
+    });
 
     const [updateUserInfo] = useMutation(UPDATE_USER_INFO);
 
@@ -93,7 +103,33 @@ const ChangeUserInfo = (props) => {
     }
 
     const handleSubmit = async (e) => {
-        await updateUserInfo({ variables: { _id: props.user._id, firstName: input.firstName, lastName: input.lastName, email: input.email}});
+        var newDate = new Date(input.year, input.month, input.day)
+        await updateUserInfo({ variables: { _id: props.user._id, firstName: input.firstName, lastName: input.lastName, 
+            email: input.email, dateOfBirth: newDate}});
+    }
+
+    const createOptions = (from, to) => {
+        var options = [];
+        if (from > to) {
+            for (var i = to; i >= from; i--){
+                options.push(<option key={i.toString()}>{i}</option>);
+            }
+        }
+        else{
+            for (var i = from; i <= to; i++){
+                options.push(<option key={i.toString()}>{i}</option>);
+            }
+        }
+        return options;
+    }
+
+    const createMonthOptions = () => {
+        var options = [];
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        for (var i = 0; i <= 11; i++){
+            options.push(<option key={i.toString()} value={i}>{months[i]}</option>);
+        }
+        return options;
     }
 
     return (
@@ -115,6 +151,30 @@ const ChangeUserInfo = (props) => {
                     <Form.Control name="email" value={input.email} onChange={updateInput} />
                 </Form.Group>
 
+                <Form.Group controlId="formDateOfBirth">
+                    <Form.Label className="text-warning">Date Of Birth</Form.Label>
+                    <Form.Row>
+
+                        <Form.Group as={Col} controlId="month">
+                            <Form.Control as="select" name="month" value={input.month} onChange={updateInput} custom>
+                                {createMonthOptions()}
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="day">
+                            <Form.Control as="select" name="day" value={input.day} onChange={updateInput} custom>
+                                {createOptions(1, 31)}
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="year">
+                            <Form.Control as="select" name="year" value={input.year} onChange={updateInput} custom>
+                                {createOptions(1900, 2021)}
+                            </Form.Control>
+                        </Form.Group>
+                    </Form.Row>
+                </Form.Group>
+
                 <Button variant="light" onClick={handleSubmit}>
                     Update User Info
                 </Button>
@@ -126,13 +186,28 @@ const ChangeUserInfo = (props) => {
 
 const ChangeSecurityQuestions = (props) => {
 
-    const [input, setInput] = useState({ question1: props.user.securityQuestion1,
-                                         answer1: props.user.securityAnswer1,
-                                         question2: props.user.securityQuestion2,
-                                         answer2: props.user.securityAnswer2});
+    const [input, setInput] = useState({ 
+        question1: props.user.securityQuestion1,
+        answer1: props.user.securityAnswer1,
+        question2: props.user.securityQuestion2,
+        answer2: props.user.securityAnswer2
+    });
 
-    console.log(input)
-    console.log("hi")
+    const [UpdateSecurityQuestions] = useMutation(UPDATE_SECURITY_QUESTIONS);
+
+    const updateInput = (e) => {
+        const { name, value } = e.target;
+        const updated = { ...input, [name]: value};
+        setInput(updated);
+    }
+
+    const handleSubmit = async (e) => {
+        await UpdateSecurityQuestions({ variables: { 
+            _id: props.user._id, 
+            question1: input.question1, answer1: input.answer1, 
+            question2: input.question2, answer2: input.answer2
+        }});
+    }
 
     return (
         <Card className="bg-secondary text-white">
@@ -140,7 +215,7 @@ const ChangeSecurityQuestions = (props) => {
                 <Form>
                 <Form.Group controlId="formSecurityQuestion1">
                     <Form.Label className="text-warning">Security Question 1</Form.Label>
-                    <Form.Control as="select" size="md" defaultValue={input.question1} custom>
+                    <Form.Control as="select" size="md" name="question1" value={input.question1} onChange={updateInput} custom>
                         <option>What was your childhood nickname?</option>
                         <option>What is the name of your favorite childhood friend?</option>
                         <option>What was the name of your first stuffed animal?</option>
@@ -150,12 +225,12 @@ const ChangeSecurityQuestions = (props) => {
 
                 <Form.Group controlId="formSecurityAnswer1">
                     <Form.Label className="text-warning">Security Question 1 Answer</Form.Label>
-                    <Form.Control type="email" placeholder="Enter answer to security question 1" />
+                    <Form.Control name="answer1" value={input.answer1} onChange={updateInput} />
                 </Form.Group>
 
                 <Form.Group controlId="formSecurityQuestion2">
                     <Form.Label className="text-warning">Security Question 2</Form.Label>
-                    <Form.Control as="select" size="md" defaultValue={input.question2} custom>
+                    <Form.Control as="select" size="md" name="question2" value={input.question2} onChange={updateInput} custom>
                         <option>What is the location of your dream vacation?</option>
                         <option>What is the name of your favorite sports team?</option>
                         <option>Where were you when you first heard about 9/11?</option>
@@ -165,10 +240,10 @@ const ChangeSecurityQuestions = (props) => {
 
                 <Form.Group controlId="formSecurityAnswer2">
                     <Form.Label className="text-warning">Security Question 2 Answer</Form.Label>
-                    <Form.Control type="email" placeholder="Enter answer to security question 2" />
+                    <Form.Control name="answer2" value={input.answer2} onChange={updateInput} />
                 </Form.Group>
 
-                <Button variant="light" type="submit">
+                <Button variant="light" onClick={handleSubmit}>
                     Update Security Questions
                 </Button>
                 </Form>
@@ -208,7 +283,7 @@ const Settingsscreen = (props) => {
         return <div>Internal Error</div>; }
 	if(data) { currentUser = data.getUserById }
 
-    console.log(currentUser)
+    //console.log(currentUser)
 
 	return (
 		<div className="bg-dark">
