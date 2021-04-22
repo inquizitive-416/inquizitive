@@ -22,26 +22,35 @@ const CreateScreen = (props) => {
             hastag2: "",
             hastag3: "",
             timer: "",
-            questions: [],
+            questions: [{}],
             quizPosted: false
 
         }
     )
-   
+    const [addQuiz]=useMutation(ADD_QUIZ)
+
 
     const onChange =(e)=>{
         setQuizInfo({...quizInfo,[e.target.name]:e.target.value});
+
+
+        
+    }
+
+    const onChan =(e)=>{
+    
 
         
 
         console.log(quizInfo.hashtag1)
         console.log(quizInfo.hashtag2)
         console.log(quizInfo.hashtag3)
+        console.log(quizInfo.difficulty)
+        console.log(quizInfo.categories)
+        console.log(quizInfo.questions)
 
         
     }
-
-    
 
 
 
@@ -61,9 +70,13 @@ const CreateScreen = (props) => {
          const newQuestion = {id, questype }
          //console.log(newQuestion)
          //questions.push(question)
+         let ques = quizInfo.questions
+         console.log(ques)
+         ques.push(newQuestion)
          setQuestions([...questions, newQuestion])
+         setQuizInfo({...quizInfo,["questions"]: ques});
 
-         console.log("old ques", questions)
+         //console.log("old ques", questions)
        
      }
 
@@ -89,7 +102,7 @@ const CreateScreen = (props) => {
 
                     <div style= {{paddingLeft: 17}} class="form-group">
                          <label for="exampleFormControlTextarea1">Enter Description</label>
-                         <textarea  style= {{ backgroundColor: "#838383", width:900}} class="form-control" value={quizInfo.description} name="description" onChange={onChange} id="exampleFormControlTextarea1" rows="3"></textarea>
+                         <textarea  style= {{ backgroundColor: "#838383", width:900}} class="form-control" value={quizInfo.description} name="description" onChange={onChan} id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
 
                     <div  style= {{paddingLeft: 17}} class="form-group">
@@ -125,9 +138,9 @@ const CreateScreen = (props) => {
                     <div style= {{paddingLeft: 17, width:925}} class="input-group mb-3">
                         <select style= {{ backgroundColor: "#838383", width:900}} name="difficulty" onChange={onChange} class="custom-select" id="inputGroupSelect03">
                             <option  selected>Choose Difficulty</option>
-                            <option value="2">Easy</option>
-                            <option value="1">Medium</option>
-                            <option value="2">Hard</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
                         </select>
                     </div>
                </form>
