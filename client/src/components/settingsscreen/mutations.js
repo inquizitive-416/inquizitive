@@ -6,6 +6,12 @@ export const UPDATE_USER_FIELD = gql`
     }
 `;
 
+export const UPDATE_USER_VISIBILITY = gql`
+    mutation UpdateUserVisibility($_id: String!, $value: Boolean!) {
+        updateUserVisibility(_id: $_id, value: $value)
+    }
+`;
+
 export const UPDATE_USER_INFO = gql`
     mutation UpdateUserInfo($_id: String!, $firstName: String!, $lastName: String!, $email: String!, $dateOfBirth: String!) {
         firstName: updateUserField(_id: $_id, field: "firstName", value: $firstName)
