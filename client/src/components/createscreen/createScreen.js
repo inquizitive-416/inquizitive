@@ -17,30 +17,33 @@ const CreateScreen = (props) => {
             title: "",
             description: "",
             coverimage:"",
-            username:"",
             categories: "",
-            hashtags : [],
+            hashtag1 : "",
+            hastag2: "",
+            hastag3: "",
             timer: "",
             questions: [],
             quizPosted: false
 
         }
     )
-
+   
 
     const onChange =(e)=>{
         setQuizInfo({...quizInfo,[e.target.name]:e.target.value});
 
-        console.log(quizInfo.categories)
+        
+
+        console.log(quizInfo.hashtag1)
+        console.log(quizInfo.hashtag2)
+        console.log(quizInfo.hashtag3)
 
         
     }
-    const changeCategory =(e)=>{
-        var e = document.getElementById("nputGroupSelect02");
-        var category = e.value;
-        setQuizInfo({...quizInfo,["categories"]: category});
-   
-    }
+
+    
+
+
 
 
      const onDelete =(id)=>{
@@ -114,13 +117,13 @@ const CreateScreen = (props) => {
 
                     <div style= {{paddingLeft: 17}}class="form-group">
                         <label for="formGroupExampleInput">Enter Hashtags</label>
-                        <input style= {{ backgroundColor: "#838383", width:400}} type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 1"/>
-                        <input style= {{ backgroundColor: "#838383", width:400}} type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 2"/>
-                        <input style= {{ backgroundColor: "#838383", width:400}} type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 3"/>
+                        <input style= {{backgroundColor: "#838383", width:400}}  value ={quizInfo.hashtag1} onChange= {onChange} name="hashtag1" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 1"/>
+                        <input style= {{ backgroundColor: "#838383", width:400}} value ={quizInfo.hashtag2} onChange= {onChange} name="hashtag2" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 2"/>
+                        <input style= {{ backgroundColor: "#838383", width:400}} value ={quizInfo.hashtag3} onChange= {onChange} name="hashtag3" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 3"/>
                      </div>
 
                     <div style= {{paddingLeft: 17, width:925}} class="input-group mb-3">
-                        <select style= {{ backgroundColor: "#838383", width:900}} class="custom-select" id="inputGroupSelect03">
+                        <select style= {{ backgroundColor: "#838383", width:900}} name="difficulty" onChange={onChange} class="custom-select" id="inputGroupSelect03">
                             <option  selected>Choose Difficulty</option>
                             <option value="2">Easy</option>
                             <option value="1">Medium</option>
