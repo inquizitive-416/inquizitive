@@ -2,53 +2,59 @@ import gql from "graphql-tag";
 
 
 
-export const ADD_QUIZ = gql`
-mutation AddQuiz(
-    $idOfCreator:ID!,
-    $title:String!,
-    $description:String!,
-    $username:String!,
-    $coverImage:String!,
-    $categories:String!,
-    $hashtagone:String!,
-    $hastagtwo:String!,
-    $hastagthree:String!,
-    $quizposted: Boolean!,
-    $timer:
-    $questions: []
-    $ratings: Int!
-    $numOfTimesPlayed: Int! ) {
+export const ADDQUIZ = gql`
+mutation addQuiz(
+    $idOfCreator:String,
+    $title:String,
+    $description:String,
+    $coverimage:String,
+    $categories:String,
+    $hashtagone:String,
+    $hashtagtwo:String,
+    $hashtagthree:String,
+    $difficulty: String,
+    $quizposted: Boolean,
+    $timer: Int,
+    $questions: [String],
+    $ratings: Int,
+    $avgRating: Int,
+    $numOfTimesPlayed: Int,
+    $isReported: Boolean ) {
 
-    AddQuiz(
-        $idOfCreator: $idOfCreator ,
-        $title: $title,
-        $description: $description,
-        $username: $username,
-        $coverImage: $coverimage,
-        $categories: $categories,
-        $hashtagone: $hashtagone,
-        $hastagtwo: $hastagtwo,
-        $hastagthree:$hastagthree,
-        $quizposted: $quizposted,
-        $timer: $timer
-        $questions: $questions
-        $ratings: $ratings
-        $numOfTimesPlayed: $numOfTimesPlayed
+    addQuiz(
+        idOfCreator: $idOfCreator ,
+        title: $title,
+        description: $description,
+        coverimage: $coverimage,
+        categories: $categories,
+        hashtagone: $hashtagone,
+        hashtagtwo: $hashtagtwo,
+        hashtagthree:$hashtagthree,
+        difficulty: $difficulty
+        quizposted: $quizposted,
+        timer: $timer
+        questions: $questions
+        ratings: $ratings
+        avgRating: $avgRating
+        numOfTimesPlayed: $numOfTimesPlayed
+        isReported: $isReported
     ){
         idOfCreator
         title
         description
-        username
-        coverImage
+        coverimage
         categories
         hashtagone
-        hastagtwo
-        hastagthree
+        hashtagtwo
+        hashtagthree
+        difficulty
         quizposted
         timer
         questions
         ratings
+        avgRating
         numOfTimesPlayed
+        isReported
     }
     
 }
