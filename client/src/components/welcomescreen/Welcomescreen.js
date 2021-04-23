@@ -1,32 +1,28 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import Explorescreen 		from '../explorescreen/Explorescreen';
 import Button from "react-bootstrap/Button";
 import "./Welcomescreen.css";
 import RegisterModal from "./RegisterModal";
 import ForgotPassword from "./ForgotPassword";
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap'
-//import Modal from 'react-modal';
-//j
+import { graphql,useMutation } from '@apollo/client';
+import {LOGIN} from "./cache/mutation"
+import { setCurrentUser } from "../../data/LocalStorage";
 
-// const PegisterModal = () => {
-    
-// };
 
 
 const Welcome = (props) => {
-    
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [regmodalShow, setRegmodalShow] = React.useState(false);
     const [formodalShow, setFormodalShow] = React.useState(false);
+    const [loginInput, setLoginInput] = React.useState({email:"",password:""});
+    const [loginUser]=useMutation(LOGIN);
+    const [loginError, setLoginError] = useState(false);
 
     function validateEmail() {
-        return email.length > 0 && email.indexOf('.')>0 && email.indexOf('@')>0 && email.length-1>email.indexOf('.');
+        return loginInput.email.length > 0 && loginInput.email.indexOf('.')>0 && loginInput.email.indexOf('@')>0 && loginInput.email.length-1>loginInput.email.indexOf('.');
     }
+
     function validatePassword() {
-        return password.length >0;
+        return loginInput.password.length >0;
     }
     
     function regModal(){
@@ -37,54 +33,62 @@ const Welcome = (props) => {
         //console.log(regmodalShow)
         setFormodalShow(!formodalShow);
     }
-    function handleLogin() {
-        return(
-        <BrowserRouter>
-			<Switch>
-				<Redirect exact from="/welcome" to={ {pathname: "/explore"} } />
-				<Route 
-					path="/explore" 
-					name="explore" 
-					render={() => 
-						<Explorescreen/>
-					} 
-				/>
-                </Switch>
-		</BrowserRouter>
-        );
-        
+    const onChange= async(e)=>{
+        setLoginInput({...loginInput,[e.target.name]:e.target.value});
+        setLoginError(false);
+    }
+    
+    const handleLogin= async(e)=>{
+        // setLoginInput({...loginInput,email:email,password:password});
+        e.preventDefault();
+        // console.log(loginInput);
+        const {error, data } = await loginUser({ variables: { ...loginInput } });
+        if (error) { return `Error: ${error.message}` };
+        if (data.login._id === null) {
+            // console.log("here");
+            setLoginError(true);
+        }
+        else if (data) {
+            // console.log("imhere");
+            setCurrentUser(data.login);
+            
+            props.fetchUser();
+        }
     }
     
     
     return (
         <div className="Welcome">
-            <div class="text" className="Inquizitive">
+            <div  className="Inquizitive">
                 In<span style={{color: '#f5ae31'}}>Quiz</span>Itive
             </div>
-            <div class="text" className="description">
+            <div className="description">
                 Welcome to In<span style={{color: '#f5ae31'}}>Quiz</span>Itive, a place with all the tools needed to give every user the confidence to learn and succeed.
             </div>
             
 
             <div className="Login" >
-            <Form >
+            <Form onSubmit={handleLogin}>
                 <Form.Group size="lg" controlId="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                     autoFocus
                     type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    style={{color: !validateEmail() ? 'red': ""}}
+                    name='email'
+                    value={loginInput.email}
+                    onChange={onChange}
+                    style={{ color: loginError ? "red" : ""}}
                 />
                 </Form.Group>
                 <Form.Group size="lg" controlId="password">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                     type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={{color: !validatePassword() ? 'red': ""}}
+                    name='password'
+                    value={loginInput.password}
+                    onChange={onChange}
+                    // style={{color: !validatePassword() ? 'red': ""}}
+                    style={{ color: loginError ? "red" : ""}}                
                 />
                 </Form.Group>
             <div>
@@ -95,9 +99,8 @@ const Welcome = (props) => {
             </div>
                 <div class="row">
                     <div class="col">
-                        <Button style={{backgroundColor:"#f5ae31"}} block size="sm" disabled={!(validatePassword() && validateEmail())}>
-                            <Nav.Link href="/explore" style={{color:'white'}} disabled={!(validatePassword() && validateEmail())}>Login</Nav.Link>
-                            
+                        <Button style={{backgroundColor:"#f5ae31"}} block size="lg" type='submit' value='Login' disabled={!(validatePassword() && validateEmail())}>
+                            Login
                         </Button></div>
                     <div class="col">
                         <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={false} onClick={regModal}>
@@ -106,11 +109,14 @@ const Welcome = (props) => {
                     </div>
                     
                 </div>
+                
                 <RegisterModal
                     //isOpen={regmodalShow}
                     isOpen={regmodalShow}
                     // onHide={() => setRegmodalShow(false)}
                     regModal={regModal}
+                    fetchUser={props.fetchUser}
+                    
                 />
                 
                 <ForgotPassword
@@ -118,6 +124,7 @@ const Welcome = (props) => {
                     isOpen={formodalShow}
                     // onHide={() => setRegmodalShow(false)}
                     forModal={forModal}
+                    
                 />
                 
             </Form>

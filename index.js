@@ -11,20 +11,21 @@ const { MONGO_URI, BACKEND_PORT, CLIENT_LOCAL_ORIGIN, SERVER_LOCAL_DOMAIN } = pr
 // create express server handling our middleware 
 const app = express();
 
-app.use(cors())
+// app.use(cors())
 
 // since we presume cors is enabled, this next step is not optional, so cors
 // is enable here instead of in options
-// app.use(cors({ origin: CLIENT_LOCAL_ORIGIN, credentials: true }));
 
-// const corsPolicy = async(req, res, next) => {
-// 	res.set("Access-Control-Allow-Origin", req.headers.origin);
-//     res.set("Access-Control-Allow-Credentials", true);
-// 	next();
-// }
+app.use(cors({ origin: CLIENT_LOCAL_ORIGIN ||SERVER_LOCAL_DOMAIN , credentials: true }));
 
-// app.options('*', cors());
-// app.use(corsPolicy);
+const corsPolicy = async(req, res, next) => {
+	res.set("Access-Control-Allow-Origin", req.headers.origin);
+    res.set("Access-Control-Allow-Credentials", true);
+	next();
+}
+
+app.options('*', cors());
+app.use(corsPolicy);
 
 // redeploy
 // middleware application is configured to happen in server-config.js
@@ -60,7 +61,7 @@ const mongo_uri = "mongodb+srv://InQuizer:InQuizItive-416@inquizitive-cluster.em
 
 mongoose.connect(mongo_uri, {useNewUrlParser: true , useUnifiedTopology: true})
         .then(() => {
-            app.listen(process.env.PORT || BACKEND_PORT, () => {
+            app.listen({port: process.env.PORT || BACKEND_PORT},CLIENT_LOCAL_ORIGIN, () => {
                 console.log(`Server ready at ${BACKEND_PORT}`);
             })
         })

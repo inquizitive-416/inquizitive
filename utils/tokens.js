@@ -3,6 +3,7 @@ require('dotenv').config();
 const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET } = process.env;
 
 const generateAccessToken = (user) => {
+	console.log(user.id);
 	return jwt.sign(
 		{ id: user.id },
 		ACCESS_TOKEN_SECRET,

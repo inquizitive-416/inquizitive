@@ -1,12 +1,7 @@
 const { model, Schema, ObjectId } = require("mongoose");
-
 const userSchema = new Schema({
   _id: {
     type: ObjectId,
-    required: true,
-  },
-  userId: {
-    type: Number,
     required: true,
   },
   firstName: {
@@ -31,37 +26,36 @@ const userSchema = new Schema({
   },
   dateOfBirth: {
     type: String,
-    required: true,
+    required: false,
   },
-  securityQuestion1: {
+  securityQuestionOne: {
     type: String,
     required: true,
   },
-  securityQuestion2: {
+  securityQuestionTwo: {
     type: String,
     required: true,
   },
-  securityAnswer1: {
+  securityAnswerOne: {
     type: String,
     required: true,
   },
-  securityAnswer2: {
+  securityAnswerTwo: {
     type: String,
     required: true,
   },
   profilePicture: {
     type: String,
-    required: true,
+    required: false,
   },
   profilePublic: {
     type: Boolean,
-    required: true,
+    required: false,
   },
   coins: {
     type: Number,
-    required: true,
+    required: false,
   },
 });
-
 const User = model("User", userSchema);
 module.exports = User;
