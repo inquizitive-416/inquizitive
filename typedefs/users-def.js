@@ -3,24 +3,24 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type User {
-    _id: String!
-    firstName: String!
-    lastName: String!
-    email: String!
-    username: String!
-    password: String!
+    _id: String
+    firstName: String
+    lastName: String
+    email: String
+    username: String
+    password: String
     dateOfBirth: String
-    securityQuestionOne: String!
-    securityAnswerOne: String!
-    securityQuestionTwo: String!
-    securityAnswerTwo: String!
+    securityQuestionOne: String
+    securityAnswerOne: String
+    securityQuestionTwo: String
+    securityAnswerTwo: String
     profilePicture: String
     profileVisible: Boolean
     coins: Int
   }
 
   extend type Query {
-    getUserById(_id: String!): User
+    getCurrentUser: User
   }
   extend type Mutation {
     login(email: String!, password: String!): User
@@ -34,6 +34,7 @@ const typeDefs = gql`
       securityAnswerOne:String!,
       securityQuestionTwo:String!,
       securityAnswerTwo:String!): User
+
     deleteUser(_id: String!): Boolean
     updateUserField(_id: String!, field: String!, value: String!): Boolean
   }
