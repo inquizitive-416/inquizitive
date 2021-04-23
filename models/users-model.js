@@ -1,5 +1,4 @@
 const { model, Schema, ObjectId } = require("mongoose");
-
 const userSchema = new Schema({
   _id: {
     type: ObjectId,
@@ -29,19 +28,19 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  securityQuestion1: {
+  securityQuestionOne: {
     type: String,
     required: true,
   },
-  securityQuestion2: {
+  securityQuestionTwo: {
     type: String,
     required: true,
   },
-  securityAnswer1: {
+  securityAnswerOne: {
     type: String,
     required: true,
   },
-  securityAnswer2: {
+  securityAnswerTwo: {
     type: String,
     required: true,
   },
@@ -58,6 +57,5 @@ const userSchema = new Schema({
     required: false,
   },
 });
-
 const User = model("User", userSchema);
 module.exports = User;

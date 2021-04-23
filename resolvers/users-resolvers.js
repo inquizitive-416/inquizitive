@@ -8,7 +8,17 @@ module.exports = {
     /**
 			getUserById
 		**/
-
+    getCurrentUser: async (_, __ , {req}) => {
+      console.log(req.userId);
+      const _id = new ObjectId(req.userId);
+      if (!_id) {
+          return ({});
+      }
+      const found = await User.findOne(_id);
+      if (found) {
+          return found;
+      }
+    },
     /**
 		 	@param 	 {object} args - a user id
 			@returns {object} a user on success and an empty object on failure
@@ -31,51 +41,109 @@ module.exports = {
       userLogout,
       userRegister
 		**/
+    login: async (_, args, { res }) => {
+      const { email, password } = args;
+      // if (!email || !password)         // Check that both email and password were sent
+      //     return ({ email: "Must provide both email and password." })
+      // console.log(args);
+      const user = await User.findOne({ email: email });
+
+      if(!user){
+
+         return({});
+        }
+
+      const valid = await bcrypt.compare(password, user.password);
+      if (!valid) {                       // Check that the password sent matches the stored hashed password
+          return ({});
+      }
+      
+      const accessToken = tokens.generateAccessToken(user);
+      // console.log(accessToken);
+      const refreshToken = tokens.generateRefreshToken(user);
+      
+      // console.log(refreshToken);
+      res.cookie('refresh-token', refreshToken, { httpOnly: true, sameSite: 'None', secure: true});
+      res.cookie('access-token', accessToken, { httpOnly: true, sameSite: 'None', secure: true});
+      console.log(res);
+      return user;
+    },
 
       /**
 		 	@param 	 {object} args - an empty user object
 			@returns {string} the objectID of the new user, or an error message
 		**/
-      addUser: async (_, args) => {
-        const { user } = args;
-        const objectId = new ObjectId();
-        const {
-          userId,
-          firstName,
-          lastName,
-          email,
-          username,
-          password,
-          dateOfBirth,
-          securityQuestion1,
-          securityAnswer1,
-          securityQuestion2,
-          securityAnswer2,
-          profilePicture,
-          profilePublic,
-          coins,
-        } = user;
-        const newUser = new User({
-          _id: objectId,
-          userId: userId,
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          username: username,
-          password: password,
-          dateOfBirth: dateOfBirth,
-          securityQuestion1: securityQuestion1,
-          securityAnswer1: securityAnswer1,
-          securityQuestion2: securityQuestion2,
-          securityAnswer2: securityAnswer2,
-          profilePicture: profilePicture,
-          profilePublic: profilePublic,
-          coins: coins,
-        });
-        const updated = await newUser.save();
-        if (updated) return objectId;
-        else return "Could not add user";
-      },
+    register: async (_, args,{res}) => {
+        
+      const { 
+        firstName,
+        lastName,
+        email,
+        username,
+        password,
+        securityQuestionOne,
+        securityAnswerOne,
+        securityQuestionTwo,
+        securityAnswerTwo } = args;
+      // console.log(args)
+      // const objectId = new ObjectId();
+      if((firstName==="")&&
+        (lastName==="") &&
+        (email==="")&&
+        (username==="")&&
+        (password==="")&&
+        (securityQuestionOne==="")&&
+        (securityAnswerOne==="")&&
+        (securityQuestionTwo==="")&&
+        (securityAnswerTwo==="")){
+          console.log("nam");
+          return ({});
+        }
+      const username_exists = await User.findOne({ username: username });
+      if (username_exists) {
+          return ({});
+      }
+      
+      const email_exists = await User.findOne({ email: email });
+      if (email_exists) {
+          return ({});
+      }
+      const hashed_password = await bcrypt.hash(password, 10);
+      const _id = new ObjectId();
+
+      const user = new User({
+        _id: _id,
+        // userId: userId,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        username: username,
+        password: hashed_password,
+        dateOfBirth: "",
+        securityQuestionOne: securityQuestionOne,
+        securityAnswerOne: securityAnswerOne,
+        securityQuestionTwo: securityQuestionTwo,
+        securityAnswerTwo: securityAnswerTwo,
+        profilePicture: "",
+        profilePublic: false,
+        coins: 0,
+      });
+      const reg = await user.save();
+      const accessToken = tokens.generateAccessToken(user);
+      const refreshToken = tokens.generateRefreshToken(user);
+      res.cookie('refresh-token', refreshToken, { httpOnly: true});
+      res.cookie('access-token', accessToken, { httpOnly: true});
+      return user;
+    },
+    /** 
+    @param 	 {object} res - response object containing the current access/refresh tokens  
+    @returns {boolean} true 
+  **/
+    logout:(_, __, { res }) => {
+      res.clearCookie('refresh-token');
+      res.clearCookie('access-token');
+      return true;
+    },
       /**
 		 	@param 	 {object} args - a user objectID
 			@returns {boolean} true on successful delete, false on failure
