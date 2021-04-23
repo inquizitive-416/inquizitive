@@ -189,17 +189,10 @@ const RegisterModal = (props) => {
                 <div className="sec" class="sec1">
                     <Form.Group size="lg">
                         <select class="custom-select" id="inputGroupSelect01" name="securityQuestionOne" onChange={onChange}>
-                            <option  value>Choose categories</option>
-                            <option value="What primary school did you attend?">What primary school did you attend?</option>
-                            <option value="In what town or city was your first full time job?">In what town or city was your first full time job?</option>
-                            <option value="In what town or city did you meet your spouse or partner?">In what town or city did you meet your spouse or partner?</option>
-                            <option value="What is your major?">What is your major?</option>
-                            <option value="What is your Mother's Maiden name?">What is your Mother's Maiden name?</option>
-                            <option value="What is the name of your high school?">What is the name of your high school?</option>
-                            <option value="What is your Father's middle name?">What is your Father's middle name?</option>
-                            <option value="What time of the day were you born?">What time of the day were you born?</option>
-                            <option value="What is your hobby?">What is your hobby?</option>
-                            <option value="What is the name of your bestfriend?">What is the name of your bestfriend?</option>
+                            <option value="What was your childhood nickname?">What was your childhood nickname?</option>
+                            <option value="What is the name of your favorite childhood friend?">What is the name of your favorite childhood friend?</option>
+                            <option value="What was the name of your first stuffed animal?">What was the name of your first stuffed animal?</option>
+                            <option value="What is your dream car?">What is your dream car?</option>
                         </select>
 
                         
@@ -218,17 +211,10 @@ const RegisterModal = (props) => {
                 <div className="sec" class="sec2">
                     <Form.Group size="lg">
                         <select class="custom-select" id="inputGroupSelect02" name="securityQuestionTwo" onChange={onChange}>
-                        <option  value>Choose categories</option>
-                            <option value="What primary school did you attend?">What primary school did you attend?</option>
-                            <option value="In what town or city was your first full time job?">In what town or city was your first full time job?</option>
-                            <option value="In what town or city did you meet your spouse or partner?">In what town or city did you meet your spouse or partner?</option>
-                            <option value="What is your major?">What is your major?</option>
-                            <option value="What is your Mother's Maiden name?">What is your Mother's Maiden name?</option>
-                            <option value="What is the name of your high school?">What is the name of your high school?</option>
-                            <option value="What is your Father's middle name?">What is your Father's middle name?</option>
-                            <option value="What time of the day were you born?">What time of the day were you born?</option>
-                            <option value="What is your hobby?">What is your hobby?</option>
-                            <option value="What is the name of your bestfriend?">What is the name of your bestfriend?</option>
+                            <option value="What is the location of your dream vacation?">What is the location of your dream vacation?</option>
+                            <option value="What is the name of your favorite sports team?">What is the name of your favorite sports team?</option>
+                            <option value="Where were you when you first heard about 9/11?">Where were you when you first heard about 9/11?</option>
+                            <option value="What is the name of a college you applied to but didn't attend?">What is the name of a college you applied to but didn't attend?</option>
                         </select>
                     </Form.Group>
                     <Form.Group controlId="secans2">
