@@ -4,19 +4,14 @@ import Explorescreen from './components/explorescreen/Explorescreen';
 import CreateScreen from './components/createscreen/CreateScreen';
 import Settingsscreen from './components/settingsscreen/Settingsscreen';
 import Shopscreen from './components/shopscreen/Shopscreen';
-// import Profilescreen from "./components/profilescreen/Profilescreen";
+import Profilescreen from "./components/profilescreen/Profilescreen";
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import * as queries 	from './components/welcomescreen/cache/queries';
 import { useQuery } from '@apollo/client';
 
 
 const App = (props) => {
-	// let user = null;
-	// const [user,setUser]=useState(null)
-	// const { loading, error, data, refetch } = useQuery(queries.GETUSER);
-	// console.log("here");
-	// if (error) { console.log("ERROR:\n", error); }
-	// if (loading) { console.log("Loading...") }
+	
 	let user = null;
   	const { loading, error, data, refetch } = useQuery(queries.GETUSER);
 
@@ -73,11 +68,11 @@ const App = (props) => {
 						<Shopscreen/>
 					} 
 				/>
-				{/* <Route
+				<Route
 					path="/profile"
 					name="profile"
 					render={() => <Profilescreen />}
-					/> */}
+					/>
 			</Switch>
 		</BrowserRouter>
 	);
