@@ -100,6 +100,11 @@ const ChangePassword = (props) => {
         <Row>
             <Col xs="1"></Col>
             <Col xs="2">
+                <Card className="bg-dark text-white text-center" border="dark">
+                    <Card.Body>
+                        <Form.Label className="text-warning">Change your Password</Form.Label>
+                    </Card.Body>
+                </Card>
             </Col>
             <Col xs="8">
                 <Card className="bg-secondary text-white">
