@@ -11,12 +11,12 @@ const typeDefs = gql`
     username: String!
     password: String!
     dateOfBirth: String!
-    securityQuestionOne: String!
-    securityAnswerOne: String!
-    securityQuestionTwo: String!
-    securityAnswerTwo: String!
+    securityQuestion1: String!
+    securityAnswer1: String!
+    securityQuestion2: String!
+    securityAnswer2: String!
     profilePicture: String!
-    profileVisible: Boolean!
+    profilePublic: Boolean!
     coins: Int!
   }
 
@@ -27,6 +27,7 @@ const typeDefs = gql`
     addUser(user: UserInput!): String
     deleteUser(_id: String!): Boolean
     updateUserField(_id: String!, field: String!, value: String!): Boolean
+    updateUserVisibility(_id: String!, value: Boolean!): Boolean
   }
 
   input UserInput {
@@ -38,12 +39,12 @@ const typeDefs = gql`
     username: String
     password: String
     dateOfBirth: String
-    securityQuestionOne: String
-    securityAnswerOne: String
-    securityQuestionTwo: String
-    securityAnswerTwo: String
+    securityQuestion1: String
+    securityAnswer1: String
+    securityQuestion2: String
+    securityAnswer2: String
     profilePicture: String
-    profileVisible: Boolean
+    profilePublic: Boolean
     coins: Int
   }
 `;
