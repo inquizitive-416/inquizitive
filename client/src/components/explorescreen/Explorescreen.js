@@ -40,7 +40,7 @@ const SearchFilters = (props) => {
             id="dropdown-subject-filter-button"
             title="Filter By Difficulty"
           >
-            {/* <Dropdown.ItemText>Filter By Subject</Dropdown.ItemText> */}
+            {/* <Dropdown.ItemText>Filter By Difficulty</Dropdown.ItemText> */}
             <Dropdown.Item as="button">Easy</Dropdown.Item>
             <Dropdown.Item as="button">Medium</Dropdown.Item>
             <Dropdown.Item as="button">Hard</Dropdown.Item>
@@ -54,7 +54,7 @@ const SearchFilters = (props) => {
             id="dropdown-subject-filter-button"
             title="Sort By Rating"
           >
-            {/* <Dropdown.ItemText>Filter By Subject</Dropdown.ItemText> */}
+            {/* <Dropdown.ItemText>Sort By Rating</Dropdown.ItemText> */}
             <Dropdown.Item as="button">Low to High Rating</Dropdown.Item>
             <Dropdown.Item as="button">High to Low Rating</Dropdown.Item>
           </DropdownButton>

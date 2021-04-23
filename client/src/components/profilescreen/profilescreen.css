@@ -1,0 +1,38 @@
+.body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: auto;
+  height: 100vh;
+  background-color: grey !important;
+}
+.profilephoto {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+}
+.username {
+  font-size: 50px;
+  color: #f5ae31;
+}
+.sectionBackground {
+  margin: 10px;
+  width: auto;
+  padding: 50px;
+  background-color: #707070;
+  border-radius: 20px;
+}
+.cardStyle {
+  width: 18rem;
+  height: 10rem;
+  background-color: darkgrey;
+  color: white;
+  border-radius: 10px;
+}
+.smallRow {
+  margin: 20px;
+}
+.sectionHeading {
+  font-size: 30px;
+  color: #f5ae31;
+}
