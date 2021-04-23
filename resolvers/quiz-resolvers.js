@@ -33,39 +33,46 @@ module.exports = {
 		 	@param 	 {object} args - an empty quiz object
 			@returns {string} the objectID of the new quiz, or an error message
 		**/
-      addQuiz: async (_, args) => {
-        const { quiz } = args;
+      addQuiz: async (_, args,  { res }) => {
+        //const { quiz } = args;
         const objectId = new ObjectId();
+        console.log("heuuuuoo");
         const {
-          quizId,
           idOfCreator,
           title,
           description,
-          coverImage,
+          coverimage,
           categories,
-          hashtags,
+          hashtagone,
+          hashtagtwo,
+          hashtagthree,
+          difficulty,
+          quizposted,
           timer,
           questions,
-          quizPosted,
           ratings,
-          averageRating,
+          avgRating,
           numOfTimesPlayed,
-        } = quiz;
+          isReported
+        } = args;
         const newQuiz = new Quiz({
           _id: objectId,
-          quizId: quizId,
           idOfCreator: idOfCreator,
           title: title,
           description: description,
-          coverImage: coverImage,
+          coverimage: coverimage,
           categories: categories,
-          hashtags: hashtags,
+          hashtagone:hashtagone,
+          hashtagtwo:hashtagtwo,
+          hashtagthree:hashtagthree,
+          difficulty:difficulty,
+          quizposted: quizposted,
           timer: timer,
           questions: questions,
-          quizPosted: quizPosted,
           ratings: ratings,
-          averageRating: averageRating,
+          avgRating: avgRating,
           numOfTimesPlayed: numOfTimesPlayed,
+          isReported: isReported
         });
         const updated = await newQuiz.save();
         if (updated) return objectId;
