@@ -3,96 +3,131 @@ const { model, Schema, ObjectId } = require("mongoose");
 const quizSchema = new Schema({
   _id: {
     type: ObjectId,
-    required: true,
-  },
-  quizId: {
-    type: Number,
-    required: true,
+    
   },
   idOfCreator: {
-    type: Number,
-    required: true,
+    type: String,
+    
   },
   title: {
     type: String,
-    required: true,
+    
   },
   description: {
     type: String,
-    required: true,
+    
   },
-  coverImage: {
+  coverimage: {
     type: String,
-    required: true,
+    
   },
+  // categories: {
+  //   type: [
+  //     {
+  //       category: {
+  //         type: String,
+  //       },
+  //     },
+  //   ],
+  //   required: true,
+  // },
   categories: {
-    type: [
-      {
-        category: {
-          type: String,
-        },
-      },
-    ],
-    required: true,
+    type: String,
+    
   },
-  hashtags: {
-    type: [
-      {
-        hashtags: {
-          type: String,
-        },
-      },
-    ],
-    required: true,
+  hashtagone: {
+    type: String,
+    
+  },
+  hashtagtwo: {
+    type: String,
+    
+  },
+  hashtagthree: {
+    type: String,
+    
+  },
+  difficulty: {
+    type: String,
+    
+  },
+  quizposted: {
+    type: Boolean,
+   
   },
   timer: {
     type: Number,
-    required: true,
+   
   },
   questions: {
-    type: [
-      {
-        questionId: {
-          type: Number,
+      type: [
+        {
+          category: {
+            type: String,
+          },
         },
-        questionNumber: {
-          type: Number,
-        },
-        questionType: {
-          type: String,
-        },
-      },
-    ],
-    required: true,
-  },
-  quizPosted: {
-    type: Boolean,
-    required: true,
-  },
+      ],
+      
+    },
+
+  // questions: {
+  //   type: [
+  //     {
+  //       questionId: {
+  //         type: Number,
+  //       },
+  //       questionNumber: {
+  //         type: Number,
+  //       },
+  //       questionType: {
+  //         type: String,
+  //       },
+  //     },
+  //   ],
+  //   required: true,
+  // },
+  // categories: {
+  //   type: [
+  //     {
+  //       category: {
+  //         type: String,
+  //       },
+  //     },
+  //   ],
+  //   required: true,
+  // },
+  // hashtagone: {
+  //   type: String,
+  //   required: true,
+  // },
+  // ratings: {
+  //   type: [
+  //     {
+  //       userId: {
+  //         type: Number,
+  //       },
+  //       rating: {
+  //         type: Number,
+  //       },
+  //     },
+  //   ],
+  //   required: true,
+  // },
   ratings: {
-    type: [
-      {
-        userId: {
-          type: Number,
-        },
-        rating: {
-          type: Number,
-        },
-      },
-    ],
-    required: true,
-  },
-  averageRating: {
     type: Number,
-    required: true,
+    
+  },
+  avgRating: {
+    type: Number,
+    
   },
   numOfTimesPlayed: {
     type: Number,
-    required: true,
+   
   },
   isReported: {
     type: Boolean,
-    required: true,
+    
   },
 });
 
