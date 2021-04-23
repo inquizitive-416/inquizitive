@@ -13,16 +13,12 @@ module.exports = {
 		 	@param 	 {object} args - a user id
 			@returns {object} a user on success and an empty object on failure
 		**/
-    getCurrentUser: async (_, __ , {req}) => {
-        console.log(req.userId);
-        const _id = new ObjectId(req.userId);
-        if (!_id) {
-            return ({});
-        }
-        const found = await User.findOne(_id);
-        if (found) {
-            return found;
-        }
+      getUserById: async (_, args) => {
+        const { _id } = args;
+        const objectId = new ObjectId(_id);
+        const user = await User.findOne({ _id: objectId });
+        if (user) return user;
+        else return {};
       },
     },
 
@@ -35,88 +31,50 @@ module.exports = {
       userLogout,
       userRegister
 		**/
-    login: async (_, args, { res }) => {
-      const { email, password } = args;
-      // if (!email || !password)         // Check that both email and password were sent
-      //     return ({ email: "Must provide both email and password." })
-      // console.log(args);
-      const user = await User.findOne({ email: email });
-
-      if(!user){
-
-         return({});
-        }
-
-      const valid = await bcrypt.compare(password, user.password);
-      if (!valid) {                       // Check that the password sent matches the stored hashed password
-          return ({});
-      }
-      
-      const accessToken = tokens.generateAccessToken(user);
-      // console.log(accessToken);
-      const refreshToken = tokens.generateRefreshToken(user);
-      
-      // console.log(refreshToken);
-      res.cookie('refresh-token', refreshToken, { httpOnly: true, sameSite: 'None', secure: true});
-      res.cookie('access-token', accessToken, { httpOnly: true, sameSite: 'None', secure: true});
-      console.log(res);
-      return user;
-    },
 
       /**
 		 	@param 	 {object} args - an empty user object
 			@returns {string} the objectID of the new user, or an error message
 		**/
-      register: async (_, args,{res}) => {
-        
-        const { 
+      addUser: async (_, args) => {
+        const { user } = args;
+        const objectId = new ObjectId();
+        const {
+          userId,
           firstName,
           lastName,
           email,
           username,
           password,
-          securityQuestionOne,
-          securityAnswerOne,
-          securityQuestionTwo,
-          securityAnswerTwo } = args;
-        // console.log(args)
-        // const objectId = new ObjectId();
-        
-        const username_exists = await User.findOne({ username: username });
-        if (username_exists) {
-            return ({ username: "Username Exists." });
-        }
-        
-        const email_exists = await User.findOne({ email: email });
-        if (email_exists) {
-            return ({ username: "Email Exists" });
-        }
-        const hashed_password = await bcrypt.hash(password, 10);
-        const _id = new ObjectId();
-
-        const user = new User({
-          _id: _id,
-          // userId: userId,
+          dateOfBirth,
+          securityQuestion1,
+          securityAnswer1,
+          securityQuestion2,
+          securityAnswer2,
+          profilePicture,
+          profilePublic,
+          coins,
+        } = user;
+        const newUser = new User({
+          _id: objectId,
+          userId: userId,
           firstName: firstName,
           lastName: lastName,
           email: email,
           username: username,
-          password: hashed_password,
-          dateOfBirth: "",
-          securityQuestionOne: securityQuestionOne,
-          securityAnswerOne: securityAnswerOne,
-          securityQuestionTwo: securityQuestionTwo,
-          securityAnswerTwo: securityAnswerTwo,
-          profilePicture: "",
-          profilePublic: false,
-          coins: 0,
+          password: password,
+          dateOfBirth: dateOfBirth,
+          securityQuestion1: securityQuestion1,
+          securityAnswer1: securityAnswer1,
+          securityQuestion2: securityQuestion2,
+          securityAnswer2: securityAnswer2,
+          profilePicture: profilePicture,
+          profilePublic: profilePublic,
+          coins: coins,
         });
-        const reg = await user.save();
-        const accessToken = tokens.generateAccessToken(user);
-        const refreshToken = tokens.generateRefreshToken(user);
-        res.cookie('refresh-token', refreshToken, { httpOnly: true});
-        res.cookie('access-token', accessToken, { httpOnly: true});
-        return user;
+        const updated = await newUser.save();
+        if (updated) return objectId;
+        else return "Could not add user";
       },
       /**
 		 	@param 	 {object} args - a user objectID
@@ -139,6 +97,17 @@ module.exports = {
         const updated = await User.updateOne(
           { _id: objectId },
           { [field]: value }
+        );
+        if (updated) return true;
+        else return false;
+      },
+
+      updateUserVisibility: async (_, args) => {
+        const { value, _id } = args;
+        const objectId = new ObjectId(_id);
+        const updated = await User.updateOne(
+          { _id: objectId },
+          { ["profilePublic"]: value }
         );
         if (updated) return true;
         else return false;
@@ -189,10 +158,10 @@ module.exports = {
       //     dateOfBirth,
       //     firstName,
       //     lastName,
-      //     securityQuestionOne,
-      //     securityAnswerOne,
-      //     securityQuestionTwo,
-      //     securityAnswerTwo,
+      //     securityQuestion1,
+      //     securityAnswer1,
+      //     securityQuestion2,
+      //     securityAnswer2,
       //     confirmPassword,
       //   } = args;
       //   if (
@@ -202,10 +171,10 @@ module.exports = {
       //     !firstName ||
       //     !lastName ||
       //     !dateOfBirth ||
-      //     !securityQuestionOne ||
-      //     !securityAnswerOne ||
-      //     !securityQuestionTwo ||
-      //     !securityAnswerTwo ||
+      //     !securityQuestion1 ||
+      //     !securityAnswer1 ||
+      //     !securityQuestion2 ||
+      //     !securityAnswer2 ||
       //     !confirmPassword
       //   ) {
       //     return {
@@ -241,10 +210,10 @@ module.exports = {
       //     username: "",
       //     password: hashed_password,
       //     dateOfBirth: "",
-      //     securityQuestionOne: "",
-      //     securityAnswerOne: "",
-      //     securityQuestionTwo: "",
-      //     securityAnswerTwo: "",
+      //     securityQuestion1: "",
+      //     securityAnswer1: "",
+      //     securityQuestion2: "",
+      //     securityAnswer2: "",
       //     profilePicture: "",
       //     profilePublic: false,
       //     coins: 0,

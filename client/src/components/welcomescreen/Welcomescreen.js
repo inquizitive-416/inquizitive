@@ -5,7 +5,7 @@ import "./Welcomescreen.css";
 import RegisterModal from "./RegisterModal";
 import ForgotPassword from "./ForgotPassword";
 import { graphql,useMutation } from '@apollo/client';
-import {LOGIN} from "../../cache/mutation"
+import {LOGIN} from "./cache/mutation"
 import { setCurrentUser } from "../../data/LocalStorage";
 
 
@@ -37,6 +37,7 @@ const Welcome = (props) => {
         setLoginInput({...loginInput,[e.target.name]:e.target.value});
         setLoginError(false);
     }
+    
     const handleLogin= async(e)=>{
         // setLoginInput({...loginInput,email:email,password:password});
         e.preventDefault();
@@ -114,6 +115,7 @@ const Welcome = (props) => {
                     isOpen={regmodalShow}
                     // onHide={() => setRegmodalShow(false)}
                     regModal={regModal}
+                    fetchUser={props.fetchUser}
                     
                 />
                 
@@ -122,6 +124,7 @@ const Welcome = (props) => {
                     isOpen={formodalShow}
                     // onHide={() => setRegmodalShow(false)}
                     forModal={forModal}
+                    
                 />
                 
             </Form>

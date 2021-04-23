@@ -34,6 +34,7 @@ const typeDefs = gql`
       securityAnswerOne:String!,
       securityQuestionTwo:String!,
       securityAnswerTwo:String!): User
+    logout: Boolean
 
     deleteUser(_id: String!): Boolean
     updateUserField(_id: String!, field: String!, value: String!): Boolean

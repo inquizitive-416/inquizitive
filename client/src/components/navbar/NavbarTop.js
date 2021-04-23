@@ -1,7 +1,19 @@
 import React                                from 'react';
 import { Navbar, Nav } from 'react-bootstrap'
+import Button from "react-bootstrap/Button";
+import { LOGOUT }                           from '../welcomescreen/cache/mutation';
+import { useMutation, useApolloClient }     from '@apollo/client';
 
 const LoggedOut = (props) => {
+    const client = useApolloClient();
+	const [Logout] = useMutation(LOGOUT);
+    const handleLogout = async (e) => {
+        Logout();
+        const { data } = await props.fetchUser();
+        if (data) {
+            let reset = await client.resetStore();
+        }
+    };
     return (
         <Navbar bg="dark" variant="dark">
     <Navbar.Brand href="/welcome">In<span style={{color: '#f5ae31'}}>Quiz</span>Itive</Navbar.Brand>
@@ -15,6 +27,7 @@ const LoggedOut = (props) => {
         <Nav.Link href="/shop">Currency</Nav.Link>
         <Nav.Link href="/settings">Settings</Nav.Link>
         <Nav.Link href="/profile">Profile</Nav.Link>
+        <Button onClick={handleLogout}>Logout</Button>
     </Nav>
   </Navbar>
     );
@@ -22,7 +35,7 @@ const LoggedOut = (props) => {
 
 const NavbarTop = (props) => {
     return (
-        <LoggedOut/>
+        <LoggedOut fetchUser={props.fetchUser}/>
     );
 };
 

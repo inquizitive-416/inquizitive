@@ -47,16 +47,27 @@ mutation Register(
         securityQuestionTwo:$securityQuestionTwo
         securityAnswerTwo:$securityAnswerTwo
     ){
+        _id
         firstName
         lastName
         email
         username
         password
+        dateOfBirth
         securityQuestionOne
         securityAnswerOne
         securityQuestionTwo
         securityAnswerTwo
+        profilePicture
+        profileVisible
+        coins
     }
     
 }
+`;
+
+export const LOGOUT = gql`
+	mutation Logout {
+		logout 
+	}
 `;

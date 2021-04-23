@@ -3,15 +3,13 @@ import Button from "react-bootstrap/Button";
 import Modal from 'react-modal';
 import Form from "react-bootstrap/Form";
 import "./RegisterModal.css";
-import {REGISTER} from "../../cache/mutation"
+import {LOGIN,REGISTER} from "./cache/mutation"
 import React, { useState, useContext } from "react";
 import { apolloError } from 'apollo-server-errors';
 // import Axios from "axios";
 import { graphql,useMutation } from '@apollo/client';
 import { flowRight as compose } from 'lodash';
-// import ErrorNotice from "../misc/error";
-// import logo from '../../images/logo2.png';
-// import "../../CSS/auth/register.css"
+import { setCurrentUser } from "../../data/LocalStorage";
 
 
 Modal.setAppElement('#root');
@@ -19,7 +17,7 @@ const RegisterModal = (props) => {
 
     const [error, setError] = useState({});
     const [cpass, setCpass] = useState("");
-    
+    const [loginInput, setLoginInput] = React.useState({email:"",password:""});
 
       const [userInfo,setUserInfo] = useState(
         {
@@ -34,12 +32,30 @@ const RegisterModal = (props) => {
             securityAnswerTwo:""
         }
     )
-    const errror = apolloError
-
+    const [loginUser]=useMutation(LOGIN);
     const [addUser]=useMutation(REGISTER)
-    
+    const [registerError, setRegisterError] = useState(false);
     const onChange =(e)=>{
         setUserInfo({...userInfo,[e.target.name]:e.target.value});
+        setRegisterError(false)
+        if (e.target.name==='email' ||e.target.name==='password'){
+            setLoginInput({...loginInput,[e.target.name]:e.target.value});
+        }
+    }
+    const close =(e)=>{
+        setUserInfo({firstName: "",
+        lastName:"",
+        email:"",
+        username:"",
+        password:"",
+        securityQuestionOne:"",
+        securityAnswerOne:"",
+        securityQuestionTwo:"",
+        securityAnswerTwo:""});
+        setRegisterError(false);
+        setCpass("");
+        setLoginInput({email:"",password:""});
+        props.regModal();
     }
     const onSubmit= async(e)=>{
         e.preventDefault();
@@ -48,9 +64,21 @@ const RegisterModal = (props) => {
         const { error, data } = await addUser({ variables: { ...userInfo } });
         // if (loading) { toggleLoading(true) };
         if (error) { return `Error: ${error.message}` };
-        if(data){
-            console.log(data);
+        
+        console.log(data);
+        // const {error, data } = await loginUser({ variables: { ...loginInput } });
+        // if (error) { return `Error: ${error.message}` };
+        if (data.register._id === null) {
+            // console.log("here");
+            setRegisterError(true);
         }
+        else if (data) {
+            // console.log("imhere");
+            setCurrentUser(data.register);
+            props.fetchUser();
+        }
+        
+        
             // addUser({variables:userInfo});
         
     }
@@ -82,6 +110,7 @@ const RegisterModal = (props) => {
                                 name="firstName"
                                 value={userInfo.firstName}
                                 onChange={onChange}
+                                style={{ color: registerError ? "red" : ""}}
                             />
                         </Form.Group>
                     </div>
@@ -93,6 +122,7 @@ const RegisterModal = (props) => {
                                 name="lastName"
                                 value={userInfo.lastName}
                                 onChange={onChange}
+                                style={{ color: registerError ? "red" : ""}}
                             />
                         </Form.Group>
                     </div>
@@ -108,7 +138,8 @@ const RegisterModal = (props) => {
                                 name="email"
                                 value={userInfo.email}
                                 onChange={onChange}
-                                style={{color: validateEmail() ? "":"red"}}
+                                style={{ color: registerError ? "red" : ""}}
+
                             />
                         </Form.Group>
                     </div>
@@ -120,6 +151,7 @@ const RegisterModal = (props) => {
                                 name="username"
                                 value={userInfo.username}
                                 onChange={onChange}
+                                style={{ color: registerError ? "red" : ""}}
                             />
                         </Form.Group>
                     </div>
@@ -135,7 +167,7 @@ const RegisterModal = (props) => {
                                 name="password"
                                 value={userInfo.password}
                                 onChange={onChange}
-                                style={{color: validatePassword() ? "":"red"}}
+                                style={{color: (registerError ||validatePassword()) ? "":"red"}}
                             />
                         </Form.Group>
                     </div>
@@ -147,7 +179,7 @@ const RegisterModal = (props) => {
                                 name="cpassword"
                                 value={cpass}
                                 onChange={(e) => setCpass(e.target.value)}
-                                style={{color: checkPassword() ? "":"red"}}
+                                style={{color: (registerError ||checkPassword()) ? "":"red"}}
                             />
                         </Form.Group>
                     </div>
@@ -179,6 +211,7 @@ const RegisterModal = (props) => {
                             value={userInfo.securityAnswerOne}
                             placeholder={"Answer 1"}
                             onChange={onChange}
+                            style={{ color: registerError ? "red" : ""}}
                         />
                     </Form.Group>
                 </div>
@@ -205,11 +238,15 @@ const RegisterModal = (props) => {
                             value={userInfo.securityAnswerTwo}
                             placeholder={"Answer 2"}
                             onChange={onChange}
+                            style={{ color: registerError ? "red" : ""}}
                         />
                     </Form.Group>
                 </div>
                 <Form.Group>
                     <input type="submit" value="Register" />
+                </Form.Group>
+                <Form.Group>
+                    <input type="button" value="Close" onClick={close}/>
                 </Form.Group>
                     
             
