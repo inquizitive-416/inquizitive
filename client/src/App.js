@@ -1,7 +1,7 @@
 import React from 'react';
 import Welcome from './components/welcomescreen/Welcomescreen';
 import Explorescreen from './components/explorescreen/Explorescreen';
-import CreateScreen from './components/createscreen/CreateScreen';
+import CreateScreen from './components/createscreen/createScreen';
 import Settingsscreen from './components/settingsscreen/Settingsscreen';
 import Shopscreen from './components/shopscreen/Shopscreen';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
