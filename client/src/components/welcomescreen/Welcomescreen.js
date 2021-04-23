@@ -97,12 +97,12 @@ const Welcome = (props) => {
                     
                 
             </div>
-                <div class="row">
-                    <div class="col">
+                <div className="row">
+                    <div className="col">
                         <Button style={{backgroundColor:"#f5ae31"}} block size="lg" type='submit' value='Login' disabled={!(validatePassword() && validateEmail())}>
                             Login
                         </Button></div>
-                    <div class="col">
+                    <div className="col">
                         <Button  style={{backgroundColor:"#f5ae31"}} block size="lg" disabled={false} onClick={regModal}>
                             Register
                         </Button>
