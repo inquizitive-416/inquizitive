@@ -15,11 +15,12 @@ const AddQuestion = ({addQues, onAdd}) => {
 
      return (
         <div style= {{paddingTop: 40}}>
-            <card> 
+            <card > 
             <form onSubmit={submitform}> 
-                <fieldset style= {{paddingLeft: 17}} class="form-group">
+            <div style={{paddingTop:27 , borderColor: "orange", backgroundColor: "lightgrey"}} class="card border-warning mb-3" style= {{  width:350}}>
+                <fieldset style= {{paddingLeft: 80, backgroundColor: "lightgrey", paddingTop: 15, paddingBottom:10}} class="form-group">
                         <div class="row">
-                            <legend class="col-form-label col-sm-2 pt-0">Question Types</legend>
+                            
                             <div class="col-sm-10">
 
                                 <div class="form-check">
@@ -43,8 +44,10 @@ const AddQuestion = ({addQues, onAdd}) => {
                             </div>
                         </div>
                     </fieldset>
-                    <div style = {{paddingLeft:50}} >
-                    <button style= {{backgroundColor: "orange"}} type="submit" class="btn btn-primary">Submit</button>
+                    <div style = {{paddingLeft:120, backgroundColor: "#787878", paddingBottom: 5, paddingTop:5}} >
+                        <button style= {{backgroundColor: "orange"}} type="submit" class="btn btn-primary">Add it !</button>
+                    </div>
+                    
                     </div>
                     
                 </form>

@@ -3,7 +3,7 @@ import NavbarTop					from '../navbar/NavbarTop';
 import AddQuestion					from './AddQuestion';
 import QuestionList                 from './QuestionList'
 import CreateQuestion					from '../createQuestion/CreateQuestion';
-import {ADDQUIZ} from "../../cache/mutation"
+import {ADDQUIZ} from "./cache/mutation"
 import { graphql,useMutation } from '@apollo/client';
 import { Navbar, Nav } from 'react-bootstrap'
 import { Redirect } from "react-router-dom"
@@ -78,11 +78,10 @@ const CreateScreen = (props) => {
         
          const id = Math.floor(Math.random() * 10000) + 1
          const newQuestion = {id, questype }
-         //console.log(newQuestion)
-         //questions.push(question)
-         let ques = quizInfo.questions
-         console.log(ques)
-         ques.push(newQuestion)
+         
+         //let ques = quizInfo.questions
+         //console.log(ques)
+         //ques.push(newQuestion)
          setQuestions([...questions, newQuestion])
         // setQuizInfo({...quizInfo,["questions"]: ques});
 
@@ -111,7 +110,7 @@ const CreateScreen = (props) => {
 
 	return (
         <div>
-		<NavbarTop/>
+		<NavbarTop fetchUser={props.fetchUser}/>
             <div  className ="create"  style={{overflow:"scroll"}}>
                 <div style={{backgroundColor: "#484848", height: 50, paddingBottom: 90, textAlign: "center"}} >
             
@@ -120,7 +119,7 @@ const CreateScreen = (props) => {
                 <form>
                     <div style= {{paddingLeft: 17}}class="form-group">
                          <label for="formGroupExampleInput">Enter Quiz Name</label>
-                         <input style= {{ backgroundColor: "#838383", width:900}} type="text" class="form-control" value={quizInfo.title} name="title" onChange={onChange} id="formGroupExampleInput" placeholder="Add Quiz Name"/>
+                         <input style= {{ backgroundColor: "#838383", width:900}} type="text" class="form-control" required = "true" value={quizInfo.title} name="title" onChange={onChange} id="formGroupExampleInput" placeholder="Add Quiz Name" />
                     </div>
 
                     <div style= {{paddingLeft: 17}} class="form-group">
@@ -166,17 +165,22 @@ const CreateScreen = (props) => {
                             <option value="Hard">Hard</option>
                         </select>
                     </div>
-              
-               </form>
-               <QuestionList questions= {questions} onDelete = {onDelete}/>
-               <div class="d-grid gap-2 col-6 mx-auto">
-                  <button style= {{backgroundColor: "#ffa343"}}  onClick={onAdd} class="btn btn-primary" type="button">Add a New Question</button>
-                  
+                    <QuestionList questions= {questions} onDelete = {onDelete}/>
+               <div style={{paddingLeft: 40}}class="d-grid gap-2 col-6 mx-auto">
+                  <button style= {{backgroundColor: "#ffa343"}}  onClick={onAdd} class="btn btn-primary" type="button">Add New Question</button>
+                  {showAdd && <AddQuestion  addQues ={addQues} onAdd = {onAdd}/>}
                </div>
-               {showAdd && <AddQuestion  addQues ={addQues} onAdd = {onAdd}/>}
-               
+               <div style={{paddingLeft:400}}>
                {renderRedirect()}
                <button style= {{backgroundColor: "orange"}} onClick = {onSubmit} class= "btn btn-primary" >Submit quiz</button>
+
+               </div>
+              
+               
+              
+              
+               </form>
+              
                
         </div>
         </div>
