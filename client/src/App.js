@@ -5,7 +5,7 @@ import CreateScreen from './components/createscreen/createScreen';
 import Settingsscreen from './components/settingsscreen/Settingsscreen';
 import Shopscreen from './components/shopscreen/Shopscreen';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import * as queries 	from './cache/queries';
+import * as queries 	from './components/welcomescreen/cache/queries';
 import { useQuery } from '@apollo/client';
 
 

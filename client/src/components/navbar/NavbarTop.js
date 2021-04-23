@@ -27,7 +27,7 @@ const LoggedOut = (props) => {
         <Nav.Link href="/shop">Currency</Nav.Link>
         <Nav.Link href="/settings">Settings</Nav.Link>
         <Nav.Link href="/profile">Profile</Nav.Link>
-        <Button onClick={handleLogout}>Logout</Button>
+        <Button href= '/welcome' onClick={handleLogout}>Logout</Button>
     </Nav>
   </Navbar>
     );
