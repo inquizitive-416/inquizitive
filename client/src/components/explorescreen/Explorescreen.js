@@ -196,8 +196,7 @@ const QuizPages = (props) => {
 
 const Explorescreen = (props) => {
   return (
-    <body className={"body"}>
-      <div>
+      <div className={"body"}>
         {/* Navbar on top of screen: */}
         <NavbarTop />
         <br />
@@ -213,7 +212,6 @@ const Explorescreen = (props) => {
         <br />
         <QuizPages />
       </div>
-    </body>
   );
 };
 
