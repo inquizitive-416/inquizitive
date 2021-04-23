@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import NavbarTop from "../navbar/NavbarTop";
 import { useQuery } from "@apollo/client";
 import { GET_USER_INFO } from "./queries";
+import { getCurrentUser } from "../../data/LocalStorage";
 
 import initprofile from "./initprofile.jpg";
 
@@ -16,7 +17,7 @@ const ProfileHeading = (props) => {
 
   /* Getting user info: */
   const { loading, error, data } = useQuery(GET_USER_INFO, {
-    variables: { _id: "6078c4f6f08fd0add52045bf" },
+    variables: { _id: getCurrentUser()._id },
   });
   if (loading) {
     return <div></div>;

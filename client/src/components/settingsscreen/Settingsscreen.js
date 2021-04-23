@@ -4,6 +4,7 @@ import NavbarTop from '../navbar/NavbarTop';
 import { Card, Button, Form, Col, Row } from 'react-bootstrap'
 import { GET_CURRENT_USER } from './queries'
 import { UPDATE_USER_FIELD, UPDATE_USER_INFO, UPDATE_SECURITY_QUESTIONS, UPDATE_USER_VISIBILITY } from './mutations'
+import { getCurrentUser } from "../../data/LocalStorage";
 
 const ChangeProfilePicture = (props) => {
     return (
@@ -414,7 +415,7 @@ const Settingsscreen = (props) => {
     let currentUser = 'base'
 
     const { loading, error, data } = useQuery(GET_CURRENT_USER, {
-        variables: {_id: '6078c4f6f08fd0add52045bf'}
+        variables: {_id: getCurrentUser()._id}
     })
     if (loading) { return <div></div>; }
     if(error) { console.log(error);
