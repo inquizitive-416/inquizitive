@@ -29,19 +29,19 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  securityQuestionOne: {
+  securityQuestion1: {
     type: String,
     required: true,
   },
-  securityQuestionTwo: {
+  securityQuestion2: {
     type: String,
     required: true,
   },
-  securityAnswerOne: {
+  securityAnswer1: {
     type: String,
     required: true,
   },
-  securityAnswerTwo: {
+  securityAnswer2: {
     type: String,
     required: true,
   },
