@@ -117,24 +117,26 @@ const CreateScreen = (props) => {
                     <header style= {{paddingTop:25, fontSize: 35, color:"#FFA500" }}> Create New Quiz  </header>
                 </div>
                 <form>
-                    <div style= {{paddingLeft: 17}}class="form-group">
-                         <label for="formGroupExampleInput">Enter Quiz Name</label>
+                    <div style= {{paddingLeft: 220, paddingTop: 20}}class="form-group">
+                         <label for="formGroupExampleInput"><b>Enter Quiz Name </b></label>
                          <input style= {{ backgroundColor: "#838383", width:900}} type="text" class="form-control" required = "true" value={quizInfo.title} name="title" onChange={onChange} id="formGroupExampleInput" placeholder="Add Quiz Name" />
                     </div>
 
-                    <div style= {{paddingLeft: 17}} class="form-group">
-                         <label for="exampleFormControlTextarea1">Enter Description</label>
+                    <div style= {{paddingLeft: 220}} class="form-group">
+                         <label for="exampleFormControlTextarea1"><b>Enter Description </b></label>
                          <textarea  style= {{ backgroundColor: "#838383", width:900}} class="form-control" value={quizInfo.description} name="description" onChange={onChange} id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
 
-                    <div  style= {{paddingLeft: 17}} class="form-group">
+                    <div  style= {{paddingLeft: 220}} class="form-group">
                         <div class="custom-file">
+                           
                             <input type="file" class="custom-file-input" id="inputGroupFile02"/>
+                            <label for="exampleFormControlTextarea1"><b>Enter cover image </b></label>
                             <label style= {{ backgroundColor: "#838383", width:900}} class="custom-file-label" value={quizInfo.coverimage} name="coverimage" onChange={onChange} for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
                         </div>
                     </div>
 
-                    <div style= {{paddingLeft: 17, width:925}} class="input-group mb-3">
+                    <div style= {{paddingLeft: 220, width:925}} class="input-group mb-3">
                         <select style= {{ backgroundColor: "#838383", width:900}} name="categories" onChange={onChange} class="custom-select" id="inputGroupSelect02">
                             <option  selected>Choose categories</option>
                             <option value="Geography">Geography</option>
@@ -150,14 +152,15 @@ const CreateScreen = (props) => {
                         </select>
                     </div>
 
-                    <div style= {{paddingLeft: 17}}class="form-group">
-                        <label for="formGroupExampleInput">Enter Hashtags</label>
+                    <div style= {{paddingLeft: 220}}class="form-group">
+                        <label for="formGroupExampleInput"><b>Enter Hashtags: </b></label>
                         <input style= {{backgroundColor: "#838383", width:400}}  value ={quizInfo.hashtagone} onChange= {onChange} name="hashtagone" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 1"/>
                         <input style= {{ backgroundColor: "#838383", width:400}} value ={quizInfo.hashtagtwo} onChange= {onChange} name="hashtagtwo" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 2"/>
                         <input style= {{ backgroundColor: "#838383", width:400}} value ={quizInfo.hashtagthree} onChange= {onChange} name="hashtagthree" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 3"/>
                      </div>
 
-                    <div style= {{paddingLeft: 17, width:925}} class="input-group mb-3">
+                    <div style= {{paddingLeft: 220, width:925}} class="input-group mb-3">
+                       <label for="formGroupExampleInput"><b>Enter Difficulty: </b></label>
                         <select style= {{ backgroundColor: "#838383", width:900}} name="difficulty" onChange={onChange} class="custom-select" id="inputGroupSelect03">
                             <option  selected>Choose Difficulty</option>
                             <option value="Easy">Easy</option>
