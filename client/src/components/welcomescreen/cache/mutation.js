@@ -17,7 +17,7 @@ export const LOGIN = gql`
             securityQuestionTwo
             securityAnswerTwo
             profilePicture
-            profileVisible
+            profilePublic
             coins
             
         }
@@ -59,7 +59,7 @@ mutation Register(
         securityQuestionTwo
         securityAnswerTwo
         profilePicture
-        profileVisible
+        profilePublic
         coins
     }
     

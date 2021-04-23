@@ -226,10 +226,10 @@ module.exports = {
       //     dateOfBirth,
       //     firstName,
       //     lastName,
-      //     securityQuestion1,
-      //     securityAnswer1,
-      //     securityQuestion2,
-      //     securityAnswer2,
+      //     securityQuestionOne,
+      //     securityAnswerOne,
+      //     securityQuestionTwo,
+      //     securityAnswerTwo,
       //     confirmPassword,
       //   } = args;
       //   if (
@@ -239,10 +239,10 @@ module.exports = {
       //     !firstName ||
       //     !lastName ||
       //     !dateOfBirth ||
-      //     !securityQuestion1 ||
-      //     !securityAnswer1 ||
-      //     !securityQuestion2 ||
-      //     !securityAnswer2 ||
+      //     !securityQuestionOne ||
+      //     !securityAnswerOne ||
+      //     !securityQuestionTwo ||
+      //     !securityAnswerTwo ||
       //     !confirmPassword
       //   ) {
       //     return {
@@ -278,10 +278,10 @@ module.exports = {
       //     username: "",
       //     password: hashed_password,
       //     dateOfBirth: "",
-      //     securityQuestion1: "",
-      //     securityAnswer1: "",
-      //     securityQuestion2: "",
-      //     securityAnswer2: "",
+      //     securityQuestionOne: "",
+      //     securityAnswerOne: "",
+      //     securityQuestionTwo: "",
+      //     securityAnswerTwo: "",
       //     profilePicture: "",
       //     profilePublic: false,
       //     coins: 0,

@@ -15,7 +15,7 @@ export const GETUSER = gql`
             securityQuestionTwo
             securityAnswerTwo
             profilePicture
-            profileVisible
+            profilePublic
             coins
         }
     }

@@ -15,7 +15,7 @@ const typeDefs = gql`
     securityQuestionTwo: String
     securityAnswerTwo: String
     profilePicture: String
-    profileVisible: Boolean
+    profilePublic: Boolean
     coins: Int
   }
 
@@ -55,7 +55,7 @@ const typeDefs = gql`
     securityQuestionTwo: String
     securityAnswerTwo: String
     profilePicture: String
-    profileVisible: Boolean
+    profilePublic: Boolean
     coins: Int
   }
 `;

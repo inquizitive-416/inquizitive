@@ -9,10 +9,10 @@ export const GET_CURRENT_USER = gql`
 			email
             username
 			password
-			securityQuestion1
-			securityAnswer1
-			securityQuestion2
-			securityAnswer2
+			securityQuestionOne
+			securityAnswerOne
+			securityQuestionTwo
+			securityAnswerTwo
 			dateOfBirth
 			profilePicture
 			coins
