@@ -16,7 +16,7 @@ const LoggedOut = (props) => {
     };
     return (
         <Navbar bg="dark" variant="dark">
-    <Navbar.Brand href="/welcome">In<span style={{color: '#f5ae31'}}>Quiz</span>Itive</Navbar.Brand>
+    <Navbar.Brand href="/explore">In<span style={{color: '#f5ae31'}}>Quiz</span>Itive</Navbar.Brand>
     <Nav className="mr-auto">
         <Nav.Link href="/explore">Explore</Nav.Link>
         <Nav.Link href="/create">Create</Nav.Link>
