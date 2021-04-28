@@ -5,8 +5,36 @@ import { Card, Button, Form, Col, Row } from 'react-bootstrap'
 import { GET_CURRENT_USER } from './queries'
 import { UPDATE_USER_FIELD, UPDATE_USER_INFO, UPDATE_SECURITY_QUESTIONS, UPDATE_USER_VISIBILITY } from './mutations'
 import { getCurrentUser } from "../../data/LocalStorage";
+import { uploadFile } from 'react-s3';
 
 const ChangeProfilePicture = (props) => {
+
+    const [image, setImage] = useState({});
+
+    const [updateUserField] = useMutation(UPDATE_USER_FIELD);
+
+    const handleNewImage = (e) => {
+        setImage(e.target.files[0]);
+    }
+
+    const uploadNewImage = async (e) => {
+        const config = {
+            bucketName: 'inquizitive416',
+            dirName: 'avatars', // SPECIFY DIRECTORY FOR FILES HERE
+            region: 'us-east-1',
+            accessKeyId: 'AKIA5IBQXNKG3HMYNPZW',
+            secretAccessKey: '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',
+        }
+
+        var fileLocation = "";
+        
+        await uploadFile(image, config)
+            .then(data => fileLocation = data.location)
+            .catch(err => console.error(err));
+
+        await updateUserField({ variables: { _id: props.user._id, field: 'profilePicture', value: fileLocation}});
+    }
+
     return (
         <Row>
             <Col xs="1"></Col>
@@ -20,7 +48,8 @@ const ChangeProfilePicture = (props) => {
             <Col xs="8">
                 <Card className="bg-secondary text-white text-center">
                     <Card.Body>
-                        <Button variant='light'>Upload a New Photo</Button>
+                        <input type="file" onChange={handleNewImage}/>
+                        <Button variant='light' onClick={uploadNewImage}>Upload a New Photo</Button>
                     </Card.Body>
                 </Card>
             </Col>
