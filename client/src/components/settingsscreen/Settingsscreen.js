@@ -14,7 +14,13 @@ const ChangeProfilePicture = (props) => {
     const [updateUserField] = useMutation(UPDATE_USER_FIELD);
 
     const handleNewImage = (e) => {
-        setImage(e.target.files[0]);
+        var newImage = e.target.files[0];
+        var ending = newImage.name.split(".");
+        var newName = props.user._id + "." + ending[1];
+
+        var renamedImage = new File([newImage], newName, {type: newImage.type});
+
+        setImage(renamedImage);
     }
 
     const uploadNewImage = async (e) => {
