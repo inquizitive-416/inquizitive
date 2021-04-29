@@ -93,7 +93,8 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                 <Card.Header style = {{backgroundColor: "#545454"}}>
                     <span>
                         <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
-                        <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button">Delete Question</button>
+                        <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id,question.questype)} class="btn btn-primary" type="button">Delete</button>
+                        <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b> Save </b></button>
                     </span>     
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
@@ -143,30 +144,69 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
 
 
     }
-    else if(question.questype =="Matching")
+    else if(question.questype =="MTP")
     {
         return (
             <Accordion defaultActiveKey="1">
-         <Card>
-              <Card.Header style = {{backgroundColor: "#545454"}}>
-                 <Accordion.Toggle  as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle>
-             </Card.Header>
-             <Accordion.Collapse eventKey="0">
-                 <Card.Body style={{backgroundColor: "#A4A4A4"}}> <div>
-                <div style= {{paddingLeft: 20}}>
-                    <label for="formGroupExampleInput">Enter Question Prompt:</label>
-                     <input style= {{ backgroundColor: "#838383", width:900}} type="text" class="form-control" id="formGroupExampleInput" placeholder="Add Quiz Name"/>
-                    
-                     <button style= {{backgroundColor: "#ffa343" }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button">Delete Question</button>
-                </div>
-            </div> </Card.Body>
-              </Accordion.Collapse>
-        </Card>
-     </Accordion> 
-
-            
-        );
-
+               <Card>
+                    <Card.Header style = {{backgroundColor: "#545454"}}>
+                        <span>
+                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
+                            <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id,question.questype)} class="btn btn-primary" type="button">Delete</button>
+                            <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b> Save </b></button>
+                        </span>     
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="0">
+                        <Card.Body style={{backgroundColor: "#404040"}}> 
+                            <div>
+                                <div style= {{paddingLeft: 20}}>
+                                    <div style= {{paddingBottom: 40 }}>
+                                        <label style= {{color: "lightgrey"}} for="formGroupExampleInput">Enter Question Prompt:</label>
+                                        <input style= {{ backgroundColor: "#838383", width:900}} type="text" name="questionPrompt" value={ques.questionPrompt} onChange={onChangeQues} class="form-control" id="formGroupExampleInput" placeholder="Enter Question Prompt"/>
+                                    </div>
+                        
+                                    <div style={{paddingTop:27, borderColor: "orange"}} class="card border-warning mb-3" style= {{  width:1100}}>
+                                        <div style = {{backgroundColor: "#282828", color:"lightgrey"}}class="card-header"> Image Options </div>
+                                        <Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
+                                            <Card.Body style={{backgroundColor: "#585858"}}>
+                                                <input type="file"  />
+                                                <Button variant='light'  >Upload Image 1</Button>
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice1" value={ques.choice1} onChange={onChangeQues} placeholder="Enter Option 1"/>
+                                    
+                                             </Card.Body>
+                                         </Card>
+                                        <Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
+                                            <Card.Body style={{backgroundColor: "#585858"}}>
+                                                <input type="file"  />
+                                                <Button variant='light'  >Upload Image 2</Button>
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice1" value={ques.choice1} onChange={onChangeQues} placeholder="Enter Option 1"/>
+                                             </Card.Body>
+                                        </Card>
+                            <           Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
+                                            <Card.Body style={{backgroundColor: "#585858"}}>
+                                                <input type="file"  />
+                                                <Button variant='light'  >Upload Image 3</Button>
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice1" value={ques.choice1} onChange={onChangeQues} placeholder="Enter Option 1"/>
+                                            </Card.Body>
+                                         </Card>
+                                         <Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
+                                            <Card.Body style={{backgroundColor: "#585858"}}>
+                                                 <input type="file"  />
+                                                <Button variant='light'  >Upload Image 4</Button>
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice1" value={ques.choice1} onChange={onChangeQues} placeholder="Enter Option 1"/>
+                                        </Card.Body>
+                                        </Card>
+                                    </div>
+                            
+                
+                                </div>
+                            </div> 
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+           </Accordion> 
+    
+            );
 
 
     }

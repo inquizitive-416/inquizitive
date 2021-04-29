@@ -20,6 +20,7 @@ const CreateScreen = (props) => {
     const [showAdd , setShowAdd] = useState(false)
     const [gotoexplore, setgoto]= useState(false)
     const [allQuestions, setallQuestions] = useState([])
+    const [image, setImage] = useState({});
     const [quizInfo,setQuizInfo] = useState(
         {
             idOfCreator: "",
@@ -43,7 +44,36 @@ const CreateScreen = (props) => {
     )
     const [addQuiz]=useMutation(ADDQUIZ)
 
-   
+    const handleNewImage = (e) => {
+        var newImage = e.target.files[0].name;
+        //var ending = newImage.name.split(".");
+        //var newName = props.user._id + "." + ending[1];
+        console.log(newImage)
+        var renamedImage = new File([newImage], newImage.name, {type: newImage.type});
+
+        setImage(renamedImage);
+    }
+
+    const uploadNewImage = async (e) => {
+        const config = {
+            bucketName: 'inquizitive416',
+            dirName: 'avatars', // SPECIFY DIRECTORY FOR FILES HERE
+            region: 'us-east-1',
+            accessKeyId: 'AKIA5IBQXNKG3HMYNPZW',
+            secretAccessKey: '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',
+        }
+
+        var fileLocation = "";
+        
+        await uploadFile(image, config)
+            .then(data => fileLocation = data.location)
+            .catch(err => console.error(err));
+
+        console.log("my loc", fileLocation)
+
+        //await updateUserField({ variables: { _id: props.user._id, field: 'profilePicture', value: fileLocation}});
+    }
+
 
     const renderRedirect = () => {
         if (gotoexplore) {
@@ -147,8 +177,8 @@ const CreateScreen = (props) => {
                         <Col xs="9">
                             <Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
                                 <Card.Body style={{backgroundColor: "#585858"}}>
-                                    <input type="file" />
-                                    <Button variant='light' >Upload a New Photo</Button>
+                                    <input type="file" onChange={handleNewImage} />
+                                    <Button variant='light' onClick={uploadNewImage} >Upload a New Photo</Button>
                                 </Card.Body>
                             </Card>
                         </Col>
