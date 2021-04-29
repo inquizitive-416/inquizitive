@@ -20,7 +20,6 @@ mutation addQuiz(
     $avgRating: Int,
     $numOfTimesPlayed: Int,
     $isReported: Boolean ) {
-
     addQuiz(
         idOfCreator: $idOfCreator ,
         title: $title,

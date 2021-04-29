@@ -35,7 +35,7 @@ if (process.env.REACT_APP_SERVER === 'true') {
 const client = new ApolloClient({
 	uri: BACKEND_LOCATION,
 	// Credentials: include is necessary to pass along the auth cookies with each server request
-	credentials: 'same-origin',
+	credentials: 'include',
 	cache: cache,
 });
 

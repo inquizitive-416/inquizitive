@@ -4,8 +4,43 @@ import NavbarTop from '../navbar/NavbarTop';
 import { Card, Button, Form, Col, Row } from 'react-bootstrap'
 import { GET_CURRENT_USER } from './queries'
 import { UPDATE_USER_FIELD, UPDATE_USER_INFO, UPDATE_SECURITY_QUESTIONS, UPDATE_USER_VISIBILITY } from './mutations'
+import { getCurrentUser } from "../../data/LocalStorage";
+import { uploadFile } from 'react-s3';
 
 const ChangeProfilePicture = (props) => {
+
+    const [image, setImage] = useState({});
+
+    const [updateUserField] = useMutation(UPDATE_USER_FIELD);
+
+    const handleNewImage = (e) => {
+        var newImage = e.target.files[0];
+        var ending = newImage.name.split(".");
+        var newName = props.user._id + "." + ending[1];
+
+        var renamedImage = new File([newImage], newName, {type: newImage.type});
+
+        setImage(renamedImage);
+    }
+
+    const uploadNewImage = async (e) => {
+        const config = {
+            bucketName: 'inquizitive416',
+            dirName: 'avatars', // SPECIFY DIRECTORY FOR FILES HERE
+            region: 'us-east-1',
+            accessKeyId: 'AKIA5IBQXNKG3HMYNPZW',
+            secretAccessKey: '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',
+        }
+
+        var fileLocation = "";
+        
+        await uploadFile(image, config)
+            .then(data => fileLocation = data.location)
+            .catch(err => console.error(err));
+
+        await updateUserField({ variables: { _id: props.user._id, field: 'profilePicture', value: fileLocation}});
+    }
+
     return (
         <Row>
             <Col xs="1"></Col>
@@ -19,7 +54,8 @@ const ChangeProfilePicture = (props) => {
             <Col xs="8">
                 <Card className="bg-secondary text-white text-center">
                     <Card.Body>
-                        <Button variant='light'>Upload a New Photo</Button>
+                        <input type="file" onChange={handleNewImage}/>
+                        <Button variant='light' onClick={uploadNewImage}>Upload a New Photo</Button>
                     </Card.Body>
                 </Card>
             </Col>
@@ -258,10 +294,10 @@ const ChangeUserInfo = (props) => {
 const ChangeSecurityQuestions = (props) => {
 
     const [input, setInput] = useState({ 
-        question1: props.user.securityQuestion1,
-        answer1: props.user.securityAnswer1,
-        question2: props.user.securityQuestion2,
-        answer2: props.user.securityAnswer2
+        question1: props.user.securityQuestionOne,
+        answer1: props.user.securityAnswerOne,
+        question2: props.user.securityQuestionTwo,
+        answer2: props.user.securityAnswerTwo
     });
 
     const [UpdateSecurityQuestions] = useMutation(UPDATE_SECURITY_QUESTIONS);
@@ -294,7 +330,7 @@ const ChangeSecurityQuestions = (props) => {
                 <Card className="bg-secondary text-white">
                     <Card.Body>
                         <Form>
-                        <Form.Group controlId="formSecurityQuestion1">
+                        <Form.Group controlId="formSecurityQuestionOne">
                             <Form.Label className="text-warning">Security Question 1</Form.Label>
                             <Form.Control as="select" size="md" name="question1" value={input.question1} onChange={updateInput} custom>
                                 <option>What was your childhood nickname?</option>
@@ -304,12 +340,12 @@ const ChangeSecurityQuestions = (props) => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group controlId="formSecurityAnswer1">
+                        <Form.Group controlId="formSecurityAnswerOne">
                             <Form.Label className="text-warning">Security Question 1 Answer</Form.Label>
                             <Form.Control name="answer1" value={input.answer1} onChange={updateInput} />
                         </Form.Group>
 
-                        <Form.Group controlId="formSecurityQuestion2">
+                        <Form.Group controlId="formSecurityQuestionTwo">
                             <Form.Label className="text-warning">Security Question 2</Form.Label>
                             <Form.Control as="select" size="md" name="question2" value={input.question2} onChange={updateInput} custom>
                                 <option>What is the location of your dream vacation?</option>
@@ -319,7 +355,7 @@ const ChangeSecurityQuestions = (props) => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group controlId="formSecurityAnswer2">
+                        <Form.Group controlId="formSecurityAnswerTwo">
                             <Form.Label className="text-warning">Security Question 2 Answer</Form.Label>
                             <Form.Control name="answer2" value={input.answer2} onChange={updateInput} />
                         </Form.Group>
@@ -414,7 +450,7 @@ const Settingsscreen = (props) => {
     let currentUser = 'base'
 
     const { loading, error, data } = useQuery(GET_CURRENT_USER, {
-        variables: {_id: '6078c4f6f08fd0add52045bf'}
+        variables: {_id: getCurrentUser()._id}
     })
     if (loading) { return <div></div>; }
     if(error) { console.log(error);

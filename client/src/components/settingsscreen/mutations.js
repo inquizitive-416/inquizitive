@@ -23,9 +23,9 @@ export const UPDATE_USER_INFO = gql`
 
 export const UPDATE_SECURITY_QUESTIONS = gql`
     mutation UpdateSecurityQuestions($_id: String!, $question1: String!, $answer1: String!, $question2: String!, $answer2: String!) {
-        question1: updateUserField(_id: $_id, field: "securityQuestion1", value: $question1)
-        answer1: updateUserField(_id: $_id, field: "securityAnswer1", value: $answer1)
-        question2: updateUserField(_id: $_id, field: "securityQuestion2", value: $question2)
-        answer2: updateUserField(_id: $_id, field: "securityAnswer2", value: $answer2)
+        question1: updateUserField(_id: $_id, field: "securityQuestionOne", value: $question1)
+        answer1: updateUserField(_id: $_id, field: "securityAnswerOne", value: $answer1)
+        question2: updateUserField(_id: $_id, field: "securityQuestionTwo", value: $question2)
+        answer2: updateUserField(_id: $_id, field: "securityAnswerTwo", value: $answer2)
     }
 `;
