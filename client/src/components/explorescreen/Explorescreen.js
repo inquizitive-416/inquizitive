@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component, Fragment } from "react";
 import "./explorescreen.css";
 import {
   FormControl,
@@ -12,6 +12,8 @@ import {
 } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import NavbarTop from "../navbar/NavbarTop";
+import { GET_POPULAR_QUIZZES } from "./queries";
+import { useQuery } from "@apollo/client";
 
 const SearchFilters = (props) => {
   return (
@@ -78,15 +80,29 @@ const SearchFilters = (props) => {
 };
 
 const PopularQuizzes = (props) => {
+  let popularQuizzes = [];
+  /* Getting top 3 popular quizzes: */
+  const { loading, error, data } = useQuery(GET_POPULAR_QUIZZES);
+  if (loading) {
+    return <div></div>;
+  }
+  if (error) {
+    console.log(error);
+    return <div>Internal Error</div>;
+  }
+  if (data) {
+    popularQuizzes = data.getQuizzesByRating;
+  }
+
   return (
     <Container>
-      {/* Row of most popular quizzes: */}
+      {/* Row of most popular quizzes: top 3 by rating*/}
       <Row>
         <Col>
           <Card className={"exploreCardStyle"}>
             <Card.Img variant="top" src="" />
             <Card.Body>
-              <Card.Title>Biology Quiz</Card.Title>
+              <Card.Title>{popularQuizzes[0].title}</Card.Title>
             </Card.Body>
           </Card>
         </Col>
@@ -94,7 +110,7 @@ const PopularQuizzes = (props) => {
           <Card className={"exploreCardStyle"}>
             <Card.Img variant="top" src="" />
             <Card.Body>
-              <Card.Title>All About Disney</Card.Title>
+              <Card.Title>{popularQuizzes[1].title}</Card.Title>
             </Card.Body>
           </Card>
         </Col>
@@ -102,7 +118,7 @@ const PopularQuizzes = (props) => {
           <Card className={"exploreCardStyle"}>
             <Card.Img variant="top" src="" />
             <Card.Body>
-              <Card.Title>React</Card.Title>
+              <Card.Title>{popularQuizzes[2].title}</Card.Title>
             </Card.Body>
           </Card>
         </Col>
@@ -114,7 +130,7 @@ const PopularQuizzes = (props) => {
 const ExploreQuizzes = (props) => {
   return (
     <Container>
-      {/* 2 rows of quizzes per page */}
+      {/* 2 rows of 3 quizzes per page */}
       <Row>
         <Col>
           <Card className={"exploreCardStyle"}>
@@ -176,19 +192,9 @@ const QuizPages = (props) => {
     <Container>
       {/* will update the explorequizzes shown */}
       <Pagination className={"center"}>
-        <Pagination.First />
         <Pagination.Prev />
-        <Pagination.Item>{1}</Pagination.Item>
-        <Pagination.Ellipsis />
-
-        <Pagination.Item>{6}</Pagination.Item>
-        <Pagination.Item active>{7}</Pagination.Item>
-        <Pagination.Item disabled>{8}</Pagination.Item>
-
-        <Pagination.Ellipsis />
-        <Pagination.Item>{11}</Pagination.Item>
+        <Pagination.Item active>{1}</Pagination.Item>
         <Pagination.Next />
-        <Pagination.Last />
       </Pagination>
     </Container>
   );
@@ -196,22 +202,22 @@ const QuizPages = (props) => {
 
 const Explorescreen = (props) => {
   return (
-      <div className={"body"}>
-        {/* Navbar on top of screen: */}
-        <NavbarTop />
-        <br />
-        <SearchFilters />
-        <br />
-        <span className={"headerStyle"}>Most Popular</span>
-        <br />
-        <PopularQuizzes />
-        <br />
-        <span className={"headerStyle"}>Explore</span>
-        <br />
-        <ExploreQuizzes />
-        <br />
-        <QuizPages />
-      </div>
+    <div className={"body"}>
+      {/* Navbar on top of screen: */}
+      <NavbarTop />
+      <br />
+      <SearchFilters />
+      <br />
+      <span className={"headerStyle"}>Most Popular</span>
+      <br />
+      <PopularQuizzes />
+      <br />
+      <span className={"headerStyle"}>Explore</span>
+      <br />
+      <ExploreQuizzes />
+      <br />
+      <QuizPages />
+    </div>
   );
 };
 
