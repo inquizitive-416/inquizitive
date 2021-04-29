@@ -24,7 +24,7 @@ const AddQuestion = ({addQues, onAdd}) => {
                             <div class="col-sm-10">
 
                                 <div class="form-check">
-                                     <input onChange={(e) => setQuestype(e.currentTarget.value) } class="form-check-input"  type="radio" name="gridRadios" id="gridRadios1" value="MTP" />
+                                     <input onChange={(e) => setQuestype(e.currentTarget.value) } class="form-check-input"  type="radio" name="gridRadios" id="gridRadios1" value="MCQ" />
                                      <label class="form-check-label" for="gridRadios1">Multiple Choice</label>  
                                 </div>
 
@@ -34,7 +34,7 @@ const AddQuestion = ({addQues, onAdd}) => {
                                 </div>
 
                                 <div class="form-check ">
-                                    <input onChange={(e) => setQuestype(e.currentTarget.value)} class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="Matching" />
+                                    <input onChange={(e) => setQuestype(e.currentTarget.value)} class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="MTP" />
                                     <label class="form-check-label" for="gridRadios3">Matching Question</label>
                                 </div>
                                 <div class="form-check ">

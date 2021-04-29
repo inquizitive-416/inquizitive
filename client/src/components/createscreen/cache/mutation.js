@@ -15,7 +15,7 @@ mutation addQuiz(
     $difficulty: String,
     $quizposted: Boolean,
     $timer: Int,
-    $questions: [String],
+    $questions: [QuestionInput],
     $ratings: Int,
     $avgRating: Int,
     $numOfTimesPlayed: Int,
@@ -51,6 +51,15 @@ mutation addQuiz(
         quizposted
         timer
         questions
+        {
+            id
+            questype
+            choice1
+            choice2
+            choice3
+            choice4
+            correctAnswer
+        }
         ratings
         avgRating
         numOfTimesPlayed

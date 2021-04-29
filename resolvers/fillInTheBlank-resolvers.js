@@ -32,14 +32,20 @@ module.exports = {
 			@returns {string} the objectID of the new FillInTheBlank, or an error message
 		**/
       addFillInTheBlank: async (_, args) => {
-        const { fillInTheBlank } = args;
+        const {
+          questionId,
+          type,
+          questionPrompt,
+          correctChoice,
+        } = args;
         const objectId = new ObjectId();
-        const { questionId, questionString, correctAnswer } = fillInTheBlank;
+
         const newFillInTheBlank = new FillInTheBlank({
           _id: objectId,
           questionId: questionId,
-          questionString: questionString,
-          correctAnswer: correctAnswer,
+          type:type,
+          questionPrompt: questionPrompt,
+          correctChoice: correctChoice,
         });
         const updated = await newFillInTheBlank.save();
         if (updated) return objectId;

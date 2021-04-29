@@ -1,13 +1,13 @@
 import React, { useState, useEffect } 	from 'react';
 import CreateQuestion from '../createQuestion/CreateQuestion';
 
-const QuestionList = ({questions, onDelete}  ) => {
+const QuestionList = ({questions, onDelete, changeQuestion, onSave}  ) => {
 
      return (
         <>
         {questions.map( question => (
         
-          <CreateQuestion  question={question} onDelete={onDelete}  />
+          <CreateQuestion  question={question} onDelete={onDelete} changeQuestion={changeQuestion} onSave={onSave}/>
         ))}
       </>
 

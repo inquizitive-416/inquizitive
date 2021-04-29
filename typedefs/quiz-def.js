@@ -15,12 +15,23 @@ const typeDefs = gql`
 		difficulty: String
 		quizposted: Boolean
 		timer: Int
-		questions: [String]
+		questions: [Question]
 		ratings: Int
 		avgRating: Int
 		numOfTimesPlayed: Int
 		isReported: Boolean
 	}
+
+	type Question {
+		id: Int
+		questype: String
+        questionPrompt: String
+        choice1: String
+        choice2: String
+        choice3: String
+        choice4: String
+        correctAnswer: String
+    }
 
 	extend type Query {
 		getQuizById(_id: String!): Quiz
@@ -38,7 +49,7 @@ const typeDefs = gql`
 			difficulty: String
 			quizposted: Boolean
 			timer: Int
-			questions: [String]
+			questions: [QuestionInput]
 			ratings: Int
 			avgRating: Int
 			numOfTimesPlayed: Int
@@ -61,12 +72,22 @@ const typeDefs = gql`
 		difficulty:String
 		quizposted: Boolean
 		timer: Int
-		questions: [String]
+		questions: [QuestionInput]
 		ratings: Int
 		avgRating: Int
 		numOfTimesPlayed: Int
 		isReported: Boolean
 	}
+	input QuestionInput {
+		id: Int
+		questype: String
+		questionPrompt: String
+        choice1: String
+        choice2: String
+        choice3: String
+        choice4: String
+        correctAnswer: String
+    }
 `;
 
 module.exports = { typeDefs: typeDefs };
