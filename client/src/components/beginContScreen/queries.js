@@ -17,7 +17,9 @@ export const GET_CURRENT_QUIZ = gql`
 			idOfCreator
 			timer
 			title
-			questions
+			questions {
+				id
+			}
 		}
 	}
 `;

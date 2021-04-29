@@ -15,7 +15,9 @@ export const GET_POPULAR_QUIZZES = gql`
       difficulty
       quizposted
       timer
-      questions
+      questions {
+        id
+      }
       ratings
       avgRating
       numOfTimesPlayed
