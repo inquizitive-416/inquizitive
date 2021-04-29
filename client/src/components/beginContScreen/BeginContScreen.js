@@ -70,7 +70,7 @@ const StartCancelQuiz = (props) => {
             </Col>
             <Col xs="2"></Col>
             <Col xs="2">
-                <Button variant="warning" style={{width: '100%', height: '100%'}}>Begin</Button>
+                <Button href='/play' variant="warning" style={{width: '100%', height: '100%'}}>Begin</Button>
             </Col>
             <Col xs="1"></Col>
         </Row>

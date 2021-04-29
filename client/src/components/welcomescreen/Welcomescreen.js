@@ -6,7 +6,7 @@ import RegisterModal from "./RegisterModal";
 import ForgotPassword from "./ForgotPassword";
 import { graphql,useMutation } from '@apollo/client';
 import {LOGIN} from "./cache/mutation"
-import { setCurrentUser } from "../../data/LocalStorage";
+import { getCurrentUser, setCurrentUser } from "../../data/LocalStorage";
 
 
 
@@ -51,6 +51,7 @@ const Welcome = (props) => {
         else if (data) {
             // console.log("imhere");
             setCurrentUser(data.login);
+            console.log(getCurrentUser());
             
             props.fetchUser();
         }

@@ -22,6 +22,7 @@ const LoggedOut = (props) => {
         <Nav.Link href="/create">Create</Nav.Link>
         <Nav.Link href="/tournaments">Tournaments</Nav.Link>
         <Nav.Link href="/shop">Shop</Nav.Link>
+        <Nav.Link href="/begin">Play</Nav.Link>
     </Nav>
     <Nav>
         <Nav.Link href="/shop">Currency</Nav.Link>
