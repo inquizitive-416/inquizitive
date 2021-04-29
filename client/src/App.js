@@ -5,6 +5,7 @@ import CreateScreen from './components/createscreen/CreateScreen';
 import Settingsscreen from './components/settingsscreen/Settingsscreen';
 import Shopscreen from './components/shopscreen/Shopscreen';
 import Profilescreen from "./components/profilescreen/Profilescreen";
+import BeginContscreen from "./components/beginContScreen/BeginContScreen";
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import * as queries 	from './components/welcomescreen/cache/queries';
 import { useQuery } from '@apollo/client';
@@ -59,6 +60,13 @@ const App = (props) => {
 					name="settings" 
 					render={() => 
 						<Settingsscreen/>
+					} 
+				/>
+				<Route 
+					path="/begin" 
+					name="begin" 
+					render={() => 
+						<BeginContscreen/>
 					} 
 				/>
 				<Route 
