@@ -2,24 +2,28 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const Quiz = require("../models/quiz-model");
 
 module.exports = {
-  // Query: {
-  //   /**
-	// 		getQuizById,
-	// 	**/
+   Query: {
+    /**
+			getQuizById,
+		**/
 
-  //   /**
-	// 	 	@param 	 {object} args - a quiz id
-	// 		@returns {object} a quiz on success and an empty object on failure
-	// 	**/
-  //   getQuizById: async (_, args) => {
-  //     const { _id } = args;
-  //     const objectId = new ObjectId(_id);
-  //     const quiz = await Quiz.findOne({ _id: objectId });
-  //     if (quiz) return quiz;
-  //     else return {};
-  //   },
-
-  // },
+    /**
+		 	@param 	 {object} args - a quiz id
+			@returns {object} a quiz on success and an empty object on failure
+		**/
+    getQuizById: async (_, args) => {
+      const { _id } = args;
+      const objectId = new ObjectId(_id);
+      const quiz = await Quiz.findOne({ _id: objectId });
+      if (quiz) return quiz;
+      else return {};
+    },
+  getQuizzesByRating: async (_, args) => {
+    const quiz = await Quiz.find().limit(3).sort({ avgRating: -1 });
+    if (quiz) return quiz;
+    else return {};
+  },
+   },
 
     Mutation: {
       /**
@@ -102,6 +106,8 @@ module.exports = {
         if (updated) return true;
         else return false;
       },
+
+  
       /**
             @return {array} - return array of reported Quizzes
         **/
