@@ -1,7 +1,6 @@
 
 
 const quizdata=
-  
     // Exmple data for react quiz app 
     {
     quizID: 0,
@@ -25,7 +24,7 @@ const quizdata=
             _id:2,
             questionText: 'What is 4 + 33?',
             questionType: 'FIB',
-            correct: 'Paris',
+            correct: '37',
             answerOptions: [
                 
             ],
@@ -56,6 +55,15 @@ const quizdata=
         },
         {
             _id:5,
+            questionText: 'Oxygen formula?',
+            questionType: 'FIB',
+            correct: 'O2',
+            answerOptions: [
+                
+            ],
+        },
+        {
+            _id:6,
             questionText: 'How many Harry Potter books are there?',
             questionType: 'MCQ',
             correct: '7',

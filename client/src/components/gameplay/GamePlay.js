@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Multiplechoice from './Multiplechoice';
 import DisplayQuestion from './DisplayQuestion';
+import Button from "react-bootstrap/Button";
+import Score from './Score'
 
 import "./Multiplechoice.css";
 import quiz from './QuizData';
@@ -12,6 +14,9 @@ const GamePlay = (props) => {
     const [currQText,setCurrQText]=useState("");
     const [answer, setAnswer]=useState(new Array(quiz.questions.length).fill(""))
     const [selected, setSelected] = useState("")
+    const [scoreOpen, setScoreOpen] = useState(false)
+    const [score, setScore] = useState(0)
+
 
     const onClickNext= (props)=>{
         
@@ -48,6 +53,20 @@ const GamePlay = (props) => {
         setSelected(e.target.value)
         console.log(e.target.value)
     }
+    const Submit=()=>{
+        answer[currQuestion]=selected;
+        setAnswer(answer);
+        var n=0;
+        var score=0;
+        for(const [index,elem] of quiz.questions.entries()){
+            if(elem.correct===answer[index]){
+                score=score+1;
+            }
+        }
+        console.log(score);
+        setScore(score);
+        setScoreOpen(true);
+    }
     return(
         <div>
             <div style={{textAlign:'center',paddingBottom:'10vh',paddingTop:'10vh',backgroundColor:'#404040'}}>
@@ -71,15 +90,16 @@ const GamePlay = (props) => {
             </div>
             <div class='row' style={{backgroundColor:'#424242'}}>
                 <div class='col' style={{display:'flex', marginLeft:'10vh'}}>
-                    <button  style={{ marginRight: "auto",backgroundColor:'orange',borderRadius:'25px',paddingLeft:'25pt',paddingRight:'25pt' }}>
-                        Exit Quiz</button>
+                    <Button href='/explore' style={{ marginRight: "auto",backgroundColor:'orange',borderRadius:'25px',paddingLeft:'25pt',paddingRight:'25pt' }}>
+                        Exit Quiz</Button>
                 </div>
                 <div class='col' style={{display:'flex'}}>
                     <h2 style={{ margin: "auto" ,color:'white'}}>Question Number: {currQuestion+1}</h2>
                 </div>
                 <div class='col' style={{display:'flex',marginRight:'10vh'}}>
-                    <button style={{ marginLeft: "auto",backgroundColor:'orange',borderRadius:'25px',paddingLeft:'25pt',paddingRight:'25pt'}}>
-                        Submit</button>
+                    <Button onClick={Submit} style={{ marginLeft: "auto",backgroundColor:'orange',borderRadius:'25px',paddingLeft:'25pt',paddingRight:'25pt'}}>
+                        Submit</Button>
+                    <Score isOpen={scoreOpen} score={score} total={quiz.questions.length}/>
                 </div>
             </div>
         </div>
