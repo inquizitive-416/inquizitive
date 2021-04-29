@@ -1,4 +1,5 @@
 const { model, Schema, ObjectId } = require("mongoose");
+const Question = require('./question-model').schema;
 
 const quizSchema = new Schema({
   _id: {
@@ -21,16 +22,7 @@ const quizSchema = new Schema({
     type: String,
     
   },
-  // categories: {
-  //   type: [
-  //     {
-  //       category: {
-  //         type: String,
-  //       },
-  //     },
-  //   ],
-  //   required: true,
-  // },
+ 
   categories: {
     type: String,
     
@@ -59,60 +51,8 @@ const quizSchema = new Schema({
     type: Number,
    
   },
-  questions: {
-      type: [
-        {
-          category: {
-            type: String,
-          },
-        },
-      ],
-      
-    },
+  questions: [Question],
 
-  // questions: {
-  //   type: [
-  //     {
-  //       questionId: {
-  //         type: Number,
-  //       },
-  //       questionNumber: {
-  //         type: Number,
-  //       },
-  //       questionType: {
-  //         type: String,
-  //       },
-  //     },
-  //   ],
-  //   required: true,
-  // },
-  // categories: {
-  //   type: [
-  //     {
-  //       category: {
-  //         type: String,
-  //       },
-  //     },
-  //   ],
-  //   required: true,
-  // },
-  // hashtagone: {
-  //   type: String,
-  //   required: true,
-  // },
-  // ratings: {
-  //   type: [
-  //     {
-  //       userId: {
-  //         type: Number,
-  //       },
-  //       rating: {
-  //         type: Number,
-  //       },
-  //     },
-  //   ],
-  //   required: true,
-  // },
   ratings: {
     type: Number,
     

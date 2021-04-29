@@ -6,14 +6,18 @@ const fillInTheBlankSchema = new Schema({
     required: true,
   },
   questionId: {
-    type: Number,
-    required: true,
-  },
-  questionString: {
     type: String,
     required: true,
   },
-  correctAnswer: {
+  type:{
+    type: String,
+    required: true,
+  },
+  questionPrompt: {
+    type: String,
+    required: true,
+  },
+  correctChoice: {
     type: String,
     required: true,
   },
