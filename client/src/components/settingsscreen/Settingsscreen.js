@@ -294,10 +294,10 @@ const ChangeUserInfo = (props) => {
 const ChangeSecurityQuestions = (props) => {
 
     const [input, setInput] = useState({ 
-        question1: props.user.securityQuestion1,
-        answer1: props.user.securityAnswer1,
-        question2: props.user.securityQuestion2,
-        answer2: props.user.securityAnswer2
+        question1: props.user.securityQuestionOne,
+        answer1: props.user.securityAnswerOne,
+        question2: props.user.securityQuestionTwo,
+        answer2: props.user.securityAnswerTwo
     });
 
     const [UpdateSecurityQuestions] = useMutation(UPDATE_SECURITY_QUESTIONS);
@@ -330,7 +330,7 @@ const ChangeSecurityQuestions = (props) => {
                 <Card className="bg-secondary text-white">
                     <Card.Body>
                         <Form>
-                        <Form.Group controlId="formSecurityQuestion1">
+                        <Form.Group controlId="formSecurityQuestionOne">
                             <Form.Label className="text-warning">Security Question 1</Form.Label>
                             <Form.Control as="select" size="md" name="question1" value={input.question1} onChange={updateInput} custom>
                                 <option>What was your childhood nickname?</option>
@@ -340,12 +340,12 @@ const ChangeSecurityQuestions = (props) => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group controlId="formSecurityAnswer1">
+                        <Form.Group controlId="formSecurityAnswerOne">
                             <Form.Label className="text-warning">Security Question 1 Answer</Form.Label>
                             <Form.Control name="answer1" value={input.answer1} onChange={updateInput} />
                         </Form.Group>
 
-                        <Form.Group controlId="formSecurityQuestion2">
+                        <Form.Group controlId="formSecurityQuestionTwo">
                             <Form.Label className="text-warning">Security Question 2</Form.Label>
                             <Form.Control as="select" size="md" name="question2" value={input.question2} onChange={updateInput} custom>
                                 <option>What is the location of your dream vacation?</option>
@@ -355,7 +355,7 @@ const ChangeSecurityQuestions = (props) => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group controlId="formSecurityAnswer2">
+                        <Form.Group controlId="formSecurityAnswerTwo">
                             <Form.Label className="text-warning">Security Question 2 Answer</Form.Label>
                             <Form.Control name="answer2" value={input.answer2} onChange={updateInput} />
                         </Form.Group>
