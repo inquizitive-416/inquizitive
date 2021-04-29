@@ -5,7 +5,6 @@ import CreateScreen from './components/createscreen/CreateScreen';
 import Settingsscreen from './components/settingsscreen/Settingsscreen';
 import Shopscreen from './components/shopscreen/Shopscreen';
 import Profilescreen from "./components/profilescreen/Profilescreen";
-import Playscreen from "./components/gameplay/GamePlay";
 
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import * as queries 	from './components/welcomescreen/cache/queries';
@@ -74,11 +73,6 @@ const App = (props) => {
 					path="/profile"
 					name="profile"
 					render={() => <Profilescreen />}
-					/>
-				<Route
-					path="/play"
-					name="play"
-					render={() => <Playscreen />}
 					/>
 			</Switch>
 		</BrowserRouter>

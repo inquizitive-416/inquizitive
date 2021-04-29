@@ -1,0 +1,9 @@
+.avatar {
+    width: 15vh;
+    height: 15vh;
+    object-fit: cover;
+}
+
+#answered:disabled {
+    opacity: 1.0;
+}
