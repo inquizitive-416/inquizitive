@@ -13,7 +13,10 @@
 .textbox:focus{
     border: 4px solid  green;
 }
-
+::placeholder{
+    color: white;
+    font-size: 20pt;
+}
 .nextprev{
     color: orange;
 }

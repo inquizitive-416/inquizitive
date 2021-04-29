@@ -10,6 +10,7 @@ const quizdata=
     description:'Description',
     questions: [ 
         {
+            _id:1,
             questionText: 'What is the capital of France?',
             questionType: 'MCQ',
             correct: 'Paris',
@@ -21,6 +22,16 @@ const quizdata=
             ],
         },
         {
+            _id:2,
+            questionText: 'What is 4 + 33?',
+            questionType: 'FIB',
+            correct: 'Paris',
+            answerOptions: [
+                
+            ],
+        },
+        {
+            _id:3,
             questionText: 'Who is CEO of Tesla?',
             questionType: 'MCQ',
             correct: 'Elon Musk',
@@ -32,6 +43,7 @@ const quizdata=
             ],
         },
         {
+            _id:4,
             questionText: 'The iPhone was created by which company?',
             questionType: 'MCQ',
             correct: 'Apple',
@@ -43,6 +55,7 @@ const quizdata=
             ],
         },
         {
+            _id:5,
             questionText: 'How many Harry Potter books are there?',
             questionType: 'MCQ',
             correct: '7',
