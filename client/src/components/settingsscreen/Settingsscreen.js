@@ -457,7 +457,7 @@ const Settingsscreen = (props) => {
         return <div>Internal Error</div>; }
 	if(data) { currentUser = data.getUserById }
 
-    // console.log(currentUser)
+    //console.log(currentUser)
 
 	return (
 		<div className="bg-dark">
