@@ -17,6 +17,8 @@ export const GET_CURRENT_USER = gql`
       profilePicture
       coins
       profilePublic
+      bannerPicture
+      bgColor
     }
   }
 `;
