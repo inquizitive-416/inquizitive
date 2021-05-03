@@ -189,6 +189,7 @@ const RegisterModal = (props) => {
                 <div className="sec" class="sec1">
                     <Form.Group size="lg">
                         <select class="custom-select" id="inputGroupSelect01" name="securityQuestionOne" onChange={onChange}>
+                            <option selected>Choose question 1</option>
                             <option value="What was your childhood nickname?">What was your childhood nickname?</option>
                             <option value="What is the name of your favorite childhood friend?">What is the name of your favorite childhood friend?</option>
                             <option value="What was the name of your first stuffed animal?">What was the name of your first stuffed animal?</option>
@@ -211,6 +212,7 @@ const RegisterModal = (props) => {
                 <div className="sec" class="sec2">
                     <Form.Group size="lg">
                         <select class="custom-select" id="inputGroupSelect02" name="securityQuestionTwo" onChange={onChange}>
+                            <option selected>Choose question 2</option>
                             <option value="What is the location of your dream vacation?">What is the location of your dream vacation?</option>
                             <option value="What is the name of your favorite sports team?">What is the name of your favorite sports team?</option>
                             <option value="Where were you when you first heard about 9/11?">Where were you when you first heard about 9/11?</option>

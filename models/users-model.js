@@ -48,6 +48,14 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
+  bannerPicture: {
+    type: String,
+    required: false,
+  },
+  bgColor: {
+    type: String,
+    required: false,
+  },
   profilePublic: {
     type: Boolean,
     required: false,
