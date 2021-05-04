@@ -15,6 +15,8 @@ const typeDefs = gql`
     securityQuestionTwo: String
     securityAnswerTwo: String
     profilePicture: String
+    bannerPicture: String
+    bgColor: String
     profilePublic: Boolean
     coins: Int
   }

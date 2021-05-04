@@ -1,151 +1,181 @@
 import React, { useState, useEffect } from "react";
+import { useQuery, useMutation } from "@apollo/client";
 import "./profilescreen.css";
-import { Row, Col, Card, Carousel } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
+import { Container, Form, Row, Col, Card, Carousel, Image, Button, Modal } from "react-bootstrap";
 import NavbarTop from "../navbar/NavbarTop";
-import { useQuery } from "@apollo/client";
-import { GET_USER_INFO } from "./queries";
+import { GET_CURRENT_USER } from "./queries";
+import { UPDATE_USER_FIELD } from './mutations';
 import { getCurrentUser } from "../../data/LocalStorage";
+import { SketchPicker } from 'react-color';
+import { uploadFile } from 'react-s3';
 
-import initprofile from "./initprofile.jpg";
+const EditProfileModal = (props) => {
+
+  const [newProfileImage, setNewProfileImage] = useState({});
+  const [updatedProfile, setUpdatedProfile] = useState(false);
+  const [newBannerImage, setNewBannerImage] = useState({});
+  const [updatedBanner, setUpdatedBanner] = useState(false);
+  const [newBgColor, setNewBgColor] = useState(props.currBgColor);
+
+  const [updateUserField] = useMutation(UPDATE_USER_FIELD);
+
+  const handleNewProfile = (e) => {
+    var newImage = e.target.files[0];
+    var ending = newImage.name.split(".");
+    var newName = props.platform._id + "-" + Date.now() + "." + ending[1];
+
+    var renamedImage = new File([newImage], newName, {type: newImage.type});
+
+    setUpdatedProfile(true);
+    setNewProfileImage(renamedImage);
+  }
+
+  const handleNewBanner = (e) => {
+    var newImage = e.target.files[0];
+    var ending = newImage.name.split(".");
+    var newName = props.platform._id + "-" + Date.now() + "." + ending[1];
+
+    var renamedImage = new File([newImage], newName, {type: newImage.type});
+
+    setUpdatedBanner(true);
+    setNewBannerImage(renamedImage);
+  }
+
+  const handleNewColor = (color) => {
+    setNewBgColor(color.hex);
+  }
+
+  const uploadNewImage = async (directory, file, field) => {
+    const config = {
+      bucketName: 'inquizitive416',
+      dirName: directory, // SPECIFY DIRECTORY FOR FILES HERE
+      region: 'us-east-1',
+      accessKeyId: 'AKIA5IBQXNKG3HMYNPZW',
+      secretAccessKey: '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',
+    }
+
+    var fileLocation = "";
+    
+    await uploadFile(file, config)
+      .then(data => fileLocation = data.location)
+      .catch(err => console.error(err));
+
+    await updateUserField({ variables: { _id: props.platform._id, field: field, value: fileLocation}});
+
+    if (field === 'bannerPicture'){
+      await props.setBannerLink(fileLocation);
+    }
+    else{
+      await props.setProfileLink(fileLocation);
+    }
+  }
+
+  const saveChanges = async (e) => {
+    if (updatedBanner){
+      await uploadNewImage('banners', newBannerImage, 'bannerPicture');
+    }
+
+    if (updatedProfile){
+      await uploadNewImage('avatars', newProfileImage, 'profilePicture');
+    }
+
+    await updateUserField({ variables: { _id: props.platform._id, field: 'bgColor', value: newBgColor}});
+    await props.setBgColor(newBgColor);
+
+    await props.handleToggle();
+  }
+
+  return (
+    <Modal size="lg" show={props.show} onHide={props.handleToggle}>
+      <Modal.Header className="bg-dark text-warning" closeButton>
+        <Modal.Title>Profile Customization</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="bg-dark">
+        <Container>
+          <Card className="bg-secondary text-white text-center">
+            <Card.Body>
+              <Row>
+                <Col xs="3">
+                  <Form.Label className="text-warning">Profile Image</Form.Label>
+                </Col>
+                <Col xs="9">
+                  <input type="file" onChange={handleNewProfile}/>
+                </Col>
+              </Row>
+              <br/>
+              <Row>
+                <Col xs="3">
+                  <Form.Label className="text-warning">Banner Image</Form.Label>
+                </Col>
+                <Col xs="9">
+                  <input type="file" onChange={handleNewBanner}/>
+                </Col>
+              </Row>
+              <br/>
+              <Row>
+                <Col xs="3">
+                  <Form.Label className="text-warning">Background Color</Form.Label>
+                </Col>
+                <Col xs="9">
+                  <SketchPicker color={newBgColor} onChange={handleNewColor} width="50%" presetColors={[]}/>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Container>
+      </Modal.Body>
+      <Modal.Footer className="bg-dark">
+        <Button variant="light" onClick={props.handleToggle}>
+          Cancel
+        </Button>
+        <Button variant="warning" onClick={saveChanges}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
 
 const ProfileHeading = (props) => {
-  let currentUsername = "Username";
-  let currentCoins = 0;
-  let currentPublic = false;
-  let visibility = "Private";
 
-  /* Getting user info: */
-  const { loading, error, data } = useQuery(GET_USER_INFO, {
-    variables: { _id: getCurrentUser()._id },
-  });
-  if (loading) {
-    return <div></div>;
+  const [editProfShow, setEditProfShow] = useState(false);
+  const [profileLink, setProfileLink] = useState(props.platform.profilePicture);
+
+  const handleToggle = (e) => {
+    setEditProfShow(!editProfShow);
   }
-  if (error) {
-    console.log(error);
-    return <div>Internal Error</div>;
-  }
-  currentUsername = data.getUserById.username;
-  currentCoins = data.getUserById.coins;
-  currentPublic = data.getUserById.profilePublic;
-  if (currentPublic == true) {
-    visibility = "Public";
-  } //else, it stays private
 
   return (
-    <Container>
-      <div className="sectionBackground">
-        {/* Holds the profile img, username, visibility, and coins of user */}
-        <Row>
-          <Col md={3}>
-            <div>
-              <img
-                alt="profile image"
-                className="profilephoto"
-                src={initprofile}
-              />
-            </div>
-          </Col>
-          <Col md={9}>
-            <Row className="username">{currentUsername}</Row>
-            <Row>{currentCoins} coins</Row>
-            <Row>{visibility}</Row>
-            <Row>My Dashboard</Row>
-          </Col>
-        </Row>
-      </div>
-    </Container>
-  );
-};
-
-const RecentlyPlayed = (props) => {
-  return (
-    <Container>
-      <span class="sectionHeading">Recently Played Quizzes</span>
-      <div className="sectionBackground">
-        {/* displays user's most recently played quizzes */}
-        <Row className="smallRow">
-          <Col md={4}>
-            <Card className={"cardStyle"}>
-              <Card.Img variant="top" src="" />
-              <Card.Body>
-                <Card.Title>Biology Quiz</Card.Title>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={4}>
-            <Card className={"cardStyle"}>
-              <Card.Img variant="top" src="" />
-              <Card.Body>
-                <Card.Title>All About Disney</Card.Title>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={4}>
-            <Card className={"cardStyle"}>
-              <Card.Img variant="top" src="" />
-              <Card.Body>
-                <Card.Title>React</Card.Title>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-    </Container>
-  );
-};
-
-const FinishedQuizzes = (props) => {
-  return (
-    <Container>
-      <span class="sectionHeading">Finished Quizzes</span>
-      <Carousel>
-        <Carousel.Item>
-          <div className="sectionBackground">
-            {/* displays user's finished quizzes that they've taken */}
-            <Row className="smallRow">
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>Biology Quiz</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>All About Disney</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>React</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </div>
-        </Carousel.Item>
-      </Carousel>
-    </Container>
+    <div>
+      <Row className="bg-dark text-white platformInfo align-items-center">
+        <Col xs={2}></Col>
+        <Col xs={1} className="text-center">
+          <Image className="profAvatar" src={profileLink} roundedCircle />
+        </Col>
+        <Col xs={6}>
+          <Row style={{fontSize: '40px'}}>{props.platform.username}</Row>
+        </Col>
+        <Col>
+          {props.currUser === props.platform._id ?
+          <Button variant="warning" onClick={handleToggle}>Customize Profile</Button> :
+          <div></div>}
+        </Col>
+      </Row>
+      <EditProfileModal show={editProfShow} handleToggle={handleToggle} platform={props.platform} setBgColor={props.setBgColor} currBgColor={props.currBgColor}
+                        setBannerLink={props.setBannerLink} setProfileLink={setProfileLink}/>
+    </div>
   );
 };
 
 const WorksInProgress = (props) => {
   return (
-    <Container>
-      <span class="sectionHeading">Works in Progress</span>
+    <Container className="text-white">
+      <span style={{fontSize: "30px"}}>Popular Quizzes</span>
       <Carousel>
         <Carousel.Item>
-          <div className="sectionBackground">
+          <div className="bg-dark sectionBackground">
             {/* displays user's works in progress */}
-            <Row className="smallRow">
+            <Row style={{margin: '20px'}}>
               <Col md={4}>
                 <Card className={"cardStyle"}>
                   <Card.Img variant="top" src="" />
@@ -167,88 +197,6 @@ const WorksInProgress = (props) => {
                   <Card.Img variant="top" src="" />
                   <Card.Body>
                     <Card.Title>React</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </div>
-        </Carousel.Item>
-      </Carousel>
-    </Container>
-  );
-};
-
-const QuizzesInProgress = (props) => {
-  return (
-    <Container>
-      <span class="sectionHeading">Quizzes in Progress</span>
-      <Carousel>
-        <Carousel.Item>
-          <div className="sectionBackground">
-            {/* displays user's quizzes that they're currently taking */}
-            <Row className="smallRow">
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>Biology Quiz</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>All About Disney</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>React</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </div>
-        </Carousel.Item>
-      </Carousel>
-    </Container>
-  );
-};
-
-const MyAchievements = (props) => {
-  return (
-    <Container>
-      <span class="sectionHeading">Achievements</span>
-      <Carousel>
-        <Carousel.Item>
-          <div className="sectionBackground">
-            {/* displays user's achievements */}
-            <Row className="smallRow">
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>Achievement 1</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>Achievement 2</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>Achievement 3</Card.Title>
                   </Card.Body>
                 </Card>
               </Col>
@@ -261,25 +209,40 @@ const MyAchievements = (props) => {
 };
 
 const Profilescreen = (props) => {
+
+  let currentPlatform = 'base';
+  let currUserId = getCurrentUser()._id;
+  let platformId = props.match.params.id;
+  const [bgColor, setBgColor] = useState("blank");
+  const [bannerLink, setBannerLink] = useState("blank");
+
+  const { loading, error, data } = useQuery(GET_CURRENT_USER, {
+    variables: {_id: platformId}
+  })
+  if (loading) { return <div></div>; }
+  if(error) { console.log(error);
+    return <div>Internal Error</div>; }
+	if(data) { currentPlatform = data.getUserById }
+
+  if (bgColor === "blank"){
+    setBgColor(currentPlatform.bgColor);
+  }
+  if (bannerLink === "blank"){
+    setBannerLink(currentPlatform.bannerPicture);
+  }
+
   return (
-    <body className={"body"}>
-      <div>
-        {/* Navbar on top of screen: */}
+      <div style={{backgroundColor: bgColor, minHeight: '100vh'}}>
         <NavbarTop />
+        <Image className="bannerImage" src={bannerLink}/>
         <br />
-        <ProfileHeading />
-        <br />
-        <RecentlyPlayed />
-        <br />
-        <FinishedQuizzes />
+        <ProfileHeading platform={currentPlatform} setBgColor={setBgColor} currBgColor={bgColor} setBannerLink={setBannerLink} currUser={currUserId}/>
         <br />
         <WorksInProgress />
         <br />
-        <QuizzesInProgress />
+        <WorksInProgress />
         <br />
-        <MyAchievements />
       </div>
-    </body>
   );
 };
 

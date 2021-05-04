@@ -2,7 +2,9 @@ import React                                from 'react';
 import { Navbar, Nav } from 'react-bootstrap'
 import Button from "react-bootstrap/Button";
 import { LOGOUT }                           from '../welcomescreen/cache/mutation';
-import { useMutation, useApolloClient }     from '@apollo/client';
+import { useQuery, useMutation, useApolloClient }     from '@apollo/client';
+import { GET_CURRENT_USER } from './queries';
+import { getCurrentUser } from "../../data/LocalStorage";
 
 const LoggedOut = (props) => {
     const client = useApolloClient();
@@ -14,6 +16,9 @@ const LoggedOut = (props) => {
             let reset = await client.resetStore();
         }
     };
+
+    const selfPlatformLink = "/platform/" + props.user._id;
+
     return (
         <Navbar bg="dark" variant="dark">
     <Navbar.Brand href="/explore">In<span style={{color: '#f5ae31'}}>Quiz</span>Itive</Navbar.Brand>
@@ -27,7 +32,7 @@ const LoggedOut = (props) => {
     <Nav>
         <Nav.Link href="/shop">Currency</Nav.Link>
         <Nav.Link href="/settings">Settings</Nav.Link>
-        <Nav.Link href="/profile">Profile</Nav.Link>
+        <Nav.Link href={selfPlatformLink}>Profile</Nav.Link>
         <Button href= '/welcome' onClick={handleLogout}>Logout</Button>
     </Nav>
   </Navbar>
@@ -35,8 +40,19 @@ const LoggedOut = (props) => {
 };
 
 const NavbarTop = (props) => {
+
+    let currentUser = 'base'
+
+    const { loading, error, data } = useQuery(GET_CURRENT_USER, {
+        variables: {_id: getCurrentUser()._id}
+    })
+    if (loading) { return <div></div>; }
+    if(error) { console.log(error);
+        return <div>Internal Error</div>; }
+	if(data) { currentUser = data.getUserById }
+
     return (
-        <LoggedOut fetchUser={props.fetchUser}/>
+        <LoggedOut fetchUser={props.fetchUser} user={currentUser}/>
     );
 };
 
