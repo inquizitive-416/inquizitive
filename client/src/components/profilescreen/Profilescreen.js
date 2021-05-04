@@ -11,16 +11,29 @@ import { uploadFile } from 'react-s3';
 
 const EditProfileModal = (props) => {
 
+  const [newProfileImage, setNewProfileImage] = useState({});
+  const [updatedProfile, setUpdatedProfile] = useState(false);
   const [newBannerImage, setNewBannerImage] = useState({});
   const [updatedBanner, setUpdatedBanner] = useState(false);
-  const [newBgColor, setNewBgColor] = useState("#f5ae31");
+  const [newBgColor, setNewBgColor] = useState(props.currBgColor);
 
   const [updateUserField] = useMutation(UPDATE_USER_FIELD);
 
-  const handleNewImage = (e) => {
+  const handleNewProfile = (e) => {
     var newImage = e.target.files[0];
     var ending = newImage.name.split(".");
-    var newName = props.user._id + "." + ending[1];
+    var newName = props.platform._id + "-" + Date.now() + "." + ending[1];
+
+    var renamedImage = new File([newImage], newName, {type: newImage.type});
+
+    setUpdatedProfile(true);
+    setNewProfileImage(renamedImage);
+  }
+
+  const handleNewBanner = (e) => {
+    var newImage = e.target.files[0];
+    var ending = newImage.name.split(".");
+    var newName = props.platform._id + "-" + Date.now() + "." + ending[1];
 
     var renamedImage = new File([newImage], newName, {type: newImage.type});
 
@@ -32,10 +45,10 @@ const EditProfileModal = (props) => {
     setNewBgColor(color.hex);
   }
 
-  const uploadNewImage = async (e) => {
+  const uploadNewImage = async (directory, file, field) => {
     const config = {
       bucketName: 'inquizitive416',
-      dirName: 'banners', // SPECIFY DIRECTORY FOR FILES HERE
+      dirName: directory, // SPECIFY DIRECTORY FOR FILES HERE
       region: 'us-east-1',
       accessKeyId: 'AKIA5IBQXNKG3HMYNPZW',
       secretAccessKey: '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',
@@ -43,36 +56,59 @@ const EditProfileModal = (props) => {
 
     var fileLocation = "";
     
-    await uploadFile(newBannerImage, config)
+    await uploadFile(file, config)
       .then(data => fileLocation = data.location)
       .catch(err => console.error(err));
 
-    await updateUserField({ variables: { _id: props.user._id, field: 'bannerPicture', value: fileLocation}});
+    await updateUserField({ variables: { _id: props.platform._id, field: field, value: fileLocation}});
+
+    if (field === 'bannerPicture'){
+      await props.setBannerLink(fileLocation);
+    }
+    else{
+      await props.setProfileLink(fileLocation);
+    }
   }
 
   const saveChanges = async (e) => {
     if (updatedBanner){
-      await uploadNewImage();
+      await uploadNewImage('banners', newBannerImage, 'bannerPicture');
     }
 
-    await updateUserField({ variables: { _id: props.user._id, field: 'bgColor', value: newBgColor}});
+    if (updatedProfile){
+      await uploadNewImage('avatars', newProfileImage, 'profilePicture');
+    }
+
+    await updateUserField({ variables: { _id: props.platform._id, field: 'bgColor', value: newBgColor}});
+    await props.setBgColor(newBgColor);
+
+    await props.handleToggle();
   }
 
   return (
     <Modal size="lg" show={props.show} onHide={props.handleToggle}>
-      <Modal.Header closeButton>
+      <Modal.Header className="bg-dark text-warning" closeButton>
         <Modal.Title>Profile Customization</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="bg-dark">
         <Container>
           <Card className="bg-secondary text-white text-center">
             <Card.Body>
               <Row>
                 <Col xs="3">
+                  <Form.Label className="text-warning">Profile Image</Form.Label>
+                </Col>
+                <Col xs="9">
+                  <input type="file" onChange={handleNewProfile}/>
+                </Col>
+              </Row>
+              <br/>
+              <Row>
+                <Col xs="3">
                   <Form.Label className="text-warning">Banner Image</Form.Label>
                 </Col>
                 <Col xs="9">
-                  <input type="file" onChange={handleNewImage}/>
+                  <input type="file" onChange={handleNewBanner}/>
                 </Col>
               </Row>
               <br/>
@@ -88,11 +124,11 @@ const EditProfileModal = (props) => {
           </Card>
         </Container>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={props.handleToggle}>
+      <Modal.Footer className="bg-dark">
+        <Button variant="light" onClick={props.handleToggle}>
           Cancel
         </Button>
-        <Button variant="primary" onClick={saveChanges}>
+        <Button variant="warning" onClick={saveChanges}>
           Save Changes
         </Button>
       </Modal.Footer>
@@ -103,6 +139,7 @@ const EditProfileModal = (props) => {
 const ProfileHeading = (props) => {
 
   const [editProfShow, setEditProfShow] = useState(false);
+  const [profileLink, setProfileLink] = useState(props.platform.profilePicture);
 
   const handleToggle = (e) => {
     setEditProfShow(!editProfShow);
@@ -110,36 +147,33 @@ const ProfileHeading = (props) => {
 
   return (
     <div>
-      <Container>
-        <div className="sectionBackground">
-          <Row>
-            <Col xs={3}>
-              <Image className="profAvatar" src={props.user.profilePicture} roundedCircle />
-            </Col>
-            <Col xs={6}>
-              <Row style={{fontSize: '50px', color: 'f5ae31'}}>{props.user.username}</Row>
-              <Row>{props.user.coins} coins</Row>
-              <Row>{props.user.visibility ? 'Public' : 'Private'}</Row>
-              <Row>My Dashboard</Row>
-            </Col>
-            <Col>
-              <Button variant="warning" onClick={handleToggle}>Customize Profile</Button>
-            </Col>
-          </Row>
-        </div>
-      </Container>
-      <EditProfileModal show={editProfShow} handleToggle={handleToggle} user={props.user}/>
+      <Row className="bg-dark text-white platformInfo align-items-center">
+        <Col xs={2}></Col>
+        <Col xs={1} className="text-center">
+          <Image className="profAvatar" src={profileLink} roundedCircle />
+        </Col>
+        <Col xs={6}>
+          <Row style={{fontSize: '40px'}}>{props.platform.username}</Row>
+        </Col>
+        <Col>
+          {props.currUser === props.platform._id ?
+          <Button variant="warning" onClick={handleToggle}>Customize Profile</Button> :
+          <div></div>}
+        </Col>
+      </Row>
+      <EditProfileModal show={editProfShow} handleToggle={handleToggle} platform={props.platform} setBgColor={props.setBgColor} currBgColor={props.currBgColor}
+                        setBannerLink={props.setBannerLink} setProfileLink={setProfileLink}/>
     </div>
   );
 };
 
 const WorksInProgress = (props) => {
   return (
-    <Container>
-      <span style={{fontSize: "30px", color: '#f5ae31'}}>Works in Progress</span>
+    <Container className="text-white">
+      <span style={{fontSize: "30px"}}>Popular Quizzes</span>
       <Carousel>
         <Carousel.Item>
-          <div className="sectionBackground">
+          <div className="bg-dark sectionBackground">
             {/* displays user's works in progress */}
             <Row style={{margin: '20px'}}>
               <Col md={4}>
@@ -176,23 +210,33 @@ const WorksInProgress = (props) => {
 
 const Profilescreen = (props) => {
 
-  let currentUser = 'base'
+  let currentPlatform = 'base';
+  let currUserId = getCurrentUser()._id;
+  let platformId = props.match.params.id;
+  const [bgColor, setBgColor] = useState("blank");
+  const [bannerLink, setBannerLink] = useState("blank");
 
   const { loading, error, data } = useQuery(GET_CURRENT_USER, {
-    variables: {_id: getCurrentUser()._id}
+    variables: {_id: platformId}
   })
   if (loading) { return <div></div>; }
   if(error) { console.log(error);
     return <div>Internal Error</div>; }
-	if(data) { currentUser = data.getUserById }
+	if(data) { currentPlatform = data.getUserById }
 
-  // console.log(currentUser)
+  if (bgColor === "blank"){
+    setBgColor(currentPlatform.bgColor);
+  }
+  if (bannerLink === "blank"){
+    setBannerLink(currentPlatform.bannerPicture);
+  }
 
   return (
-      <div style={{backgroundColor: currentUser.bgColor}}>
+      <div style={{backgroundColor: bgColor, minHeight: '100vh'}}>
         <NavbarTop />
+        <Image className="bannerImage" src={bannerLink}/>
         <br />
-        <ProfileHeading user={currentUser}/>
+        <ProfileHeading platform={currentPlatform} setBgColor={setBgColor} currBgColor={bgColor} setBannerLink={setBannerLink} currUser={currUserId}/>
         <br />
         <WorksInProgress />
         <br />

@@ -16,7 +16,7 @@ const ChangeProfilePicture = (props) => {
     const handleNewImage = (e) => {
         var newImage = e.target.files[0];
         var ending = newImage.name.split(".");
-        var newName = props.user._id + "." + ending[1];
+        var newName = props.user._id + "-" + Date.now() + "." + ending[1];
 
         var renamedImage = new File([newImage], newName, {type: newImage.type});
 
@@ -460,7 +460,7 @@ const Settingsscreen = (props) => {
     //console.log(currentUser)
 
 	return (
-		<div className="bg-dark">
+		<div className="bg-dark" style={{minHeight:"100vh"}}>
             <NavbarTop/>
             <br />
             <ChangeProfilePicture user={currentUser}/>

@@ -78,9 +78,9 @@ const App = (props) => {
 					} 
 				/>
 				<Route
-					path="/profile"
-					name="profile"
-					render={() => <Profilescreen />}
+					path="/platform/:id"
+					name="platform"
+					render={(props) => <Profilescreen {...props} />}
 					/>
 				<Route
 					path="/play"
