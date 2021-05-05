@@ -15,7 +15,10 @@ module.exports = {
       const { _id } = args;
       const objectId = new ObjectId(_id);
       const quiz = await Quiz.findOne({ _id: objectId });
-      if (quiz) return quiz;
+      if (quiz) {
+        // console.log(quiz);
+        return quiz;
+      }
       else return {};
     },
   getQuizzesByRating: async (_, args) => {

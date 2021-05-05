@@ -7,6 +7,7 @@ import Shopscreen from './components/shopscreen/Shopscreen';
 import Profilescreen from "./components/profilescreen/Profilescreen";
 import GamePlay from "./components/gameplay/GamePlay";
 import BeginContscreen from "./components/beginContScreen/BeginContScreen";
+
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import * as queries 	from './components/welcomescreen/cache/queries';
 import { useQuery } from '@apollo/client';
