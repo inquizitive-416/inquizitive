@@ -139,7 +139,7 @@ const EditProfileModal = (props) => {
 const ProfileHeading = (props) => {
 
   var checkedLink = props.platform.profilePicture;
-  if (typeof checkLink === "undefined"){
+  if (typeof checkedLink === "undefined" || checkedLink === ""){
     checkedLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultAvatar.jpg";
   }
 
@@ -193,10 +193,10 @@ const RecentWorks = (props) => {
     }
 
     var link = "/begin/" + quiz._id;
-    var coverImageLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultQuiz.jpeg";
+    var coverImageLink = quiz.coverImage;
 
-    if (typeof quiz.coverImage !== 'undefined'){
-      coverImageLink = quiz.coverImage;
+    if (typeof coverImageLink === 'undefined' || coverImageLink === ''){
+      coverImageLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultQuiz.jpeg";
     }
 
     return (
