@@ -45,16 +45,18 @@ const CreateScreen = (props) => {
     const [addQuiz]=useMutation(ADDQUIZ)
 
     const handleNewImage = (e) => {
-        var newImage = e.target.files[0].name;
-        //var ending = newImage.name.split(".");
-        //var newName = props.user._id + "." + ending[1];
-        console.log(newImage)
-        var renamedImage = new File([newImage], newImage.name, {type: newImage.type});
+        
+        var newImage = e.target.files[0];
+        var myname = newImage.name
+        console.log(myname)
+        var renamedImage = new File([newImage], myname, {type: newImage.type});
+        console.log(renamedImage)
 
         setImage(renamedImage);
     }
 
     const uploadNewImage = async (e) => {
+        
         const config = {
             bucketName: 'inquizitive416',
             dirName: 'avatars', // SPECIFY DIRECTORY FOR FILES HERE
@@ -70,6 +72,8 @@ const CreateScreen = (props) => {
             .catch(err => console.error(err));
 
         console.log("my loc", fileLocation)
+
+        setQuizInfo({...quizInfo, coverimage: fileLocation});
 
         //await updateUserField({ variables: { _id: props.user._id, field: 'profilePicture', value: fileLocation}});
     }
@@ -89,7 +93,7 @@ const CreateScreen = (props) => {
         console.log("saving", id)
         //setallQuestions( allQuestions.map(ques => ques.id == id  ? newques  : ques ))
        // setQuizInfo({...quizInfo, questions: allQuestions});
-       setQuizInfo({...quizInfo, questions: questions.map(ques => ques.id === id  ? newques  : ques )});
+       setQuizInfo({...quizInfo, questions: quizInfo.questions.map(ques => ques.id === id  ? newques  : ques )});
 
         console.log("Saved questions", allQuestions)
      }
@@ -124,9 +128,10 @@ const CreateScreen = (props) => {
              const newques = {id: id, questype: questype, questionPrompt: "",choice1: "", choice2: "", choice3: "", choice4: "", correctAnswer: "" }
             
              //setallQuestions([...allQuestions, newques]) 
-
-             const newarr = [quizInfo.questions, newques]
-             setQuizInfo({...quizInfo, questions: newarr});
+             //var myarr = quizInfo.questions
+            // const newarr = myarr.push(newques)
+             setQuizInfo({...quizInfo, questions: [...quizInfo.questions,newques]});
+             console.log("quess", quizInfo.questions)
      }
 
      const onSubmit= async(e)=>{
