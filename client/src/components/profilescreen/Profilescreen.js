@@ -138,8 +138,13 @@ const EditProfileModal = (props) => {
 
 const ProfileHeading = (props) => {
 
+  var checkedLink = props.platform.profilePicture;
+  if (typeof checkLink === "undefined"){
+    checkedLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultAvatar.jpg";
+  }
+
   const [editProfShow, setEditProfShow] = useState(false);
-  const [profileLink, setProfileLink] = useState(props.platform.profilePicture);
+  const [profileLink, setProfileLink] = useState(checkedLink);
 
   const handleToggle = (e) => {
     setEditProfShow(!editProfShow);

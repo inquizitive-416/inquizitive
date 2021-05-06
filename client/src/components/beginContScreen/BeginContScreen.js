@@ -58,6 +58,9 @@ const QuizDescription = (props) => {
 
 const StartCancelQuiz = (props) => {
     
+    var link = "/play/" + props.quiz._id;
+    console.log(link);
+
     return (
         <Row style={{height: '4vh'}}>
             <Col xs="1"></Col>
@@ -70,7 +73,7 @@ const StartCancelQuiz = (props) => {
             </Col>
             <Col xs="2"></Col>
             <Col xs="2">
-                <Button href='/play' variant="warning" style={{width: '100%', height: '100%'}}>Begin</Button>
+                <Button href={link} variant="warning" style={{width: '100%', height: '100%'}}>Begin</Button>
             </Col>
             <Col xs="1"></Col>
         </Row>
@@ -80,9 +83,11 @@ const StartCancelQuiz = (props) => {
 const BeginContscreen = (props) => {
 
     let currentQuiz = {}
+    let quizId = props.match.params.id;
+    console.log(quizId);
 
     const { loading, error, data } = useQuery(GET_CURRENT_QUIZ, {
-        variables: {_id: "6082d08406db7dbcff19696d"}
+        variables: {_id: quizId}
     })
     if (loading) { return <div></div>; }
     if(error) { console.log(error);
