@@ -64,11 +64,9 @@ const App = (props) => {
 					} 
 				/>
 				<Route 
-					path="/begin" 
+					path="/begin/:id" 
 					name="begin" 
-					render={() => 
-						<BeginContscreen/>
-					} 
+					render={(props) => <BeginContscreen {...props}/>} 
 				/>
 				<Route 
 					path="/shop" 
@@ -83,9 +81,9 @@ const App = (props) => {
 					render={(props) => <Profilescreen {...props} />}
 					/>
 				<Route
-					path="/play"
+					path="/play/:id"
 					name="play"
-					render={() => <GamePlay />}
+					render={(props) => <GamePlay {...props}/>}
 					/>
 			</Switch>
 		</BrowserRouter>

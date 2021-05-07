@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import "./profilescreen.css";
 import { Container, Form, Row, Col, Card, Carousel, Image, Button, Modal } from "react-bootstrap";
 import NavbarTop from "../navbar/NavbarTop";
-import { GET_CURRENT_USER } from "./queries";
+import { GET_CURRENT_USER, GET_PAGINIZED_QUIZZES_BY_AGE } from "./queries";
 import { UPDATE_USER_FIELD } from './mutations';
 import { getCurrentUser } from "../../data/LocalStorage";
 import { SketchPicker } from 'react-color';
@@ -33,7 +33,7 @@ const EditProfileModal = (props) => {
   const handleNewBanner = (e) => {
     var newImage = e.target.files[0];
     var ending = newImage.name.split(".");
-    var newName = props.platform._id + "-" + Date.now() + "." + ending[1];
+    var newName = props.platform._id + "-" + Date.now() + "." + ending[ending.length - 1];
 
     var renamedImage = new File([newImage], newName, {type: newImage.type});
 
@@ -138,8 +138,13 @@ const EditProfileModal = (props) => {
 
 const ProfileHeading = (props) => {
 
+  var checkedLink = props.platform.profilePicture;
+  if (typeof checkedLink === "undefined" || checkedLink === ""){
+    checkedLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultAvatar.jpg";
+  }
+
   const [editProfShow, setEditProfShow] = useState(false);
-  const [profileLink, setProfileLink] = useState(props.platform.profilePicture);
+  const [profileLink, setProfileLink] = useState(checkedLink);
 
   const handleToggle = (e) => {
     setEditProfShow(!editProfShow);
@@ -167,43 +172,65 @@ const ProfileHeading = (props) => {
   );
 };
 
-const WorksInProgress = (props) => {
+const RecentWorks = (props) => {
+
+  let quizzes = {};
+
+  const [page, setPage] = useState(1);
+
+  const { loading, error, data } = useQuery(GET_PAGINIZED_QUIZZES_BY_AGE, {
+    variables: {idOfCreator: props.platform._id, skip: (page - 1) * 8, limit: 8}
+  })
+  if (loading) { return <div></div>; }
+  if(error) { console.log(error);
+    return <div>Internal Error</div>; }
+	if(data) { quizzes = data.getPaginizedQuizzesByAge }
+
+  const createCard = (quiz) => {
+
+    if (typeof quiz === 'undefined'){
+      return (<div></div>);
+    }
+
+    var link = "/begin/" + quiz._id;
+    var coverImageLink = quiz.coverImage;
+
+    if (typeof coverImageLink === 'undefined' || coverImageLink === ''){
+      coverImageLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultQuiz.jpeg";
+    }
+
+    return (
+    <Col xs="3">
+      <a style={{ cursor: 'pointer'}} href={link}>
+        <Card className="bg-dark text-white text-center">
+          <Card.Img style={{ width: '100%', height: '20vh', objectFit: 'cover' }} variant="top" src={coverImageLink} />
+          <Card.Body>
+            <h4>{quiz.title}</h4>
+          </Card.Body>
+        </Card>
+      </a>
+    </Col>
+    )
+  }
+
   return (
-    <Container className="text-white">
-      <span style={{fontSize: "30px"}}>Popular Quizzes</span>
-      <Carousel>
-        <Carousel.Item>
-          <div className="bg-dark sectionBackground">
-            {/* displays user's works in progress */}
-            <Row style={{margin: '20px'}}>
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>Biology Quiz</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>All About Disney</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className={"cardStyle"}>
-                  <Card.Img variant="top" src="" />
-                  <Card.Body>
-                    <Card.Title>React</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </div>
-        </Carousel.Item>
-      </Carousel>
+    <Container style={{maxWidth: "80%"}}>
+      <Row style={{fontSize: "30px", color: "#ffffff", padding: '10px'}}>Recent Quizzes</Row>
+      <Row>
+        {createCard(quizzes[0])}
+        {createCard(quizzes[1])}
+        {createCard(quizzes[2])}
+        {createCard(quizzes[3])}
+      </Row>
+      {quizzes.length > 4 ? 
+      <div><br />
+      <Row>
+        {createCard(quizzes[4])}
+        {createCard(quizzes[5])}
+        {createCard(quizzes[6])}
+        {createCard(quizzes[7])}
+      </Row></div> :
+      <div></div>}
     </Container>
   );
 };
@@ -224,11 +251,20 @@ const Profilescreen = (props) => {
     return <div>Internal Error</div>; }
 	if(data) { currentPlatform = data.getUserById }
 
+  // set the state only once
   if (bgColor === "blank"){
     setBgColor(currentPlatform.bgColor);
   }
   if (bannerLink === "blank"){
     setBannerLink(currentPlatform.bannerPicture);
+  }
+
+  // if bg color or banner link arent set use these as defaults
+  if (bgColor === null){
+    setBgColor("#808080")
+  }
+  if (bannerLink === null){
+    setBannerLink("https://inquizitive416.s3.amazonaws.com/defaults/defaultBanner.jpeg");
   }
 
   return (
@@ -238,9 +274,7 @@ const Profilescreen = (props) => {
         <br />
         <ProfileHeading platform={currentPlatform} setBgColor={setBgColor} currBgColor={bgColor} setBannerLink={setBannerLink} currUser={currUserId}/>
         <br />
-        <WorksInProgress />
-        <br />
-        <WorksInProgress />
+        <RecentWorks platform={currentPlatform}/>
         <br />
       </div>
   );
