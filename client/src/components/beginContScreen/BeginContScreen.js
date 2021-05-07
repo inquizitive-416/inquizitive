@@ -5,7 +5,7 @@ import { Card, Button, Form, Col, Row, Image } from 'react-bootstrap'
 import { getCurrentUser } from "../../data/LocalStorage";
 import { GET_QUIZ_OWNER, GET_CURRENT_QUIZ } from './queries';
 import "./BeginContScreen.css";
-import GamePlay from '../gameplay/GamePlay'
+
 const QuizBaseInfo = (props) => {
 
     let quizOwner = {}
@@ -56,7 +56,6 @@ const QuizDescription = (props) => {
     );
 }
 
-
 const StartCancelQuiz = (props) => {
     
     return (
@@ -71,7 +70,7 @@ const StartCancelQuiz = (props) => {
             </Col>
             <Col xs="2"></Col>
             <Col xs="2">
-                <Button onClick={props.play} variant="warning" style={{width: '100%', height: '100%'}}>Begin</Button>
+                <Button href='/play' variant="warning" style={{width: '100%', height: '100%'}}>Begin</Button>
             </Col>
             <Col xs="1"></Col>
         </Row>
@@ -81,44 +80,30 @@ const StartCancelQuiz = (props) => {
 const BeginContscreen = (props) => {
 
     let currentQuiz = {}
-    const [quizStart,setQuizStart] = useState(false);
+
     const { loading, error, data } = useQuery(GET_CURRENT_QUIZ, {
-        variables: {_id: "608a3eab983d5f6c6fd5bb4a"}
-        
+        variables: {_id: "6082d08406db7dbcff19696d"}
     })
     if (loading) { return <div></div>; }
     if(error) { console.log(error);
         return <div>Internal Error</div>; }
-	if(data) { 
-        
-        currentQuiz = data.getQuizById;
-        // console.log(currentQuiz);
-     }
-    const play=(props)=>{
-        setQuizStart(true);
-        
-    }
+	if(data) { currentQuiz = data.getQuizById }
+
     //console.log(currentUser)
-    if(quizStart===false){
-        return (
-            <div className="bg-dark" style={{minHeight:"100vh"}}>
-                <NavbarTop/>
-                <br />
-                <QuizBaseInfo quiz={currentQuiz}/>
-                <br />
-                <QuizDescription quiz={currentQuiz}/>
-                <br />
-                <br />
-                <StartCancelQuiz quiz={currentQuiz} play={play}/>
-                <br />
-            </div>
-        );
-    }
-    else{
-        return(
-            <GamePlay quiz={currentQuiz}/>
-        );
-    }
+
+	return (
+		<div className="bg-dark" style={{minHeight:"100vh"}}>
+            <NavbarTop/>
+            <br />
+            <QuizBaseInfo quiz={currentQuiz}/>
+            <br />
+            <QuizDescription quiz={currentQuiz}/>
+            <br />
+            <br />
+            <StartCancelQuiz quiz={currentQuiz}/>
+            <br />
+        </div>
+	);
 };
 
 export default BeginContscreen;
