@@ -117,12 +117,12 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                                 <div style= {{paddingLeft: 20}}>
                                     <div style= {{paddingBottom: 40 }}>
                                         <label style= {{color: "lightgrey"}} for="formGroupExampleInput">Enter Question Prompt:</label>
-                                        <input style= {{ backgroundColor: "#838383", width:900}} type="text" name="questionPrompt" value={ques.questionPrompt} onChange={onChangeQues} class="form-control" id="formGroupExampleInput" placeholder="Enter Question Prompt"/>
+                                        <input style= {{ backgroundColor: "#838383", width:900}} type="text" name="questionPrompt" value={ques.questionPrompt} onChange={onChangeQues} class="form-control" id="formGroupExampleInput" />
                                     </div>
                         
                                     <div style={{paddingTop:27, borderColor: "orange"}} class="card border-warning mb-3" style= {{  width:300}}>
                                         <div style = {{backgroundColor: "#282828", color:"lightgrey"}}class="card-header"> Enter Correct Word </div>
-                                        <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="correctAnswer" value={ques.correctAnswer} onChange={onChangeQues}  placeholder="Enter Answer"/>
+                                        <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="correctAnswer" value={ques.correctAnswer} onChange={onChangeQues}  />
                                     </div> 
                                 </div>
                             </div> 
@@ -152,36 +152,41 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                             <div style= {{paddingLeft: 20}}>
                                 <div style= {{paddingBottom: 40 }}>
                                     <label style= {{color: "lightgrey"}} for="formGroupExampleInput">Enter Question Prompt:</label>
-                                    <input style= {{ backgroundColor: "#838383", width:900}} type="text" name="questionPrompt" value={ques.questionPrompt} onChange={onChangeQues} class="form-control" id="formGroupExampleInput" placeholder="Enter Question Prompt"/>
+                                    <input style= {{ backgroundColor: "#838383", width:900}} type="text" name="questionPrompt" value={ques.questionPrompt} onChange={onChangeQues} class="form-control" id="formGroupExampleInput" />
                                 </div>
                     
                                 <div style={{paddingTop:27, borderColor: "orange"}} class="card border-warning mb-3" style= {{  width:300}}>
                                     <div style = {{backgroundColor: "#282828", color:"lightgrey"}}class="card-header"> Options </div>
-                                    <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="choice1" value={ques.choice1} onChange={onChangeQues} placeholder="Enter Option 1"/>
-                                    <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="choice2" value={ques.choice2} onChange={onChangeQues} placeholder="Enter Option 2"/>
-                                    <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="choice3" value={ques.choice3} onChange={onChangeQues} placeholder="Enter Option 3"/>
-                                    <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="choice4" value={ques.choice4} onChange={onChangeQues} placeholder="Enter Option 4"/>
+                                    <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="choice1" value={ques.choice1} onChange={onChangeQues} />
+                                    <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="choice2" value={ques.choice2} onChange={onChangeQues} />
+                                    <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="choice3" value={ques.choice3} onChange={onChangeQues} />
+                                    <input style = {{backgroundColor: "#939393"}} type="text" id="typeText" class="form-control" name="choice4" value={ques.choice4} onChange={onChangeQues} />
                                 </div>
                         
                                 <div style ={{paddingTop: 30 }}>
-                                     <label style= {{color: "lightgrey"}} for="formGroupExampleInput">Choose correct option/s: </label>
-                                     <div style= {{paddingLeft:20}} class="form-check form-check-inline">
-                                        <input style={{width: 18, height :18}}class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"/>
-                                        <label class="form-check-label" for="inlineCheckbox1">1</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                         <input style={{width: 18, height :18}}class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2"/>
-                                        <label class="form-check-label" for="inlineCheckbox2">2</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                         <input style={{width: 18, height :18}}class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3"/>
-                                         <label class="form-check-label" for="inlineCheckbox3">3 </label>      
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                         <input style={{width: 18, height :18}}class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3"/>
-                                        <label class="form-check-label" for="inlineCheckbox3"> 4</label>
-                                    </div>
+                                    <fieldset class="form-group row">
+                                    <legend style= {{color: "lightgrey", fontSize: 18}} class="col-form-legend col-sm-2">Choose Answer:</legend>
+                                    <div class="col-sm-10">
+                                        <div class="form-check">
+                                            <label style= {{color: "lightgrey", fontSize: 15}} class="form-check-label">
+                                            <input  onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) }  class="form-check-input radio-inline" type="radio" name="gridRadios" id="gridRadios1" value="1" ></input>
+                                            Option one</label>
+                                            <label style={{paddingLeft :60,color: "lightgrey", fontSize: 15}} class="form-check-label">
+                                            <input  onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) }  class="form-check-input radio-inline" type="radio" name="gridRadios" id="gridRadios2" value="2"></input>
+                                            Option two</label>
+                                            <label style={{paddingLeft :60,color: "lightgrey", fontSize: 15}} class="form-check-label">
+                                            <input onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) } class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="3" ></input>
+                                            Option three</label>
+                                            <label style={{paddingLeft :60,color: "lightgrey", fontSize: 15}} class="form-check-label">
+                                            <input   onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) } class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="4" ></input>
+                                            Option Four</label>
+
+                                        </div>
+                                        </div>  
+                                    </fieldset>
                                 </div>    
+
+
                             </div>
                         </div> 
                     </Card.Body>
@@ -213,7 +218,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                                 <div style= {{paddingLeft: 20}}>
                                     <div style= {{paddingBottom: 40 }}>
                                         <label style= {{color: "lightgrey"}} for="formGroupExampleInput">Enter Question Prompt:</label>
-                                        <input style= {{ backgroundColor: "#838383", width:900}} type="text" name="questionPrompt" value={ques.questionPrompt} onChange={onChangeQues} class="form-control" id="formGroupExampleInput" placeholder="Enter Question Prompt"/>
+                                        <input style= {{ backgroundColor: "#838383", width:900}} type="text" name="questionPrompt" value={ques.questionPrompt} onChange={onChangeQues} class="form-control" id="formGroupExampleInput" />
                                     </div>
                         
                                     <div style={{paddingTop:27, borderColor: "orange"}} class="card border-warning mb-3" style= {{  width:1100}}>
@@ -223,7 +228,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                                                 
                                                 <input type="file" name="image1" onChange={handleNewImage} />
                                                 <Button variant='light' name="image1" onClick={uploadNewImage} >Upload Image 1</Button>
-                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice1" value={ques.choice1} onChange={onChangeQues} placeholder="Enter Option 1"/>
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice1" value={ques.choice1} onChange={onChangeQues} />
                                     
                                              </Card.Body>
                                          </Card>
@@ -231,21 +236,21 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                                             <Card.Body style={{backgroundColor: "#585858"}}>
                                                 <input class= "inline-block" type="file" name="image2" onChange={handleNewImage} />
                                                 <Button class= "inline-block" variant='light' name="image2" onClick={uploadNewImage} >Upload Image 2</Button>
-                                                <input class= "inline-block" style = {{backgroundColor: "#939393", width: 200, }} type="text" id="typeText" class="form-control" name="choice2" value={ques.choice2} onChange={onChangeQues} placeholder="Enter Option 1"/>
+                                                <input class= "inline-block" style = {{backgroundColor: "#939393", width: 200, }} type="text" id="typeText" class="form-control" name="choice2" value={ques.choice2} onChange={onChangeQues} />
                                              </Card.Body>
                                         </Card>
                             <           Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
                                             <Card.Body style={{backgroundColor: "#585858"}}>
                                                 <input type="file" name="image3" onChange={handleNewImage} />
                                                 <Button variant='light' name="image3" onClick={uploadNewImage} >Upload Image 3</Button>
-                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice3" value={ques.choice3} onChange={onChangeQues} placeholder="Enter Option 1"/>
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice3" value={ques.choice3} onChange={onChangeQues} />
                                             </Card.Body>
                                          </Card>
                                          <Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
                                             <Card.Body style={{backgroundColor: "#585858"}}>
                                                  <input type="file" name="image4" onChange={handleNewImage} />
                                                 <Button variant='light' name="image4"  onClick={uploadNewImage} >Upload Image 4</Button>
-                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice4" value={ques.choice4} onChange={onChangeQues} placeholder="Enter Option 1"/>
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice4" value={ques.choice4} onChange={onChangeQues} />
                                         </Card.Body>
                                         </Card>
                                     </div>
@@ -281,7 +286,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                                 <div style= {{paddingLeft: 20}}>
                                     <div style= {{paddingBottom: 40 }}>
                                         <label style= {{color: "lightgrey"}} for="formGroupExampleInput">Enter Question Prompt:</label>
-                                        <input style= {{ backgroundColor: "#838383", width:900}} type="text" name="questionPrompt" value={ques.questionPrompt} onChange={onChangeQues} class="form-control" id="formGroupExampleInput" placeholder="Enter Question Prompt"/>
+                                        <input style= {{ backgroundColor: "#838383", width:900}} type="text" name="questionPrompt" value={ques.questionPrompt} onChange={onChangeQues} class="form-control" id="formGroupExampleInput" />
                                     </div>
                         
                                     <div style={{paddingTop:27, borderColor: "orange"}} class="card border-warning mb-3" style= {{  width:1100}}>

@@ -103,9 +103,15 @@ const CreateScreen = (props) => {
      const onDelete =(id)=> { 
            
         setQuestions(questions.filter( ques => ques.id !== id))
-     
 
         setQuizInfo({...quizInfo, questions: quizInfo.questions.filter(ques => ques.id !== id )});
+
+        if((questions.length - 1) == 0)
+        {
+            
+            setshowques(true)
+        }
+        
      }
 
      const changeQuestion=(questype, id, newques)=>{
