@@ -57,6 +57,10 @@ mutation addQuiz(
             choice2
             choice3
             choice4
+            image1
+            image2
+            image3
+            image4
             correctAnswer
         }
         ratings

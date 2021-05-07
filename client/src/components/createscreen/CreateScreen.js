@@ -17,6 +17,7 @@ import { AddArgumentsAsVariables } from 'graphql-tools';
 const CreateScreen = (props) => {
 
     const [questions , setQuestions] = useState([])
+    const [showques , setshowques] = useState(true)
     const [showAdd , setShowAdd] = useState(false)
     const [gotoexplore, setgoto]= useState(false)
     const [allQuestions, setallQuestions] = useState([])
@@ -45,16 +46,18 @@ const CreateScreen = (props) => {
     const [addQuiz]=useMutation(ADDQUIZ)
 
     const handleNewImage = (e) => {
-        var newImage = e.target.files[0].name;
-        //var ending = newImage.name.split(".");
-        //var newName = props.user._id + "." + ending[1];
-        console.log(newImage)
-        var renamedImage = new File([newImage], newImage.name, {type: newImage.type});
+        
+        var newImage = e.target.files[0];
+        var myname = newImage.name
+        console.log(myname)
+        var renamedImage = new File([newImage], myname, {type: newImage.type});
+        console.log(renamedImage)
 
         setImage(renamedImage);
     }
 
     const uploadNewImage = async (e) => {
+        
         const config = {
             bucketName: 'inquizitive416',
             dirName: 'avatars', // SPECIFY DIRECTORY FOR FILES HERE
@@ -70,6 +73,8 @@ const CreateScreen = (props) => {
             .catch(err => console.error(err));
 
         console.log("my loc", fileLocation)
+
+        setQuizInfo({...quizInfo, coverimage: fileLocation});
 
         //await updateUserField({ variables: { _id: props.user._id, field: 'profilePicture', value: fileLocation}});
     }
@@ -89,31 +94,28 @@ const CreateScreen = (props) => {
         console.log("saving", id)
         //setallQuestions( allQuestions.map(ques => ques.id == id  ? newques  : ques ))
        // setQuizInfo({...quizInfo, questions: allQuestions});
-       setQuizInfo({...quizInfo, questions: questions.map(ques => ques.id === id  ? newques  : ques )});
+       setQuizInfo({...quizInfo, questions: quizInfo.questions.map(ques => ques.id === id  ? newques  : ques )});
 
         console.log("Saved questions", allQuestions)
      }
     
-    const onChan =()=>{
-        //console.log("my mcq quest" , mcqQuestions)
-        //console.log("my fitb quest", fitbQuestions) 
-    }
-     const onDelete =(id, questype)=> { 
+    
+     const onDelete =(id)=> { 
            
         setQuestions(questions.filter( ques => ques.id !== id))
-        //console.log("new ques", questions)
+     
 
-            setallQuestions(allQuestions.filter( ques => ques.id !== id))
+        setQuizInfo({...quizInfo, questions: quizInfo.questions.filter(ques => ques.id !== id )});
      }
 
      const changeQuestion=(questype, id, newques)=>{
 
               setQuizInfo({...quizInfo, questions: questions.map(ques => ques.id === id  ? newques  : ques )});
-              //setallQuestions( allQuestions.map(ques => ques.id === id  ? newques  : ques ))
-    
          }
 
      const addQues = (questype)=>{
+
+        setshowques(false)
         
          const id = Math.floor(Math.random() * 10000) + 1
          const newQuestion = {id, questype }
@@ -121,12 +123,13 @@ const CreateScreen = (props) => {
          console.log("type is" , questype)
          setQuestions([...questions, newQuestion])
          
-             const newques = {id: id, questype: questype, questionPrompt: "",choice1: "", choice2: "", choice3: "", choice4: "", correctAnswer: "" }
+             const newques = {id: id, questype: questype, questionPrompt: "",choice1: "", choice2: "", choice3: "", choice4: "",image1: "", image2: "", image3: "", image4: "" ,correctAnswer: "" }
             
              //setallQuestions([...allQuestions, newques]) 
-
-             const newarr = [quizInfo.questions, newques]
-             setQuizInfo({...quizInfo, questions: newarr});
+             //var myarr = quizInfo.questions
+            // const newarr = myarr.push(newques)
+             setQuizInfo({...quizInfo, questions: [...quizInfo.questions,newques]});
+             console.log("quess", quizInfo.questions)
      }
 
      const onSubmit= async(e)=>{
@@ -161,7 +164,7 @@ const CreateScreen = (props) => {
                 <form>
                     <div style= {{paddingLeft: 220, paddingTop: 20}}class="form-group">
                          <label for="formGroupExampleInput"><b>Enter Quiz Name </b></label>
-                         <input style= {{ backgroundColor: "#838383", width:900}} type="text" class="form-control" required = "true" value={quizInfo.title} name="title" onChange={onChange} id="formGroupExampleInput" placeholder="Add Quiz Name" />
+                         <input style= {{ backgroundColor: "#838383", width:900 }}  type="text" class="form-control" required = "true" value={quizInfo.title} name="title" onChange={onChange} id="formGroupExampleInput"  />
                     </div>
 
                     <div style= {{paddingLeft: 220}} class="form-group">
@@ -186,7 +189,10 @@ const CreateScreen = (props) => {
                     </Row>
                     </div>
 
+                    
+
                     <div style= {{paddingLeft: 220, width:1127}} class="input-group mb-3">
+                        
                         <select style= {{ backgroundColor: "#838383", width:1200}} name="categories" onChange={onChange} class="custom-select" id="inputGroupSelect02">
                             <option  selected>Choose categories</option>
                             <option value="Geography">Geography</option>
@@ -204,9 +210,9 @@ const CreateScreen = (props) => {
 
                     <div style= {{paddingLeft: 220}}class="form-group">
                         <label for="formGroupExampleInput"><b>Enter Hashtags: </b></label>
-                        <input style= {{backgroundColor: "#838383", width:910}}  value ={quizInfo.hashtagone} onChange= {onChange} name="hashtagone" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 1"/>
-                        <input style= {{ backgroundColor: "#838383", width:910}} value ={quizInfo.hashtagtwo} onChange= {onChange} name="hashtagtwo" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 2"/>
-                        <input style= {{ backgroundColor: "#838383", width:910}} value ={quizInfo.hashtagthree} onChange= {onChange} name="hashtagthree" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hashtag 3"/>
+                        <input style= {{backgroundColor: "#838383", width:910}}  value ={quizInfo.hashtagone} onChange= {onChange} name="hashtagone" type="text" class="form-control" id="formGroupExampleInput" />
+                        <input style= {{ backgroundColor: "#838383", width:910}} value ={quizInfo.hashtagtwo} onChange= {onChange} name="hashtagtwo" type="text" class="form-control" id="formGroupExampleInput" />
+                        <input style= {{ backgroundColor: "#838383", width:910}} value ={quizInfo.hashtagthree} onChange= {onChange} name="hashtagthree" type="text" class="form-control" id="formGroupExampleInput" />
                      </div>
 
                     <div style= {{paddingLeft: 220, width:1128}} class="input-group mb-3">
@@ -218,12 +224,14 @@ const CreateScreen = (props) => {
                             <option value="Hard">Hard</option>
                         </select>
                     </div>
+                    {showques && <label style={{paddingLeft: 250, paddingTop: 17}}> <b>No Questions to Display</b> </label>}
                     <QuestionList questions= {questions} onDelete = {onDelete} changeQuestion={changeQuestion} onSave= {onSave}/>
-               <div style={{paddingLeft: 40}}class="d-grid gap-2 col-6 mx-auto">
-                  <button style= {{backgroundColor: "#ffa343"}}  onClick={onAdd} class="btn btn-primary" type="button">Add New Question</button>
+               <div style={{paddingLeft: 217, paddingTop: 15}}>
+               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+                  <button style= {{backgroundColor: "#ffa343", width: 915}}  onClick={onAdd} class="btn btn-primary" type="button"> <i class="fa fa-plus"></i> Add   New   Question</button>
                   {showAdd && <AddQuestion  addQues ={addQues} onAdd = {onAdd}/>}
                </div>
-               <div style={{paddingLeft:400}}>
+               <div style={{paddingTop:40 , paddingLeft:600}}>
                {renderRedirect()}
                <button style= {{backgroundColor: "orange"}} onClick = {onSubmit} class= "btn btn-primary" >Submit quiz</button>
 
