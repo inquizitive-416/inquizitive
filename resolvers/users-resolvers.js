@@ -30,6 +30,13 @@ module.exports = {
         if (user) return user;
         else return {};
       },
+
+      getAllUsers: async (_, args) => {
+        const { skip, limit } = args;
+        const users = await User.find().sort({ _id: -1 }).skip(skip).limit(limit);
+        if (users) return users;
+        else return {};
+      },
     },
 
     Mutation: {

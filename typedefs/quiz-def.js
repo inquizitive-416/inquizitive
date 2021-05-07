@@ -40,11 +40,8 @@ const typeDefs = gql`
 	extend type Query {
 		getQuizById(_id: String!): Quiz
 		getQuizzesByRating: [Quiz]
-<<<<<<< HEAD
 		getSearchedQuizzes(categories: String!, skip: Int!, limit: Int!): [Quiz]
-=======
 		getPaginizedQuizzesByAge(idOfCreator: String!, skip: Int!, limit: Int!): [Quiz]
->>>>>>> d46178802f9251052cdb8e884a63b79f7c2b4bcf
 	}
 	extend type Mutation {
 		addQuiz(
