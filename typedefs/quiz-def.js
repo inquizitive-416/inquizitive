@@ -23,6 +23,7 @@ const typeDefs = gql`
 	}
 
 	type Question {
+		_id: String
 		id: Int
 		questype: String
         questionPrompt: String

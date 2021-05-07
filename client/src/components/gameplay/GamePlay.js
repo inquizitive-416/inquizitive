@@ -3,26 +3,50 @@ import Multiplechoice from './Multiplechoice';
 import DisplayQuestion from './DisplayQuestion';
 import Button from "react-bootstrap/Button";
 import Score from './Score'
-
 import "./Multiplechoice.css";
-import quiz from './QuizData';
+import {GET_QUIZ} from './queries';
+import { useQuery } from '@apollo/client';
 
 const GamePlay = (props) => {
-
+    // const [quiz,setQuiz] = useState("")
+    let quiz={}
     const [currQuestion,setCurrQuestion]=useState(0);
     const [currAnswer,setCurrAnswer]=useState("");
     const [currQText,setCurrQText]=useState("");
-    const [answer, setAnswer]=useState(new Array(quiz.questions.length).fill(""))
+    let answer = {}
+    // const [answer,setAnswer] = useState(["",""]);
     const [selected, setSelected] = useState("")
     const [scoreOpen, setScoreOpen] = useState(false)
     const [score, setScore] = useState(0)
+    // console.log('here');
+    // console.log(quiz);
 
+    let quizId = props.match.params.id;
+    // console.log(quizId)
+
+    const { loading, error, data } = useQuery(GET_QUIZ, {
+        variables: {_id: quizId}
+    })
+    if (loading) { return <div></div>; }
+    if(error) { console.log(error);
+        return <div>Internal Error</div>; }
+	if(data) { 
+        // console.log(data.getQuizById.questions)
+        quiz=(data.getQuizById)
+
+        answer=(new Array(quiz.questions.length).fill(""))
+        // console.log(answer)
+        
+    }
+    // console.log("Quiz")
+    // console.log(quiz.questions[0])
+    
 
     const onClickNext= (props)=>{
         
         const nextQuestion = currQuestion + 1;
         answer[currQuestion]=selected;
-        setAnswer(answer);
+        // setAnswer(answer);
         console.log(answer);
 		if (nextQuestion < quiz.questions.length) {
             
@@ -35,7 +59,7 @@ const GamePlay = (props) => {
     const onClickPrev= (props)=>{
         const prevQuestion = currQuestion - 1;
         answer[currQuestion]=selected;
-        setAnswer(answer);
+        // setAnswer(answer);
         console.log(answer);
 		if (prevQuestion >= 0) {
             setSelected(answer[prevQuestion]);
@@ -55,11 +79,11 @@ const GamePlay = (props) => {
     }
     const Submit=()=>{
         answer[currQuestion]=selected;
-        setAnswer(answer);
+        // setAnswer(answer);
         var n=0;
         var score=0;
         for(const [index,elem] of quiz.questions.entries()){
-            if(elem.correct===answer[index]){
+            if(elem.correctAnswer===answer[index]){
                 score=score+1;
             }
         }
@@ -69,26 +93,26 @@ const GamePlay = (props) => {
     }
     return(
         <div>
-            <div style={{textAlign:'center',paddingBottom:'10vh',paddingTop:'10vh',backgroundColor:'#404040'}}>
+            <div style={{textAlign:'center',height:'20vh',backgroundColor:'#404040'}}>
                 <h1 style={{color:'white'}}>My First Quiz</h1>
             </div>
-            <div class='row' style={{backgroundColor:'#424242'}}>
+            <div class='row' style={{height:'20vh',backgroundColor:'#424242'}}>
                 <div class='col' style={{display:'flex', marginLeft:'4vh',paddingBottom:'4vh',paddingTop:'4vh'}}>
                     <h2 className='nextprev' style={{ marginRight: "auto" }} onClick={onClickPrev}>{'<'}prev</h2>
                 </div>
                 <div class='col'style={{display:'flex',paddingBottom:'4vh',paddingTop:'4vh'}}>
-                    <h2 style={{ margin: "auto",color:'white' }}>{quiz.questions[currQuestion].questionText}</h2>
+                    <h2 style={{ margin: "auto",color:'white' }}>{quiz.questions[currQuestion].questionPrompt}</h2>
                 </div>
                 <div class='col' style={{display:'flex', marginRight:'4vh',paddingBottom:'4vh',paddingTop:'4vh'}}>
                     <h2 className='nextprev' style={{ marginLeft: "auto" }} onClick={onClickNext}>next{'>'}</h2>
                 </div>
             </div>
-            <div style={{ backgroundColor:'#4d4d4d'}}>
+            <div style={{ height:'50vh',backgroundColor:'#4d4d4d'}}>
                 {
                     <DisplayQuestion onClick={answerClick} onChange={onChange} question={quiz.questions[currQuestion]} answers = {answer[currQuestion]}/>                    
                 }
             </div>
-            <div class='row' style={{backgroundColor:'#424242'}}>
+            <div class='row' style={{height:'8vh',backgroundColor:'#424242'}}>
                 <div class='col' style={{display:'flex', marginLeft:'10vh'}}>
                     <Button href='/explore' style={{ marginRight: "auto",backgroundColor:'orange',borderRadius:'25px',paddingLeft:'25pt',paddingRight:'25pt' }}>
                         Exit Quiz</Button>
