@@ -23,6 +23,15 @@ module.exports = {
     if (quiz) return quiz;
     else return {};
   },
+  getPaginizedQuizzesByAge: async (_, args) => {
+    const { idOfCreator, skip, limit } = args;
+    const quizzes = await Quiz.find({ idOfCreator: idOfCreator })
+                              .sort({ _id: -1 })
+                              .skip(skip)
+                              .limit(limit);
+    if (quizzes) return quizzes;
+    else return {};
+  },
    },
 
     Mutation: {
