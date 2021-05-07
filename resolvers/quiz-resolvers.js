@@ -32,6 +32,12 @@ module.exports = {
     if (quizzes) return quizzes;
     else return {};
   },
+      getSearchedQuizzes: async (_, args) => {
+        const { categories, skip, limit} = args;
+        const quizzes = await Quiz.find({ categories: categories }).sort({ _id: -1 }).skip(skip).limit(limit);
+        if (quizzes) return quizzes;
+        else return {};
+      },
    },
 
     Mutation: {

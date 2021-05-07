@@ -34,3 +34,18 @@
   align-items: center;
   margin: 20px;
 }
+
+/* Tooltip text */
+.tooltiptext {
+  visibility: hidden;
+  background-color: #696969;
+  color: black;
+  text-align: center;
+  padding: 5px;
+  text-decoration: none;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltipCard:hover .tooltiptext {
+  visibility: visible;
+}
