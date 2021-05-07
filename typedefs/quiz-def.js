@@ -30,13 +30,19 @@ const typeDefs = gql`
         choice1: String
         choice2: String
         choice3: String
-        choice4: String
+		choice4: String
+		image1: String
+        image2: String
+        image3: String
+        image4: String
         correctAnswer: String
     }
 
 	extend type Query {
 		getQuizById(_id: String!): Quiz
 		getQuizzesByRating: [Quiz]
+		getSearchedQuizzes(categories: String!, skip: Int!, limit: Int!): [Quiz]
+		getPaginizedQuizzesByAge(idOfCreator: String!, skip: Int!, limit: Int!): [Quiz]
 	}
 	extend type Mutation {
 		addQuiz(
@@ -87,7 +93,11 @@ const typeDefs = gql`
         choice1: String
         choice2: String
         choice3: String
-        choice4: String
+		choice4: String
+		image1: String
+        image2: String
+        image3: String
+        image4: String
         correctAnswer: String
     }
 `;
