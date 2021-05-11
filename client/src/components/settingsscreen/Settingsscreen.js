@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import NavbarTop from '../navbar/NavbarTop';
 import { Card, Button, Form, Col, Row } from 'react-bootstrap'
@@ -6,10 +6,12 @@ import { GET_CURRENT_USER } from './queries'
 import { UPDATE_USER_FIELD, UPDATE_USER_INFO, UPDATE_SECURITY_QUESTIONS, UPDATE_USER_VISIBILITY } from './mutations'
 import { getCurrentUser } from "../../data/LocalStorage";
 import { uploadFile } from 'react-s3';
+const bcrypt = require('bcryptjs');
 
 const ChangeProfilePicture = (props) => {
 
     const [image, setImage] = useState({});
+    const [disableUpdate, setDisableUpdate] = useState(true);
 
     const [updateUserField] = useMutation(UPDATE_USER_FIELD);
 
@@ -21,6 +23,7 @@ const ChangeProfilePicture = (props) => {
         var renamedImage = new File([newImage], newName, {type: newImage.type});
 
         setImage(renamedImage);
+        setDisableUpdate(false);
     }
 
     const uploadNewImage = async (e) => {
@@ -39,6 +42,8 @@ const ChangeProfilePicture = (props) => {
             .catch(err => console.error(err));
 
         await updateUserField({ variables: { _id: props.user._id, field: 'profilePicture', value: fileLocation}});
+
+        await setDisableUpdate(true);
     }
 
     return (
@@ -55,7 +60,7 @@ const ChangeProfilePicture = (props) => {
                 <Card className="bg-secondary text-white text-center">
                     <Card.Body>
                         <input type="file" onChange={handleNewImage}/>
-                        <Button variant='light' onClick={uploadNewImage}>Upload a New Photo</Button>
+                        <Button variant='light' onClick={uploadNewImage} disabled={disableUpdate}>Upload a New Photo</Button>
                     </Card.Body>
                 </Card>
             </Col>
@@ -67,15 +72,19 @@ const ChangeProfilePicture = (props) => {
 const ChangeUsername = (props) => {
 
     const [username, setUsername] = useState(props.user.username);
+    const [disableUpdate, setDisableUpdate] = useState(true);
 
     const [updateUserField] = useMutation(UPDATE_USER_FIELD);
 
     const updateUsername = (e) => {
         setUsername(e.target.value);
+        setDisableUpdate(false);
     }
 
     const handleSubmit = async (e) => {
         await updateUserField({ variables: { _id: props.user._id, field: 'username', value: username}});
+
+        setDisableUpdate(true);
     }
 
     return (
@@ -84,7 +93,7 @@ const ChangeUsername = (props) => {
             <Col xs="2">
             <Card className="bg-dark text-white text-center" border="dark">
                     <Card.Body>
-                        <Form.Label className="text-warning">Change your Username</Form.Label>
+                        <Form.Label className="text-warning">Change your Platform Name</Form.Label>
                     </Card.Body>
                 </Card>
             </Col>
@@ -93,13 +102,13 @@ const ChangeUsername = (props) => {
                     <Card.Body>
                         <Form>
                         <Form.Group controlId="formUsername">
-                            <Form.Label className="text-warning">Username</Form.Label>
+                            <Form.Label className="text-warning">Platform Name</Form.Label>
                             <Form.Control type="username" value={username} onChange={updateUsername}/>
                         </Form.Group>
 
                         <Form.Group className="text-center" controlId="formSubmitButton">
-                            <Button variant="light" onClick={handleSubmit}>
-                                Update Username
+                            <Button variant="light" onClick={handleSubmit} disabled={disableUpdate}>
+                                Update Platform Name
                             </Button>
                         </Form.Group>
                         </Form>
@@ -117,6 +126,8 @@ const ChangePassword = (props) => {
         password: "",
         confirmPassword: ""
     });
+    const [disableUpdate, setDisableUpdate] = useState(true);
+    const [showError, setShowError] = useState(false);
 
     const [updateUserField] = useMutation(UPDATE_USER_FIELD);
 
@@ -124,12 +135,27 @@ const ChangePassword = (props) => {
         const { name, value } = e.target;
         const updated = { ...input, [name]: value};
         setInput(updated);
+        if (updated.password !== "" && updated.confirmPassword !== ""){
+            setDisableUpdate(false);
+        }
     }
 
     const handleSubmit = async (e) => {
-        if (input.password == input.confirmPassword){
-            await updateUserField({ variables: { _id: props.user._id, field: 'password', value: input.password}});
+        if (input.password === input.confirmPassword){
+            await bcrypt.hash(input.password, 10, function(err, hash){
+                updateUserField({ variables: { _id: props.user._id, field: 'password', value: hash}});
+            });
+            setInput({
+                password: "",
+                confirmPassword: ""
+            });
+            setShowError(false);
         }
+        else{
+            setShowError(true);
+        }
+
+        setDisableUpdate(true);
     }
 
     return (
@@ -157,11 +183,16 @@ const ChangePassword = (props) => {
                         </Form.Group>
 
                         <Form.Group className="text-center" controlId="formSubmitButton">
-                            <Button variant="light" onClick={handleSubmit}>
+                            <Button variant="light" onClick={handleSubmit} disabled={disableUpdate}>
                                 Update Password
                             </Button>
                         </Form.Group>
                         </Form>
+                        {showError ?
+                        <Form.Group controlId="formPasswordDontMatch" style={{marginBottom: '0'}}>
+                            <Form.Label style={{color: '#ff1414', fontWeight: 'bold'}}>Passwords don't match</Form.Label>
+                        </Form.Group> :
+                        <div></div>}
                     </Card.Body>
                 </Card>
             </Col>
@@ -185,6 +216,7 @@ const ChangeUserInfo = (props) => {
         day: day,
         year: year
     });
+    const [disableUpdate, setDisableUpdate] = useState(true);
 
     const [updateUserInfo] = useMutation(UPDATE_USER_INFO);
 
@@ -192,24 +224,26 @@ const ChangeUserInfo = (props) => {
         const { name, value } = e.target;
         const updated = { ...input, [name]: value};
         setInput(updated);
+        setDisableUpdate(false);
     }
 
     const handleSubmit = async (e) => {
         var newDate = new Date(input.year, input.month, input.day)
         await updateUserInfo({ variables: { _id: props.user._id, firstName: input.firstName, lastName: input.lastName, 
             email: input.email, dateOfBirth: newDate}});
+        setDisableUpdate(true);
     }
 
     const createOptions = (from, to) => {
         var options = [];
         if (from > to) {
-            for (var i = to; i >= from; i--){
+            for (var i = from; i >= to; i--){
                 options.push(<option key={i.toString()}>{i}</option>);
             }
         }
         else{
-            for (var i = from; i <= to; i++){
-                options.push(<option key={i.toString()}>{i}</option>);
+            for (var j = from; j <= to; j++){
+                options.push(<option key={j.toString()}>{j}</option>);
             }
         }
         return options;
@@ -271,14 +305,14 @@ const ChangeUserInfo = (props) => {
 
                                 <Form.Group as={Col} controlId="year">
                                     <Form.Control as="select" name="year" value={input.year} onChange={updateInput} custom>
-                                        {createOptions(1900, 2021)}
+                                        {createOptions(2021, 1900)}
                                     </Form.Control>
                                 </Form.Group>
                             </Form.Row>
                         </Form.Group>
 
                         <Form.Group className="text-center" controlId="formSubmitButton">
-                            <Button variant="light" onClick={handleSubmit}>
+                            <Button variant="light" onClick={handleSubmit} disabled={disableUpdate}>
                                 Update User Info
                             </Button>
                         </Form.Group>
@@ -299,6 +333,7 @@ const ChangeSecurityQuestions = (props) => {
         question2: props.user.securityQuestionTwo,
         answer2: props.user.securityAnswerTwo
     });
+    const [disableUpdate, setDisableUpdate] = useState(true);
 
     const [UpdateSecurityQuestions] = useMutation(UPDATE_SECURITY_QUESTIONS);
 
@@ -306,6 +341,7 @@ const ChangeSecurityQuestions = (props) => {
         const { name, value } = e.target;
         const updated = { ...input, [name]: value};
         setInput(updated);
+        setDisableUpdate(false);
     }
 
     const handleSubmit = async (e) => {
@@ -314,6 +350,8 @@ const ChangeSecurityQuestions = (props) => {
             question1: input.question1, answer1: input.answer1, 
             question2: input.question2, answer2: input.answer2
         }});
+        
+        setDisableUpdate(true);
     }
 
     return (
@@ -361,7 +399,7 @@ const ChangeSecurityQuestions = (props) => {
                         </Form.Group>
 
                         <Form.Group className="text-center" controlId="formSubmitButton">
-                            <Button variant="light" onClick={handleSubmit}>
+                            <Button variant="light" onClick={handleSubmit} disabled={disableUpdate}>
                                 Update Security Questions
                             </Button>
                         </Form.Group>

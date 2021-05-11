@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import "./profilescreen.css";
-import { Container, Form, Row, Col, Card, Carousel, Image, Button, Modal } from "react-bootstrap";
+import { Container, Form, Row, Col, Card, Carousel, Image, Button, Modal, ButtonGroup } from "react-bootstrap";
 import NavbarTop from "../navbar/NavbarTop";
 import { GET_CURRENT_USER, GET_PAGINIZED_QUIZZES_BY_AGE } from "./queries";
 import { UPDATE_USER_FIELD } from './mutations';
 import { getCurrentUser } from "../../data/LocalStorage";
 import { SketchPicker } from 'react-color';
 import { uploadFile } from 'react-s3';
+import { SocialIcon } from 'react-social-icons';
 
 const EditProfileModal = (props) => {
 
@@ -144,10 +145,15 @@ const ProfileHeading = (props) => {
   }
 
   const [editProfShow, setEditProfShow] = useState(false);
+  const [editLinksShow, setEditLinksShow] = useState(false);
   const [profileLink, setProfileLink] = useState(checkedLink);
 
   const handleToggle = (e) => {
     setEditProfShow(!editProfShow);
+  }
+
+  const handleToggle2 = (e) => {
+    setEditLinksShow(!editLinksShow);
   }
 
   return (
@@ -157,12 +163,20 @@ const ProfileHeading = (props) => {
         <Col xs={1} className="text-center">
           <Image className="profAvatar" src={profileLink} roundedCircle />
         </Col>
-        <Col xs={6}>
+        <Col xs={4}>
           <Row style={{fontSize: '40px'}}>{props.platform.username}</Row>
         </Col>
-        <Col>
+        <Col xs={2} className="text-center">
+          <SocialIcon style={{width: '4vh', height: '4vh', marginRight: '5px'}}
+                      url="https://www.ign.com/wikis/fire-emblem-three-houses/Lost_Items" 
+                      fgColor="white"></SocialIcon>
+        </Col>
+        <Col xs={3}>
           {props.currUser === props.platform._id ?
-          <Button variant="warning" onClick={handleToggle}>Customize Profile</Button> :
+          <ButtonGroup>
+            <Button variant="warning" onClick={handleToggle}>Customize Profile</Button>
+            <Button variant="warning" onClick={handleToggle2}>Customize Media</Button>
+          </ButtonGroup> :
           <div></div>}
         </Col>
       </Row>
