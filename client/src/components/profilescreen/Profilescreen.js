@@ -137,6 +137,55 @@ const EditProfileModal = (props) => {
   );
 };
 
+const EditMediaLinksModal = (props) => {
+
+  const [newLinks, setNewLinks] = useState({
+    facebook: props.links.facebook,
+  });
+
+  const updateLink = (e) => {
+    const { name, value } = e.target;
+    const updated = { ...newLinks, [name]: value };
+    setNewLinks(updated);
+  }
+
+  return (
+    <Modal size="lg" show={props.show} onHide={props.handleToggle2}>
+      <Modal.Header className="bg-dark text-warning" closeButton>
+        <Modal.Title>Media Link Customization</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="bg-dark">
+        <Container>
+          <Card className="bg-secondary text-white text-center">
+            <Card.Body>
+              <Row className="align-items-center">
+                <Col xs="3">
+                  <Form.Label className="text-warning">Facebook Link:</Form.Label>
+                </Col>
+                <Col xs="9">
+                  <Form>
+                    <Form.Group>
+                      <Form.Control name="facebook" value={newLinks.facebook} onChange={updateLink}></Form.Control>
+                    </Form.Group>
+                  </Form>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Container>
+      </Modal.Body>
+      <Modal.Footer className="bg-dark">
+        <Button variant="light" onClick={props.handleToggle2}>
+          Cancel
+        </Button>
+        <Button variant="warning" onClick={props.handleToggle2}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
 const ProfileHeading = (props) => {
 
   var checkedLink = props.platform.profilePicture;
@@ -147,6 +196,11 @@ const ProfileHeading = (props) => {
   const [editProfShow, setEditProfShow] = useState(false);
   const [editLinksShow, setEditLinksShow] = useState(false);
   const [profileLink, setProfileLink] = useState(checkedLink);
+
+  // for Media Links Modal
+  const [links, setLinks] = useState({
+    facebook: "https://www.facebook.com/LinusTech",
+  });
 
   const handleToggle = (e) => {
     setEditProfShow(!editProfShow);
@@ -168,7 +222,7 @@ const ProfileHeading = (props) => {
         </Col>
         <Col xs={2} className="text-center">
           <SocialIcon style={{width: '4vh', height: '4vh', marginRight: '5px'}}
-                      url="https://www.ign.com/wikis/fire-emblem-three-houses/Lost_Items" 
+                      url={links.facebook} 
                       fgColor="white"></SocialIcon>
         </Col>
         <Col xs={3}>
@@ -182,6 +236,7 @@ const ProfileHeading = (props) => {
       </Row>
       <EditProfileModal show={editProfShow} handleToggle={handleToggle} platform={props.platform} setBgColor={props.setBgColor} currBgColor={props.currBgColor}
                         setBannerLink={props.setBannerLink} setProfileLink={setProfileLink}/>
+      <EditMediaLinksModal show={editLinksShow} handleToggle2={handleToggle2} links={links}/>
     </div>
   );
 };
