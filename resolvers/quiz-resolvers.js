@@ -26,6 +26,12 @@ module.exports = {
     if (quiz) return quiz;
     else return {};
   },
+  getAllQuizzesFromCreator: async (_, args) => {
+    const { idOfCreator } = args;
+    const quizzes = await Quiz.find({ idOfCreator: idOfCreator });
+    if (quizzes) return quizzes;
+    else return {};
+  },
   getPaginizedQuizzesByAge: async (_, args) => {
     const { idOfCreator, skip, limit } = args;
     const quizzes = await Quiz.find({ idOfCreator: idOfCreator })
