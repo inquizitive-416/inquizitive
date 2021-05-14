@@ -21,21 +21,21 @@ const LoggedOut = (props) => {
 
     return (
         <Navbar bg="dark" variant="dark">
-    <Navbar.Brand href="/explore">In<span style={{color: '#f5ae31'}}>Quiz</span>Itive</Navbar.Brand>
-    <Nav className="mr-auto">
-        <Nav.Link href="/explore">Explore</Nav.Link>
-        <Nav.Link href="/create">Create</Nav.Link>
-        <Nav.Link href="/tournaments">Tournaments</Nav.Link>
-        <Nav.Link href="/shop">Shop</Nav.Link>
-        <Nav.Link href="/begin">Play</Nav.Link>
-    </Nav>
-    <Nav>
-        <Nav.Link href="/shop">Currency</Nav.Link>
-        <Nav.Link href="/settings">Settings</Nav.Link>
-        <Nav.Link href={selfPlatformLink}>Profile</Nav.Link>
-        <Button href= '/welcome' onClick={handleLogout}>Logout</Button>
-    </Nav>
-  </Navbar>
+            <Navbar.Brand href="/explore">In<span style={{color: '#f5ae31'}}>Quiz</span>Itive</Navbar.Brand>
+            <Nav className="mr-auto">
+                <Nav.Link href="/explore">Explore</Nav.Link>
+                <Nav.Link href="/create">Create</Nav.Link>
+                {/* <Nav.Link href="/tournaments">Tournaments</Nav.Link> */}
+                {/* <Nav.Link href="/shop">Shop</Nav.Link> */}
+                {/* <Nav.Link href="/begin">Play</Nav.Link> */}
+            </Nav>
+            <Nav>
+                {/* <Nav.Link href="/shop">Currency</Nav.Link> */}
+                <Nav.Link href="/settings">Settings</Nav.Link>
+                <Nav.Link href={selfPlatformLink}>My Platform</Nav.Link>
+                <Button variant="warning" href='/welcome' onClick={handleLogout}>Logout</Button>
+            </Nav>
+        </Navbar>
     );
 };
 

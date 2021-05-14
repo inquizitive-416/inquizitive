@@ -64,6 +64,30 @@ const userSchema = new Schema({
     type: Number,
     required: false,
   },
+  facebookLink: {
+    type: String,
+    required: false,
+  },
+  twitterLink: {
+    type: String,
+    required: false,
+  },
+  youtubeLink: {
+    type: String,
+    required: false,
+  },
+  instagramLink: {
+    type: String,
+    required: false,
+  },
+  customLink: {
+    type: String,
+    required: false,
+  },
+  verified: {
+    type: String,
+    required: false,
+  },
 });
 const User = model("User", userSchema);
 module.exports = User;
