@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import "./profilescreen.css";
-import { Container, Form, Row, Col, Card, Carousel, Image, Button, Modal, ButtonGroup } from "react-bootstrap";
+import { Container, Form, Row, Col, Card, Image, Button, Modal, ButtonGroup } from "react-bootstrap";
 import NavbarTop from "../navbar/NavbarTop";
 import { GET_CURRENT_PLATFORM, GET_PAGINIZED_QUIZZES_BY_AGE } from "./queries";
 import { UPDATE_USER_FIELD } from './mutations';
