@@ -24,6 +24,7 @@ export const GET_CURRENT_PLATFORM = gql`
       youtubeLink
       instagramLink
       customLink
+      verified
     }
     getAllQuizzesFromCreator(idOfCreator: $_id){
       _id

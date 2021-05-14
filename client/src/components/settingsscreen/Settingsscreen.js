@@ -465,24 +465,6 @@ const ChangeProfileVisibility = (props) => {
     );
 };
 
-const DeleteProfileButton = (props) => {
-    return (
-        <Row>
-            <Col xs="1"></Col>
-            <Col xs="2">
-            </Col>
-            <Col xs="8">
-                <Card className="bg-secondary text-white text-center">
-                    <Card.Body>
-                        <Button variant='warning'>Delete Profile</Button>
-                    </Card.Body>
-                </Card>
-            </Col>
-            <Col xs="1"></Col>
-        </Row>
-    );
-};
-
 const Settingsscreen = (props) => {
 
     let currentUser = 'base'
@@ -513,7 +495,6 @@ const Settingsscreen = (props) => {
             <br />
             <ChangeProfileVisibility user={currentUser}/>
             <br />
-            <DeleteProfileButton />
         </div>
 	);
 };

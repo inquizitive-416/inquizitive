@@ -9,6 +9,7 @@ import { getCurrentUser } from "../../data/LocalStorage";
 import { SketchPicker } from 'react-color';
 import { uploadFile } from 'react-s3';
 import { SocialIcon } from 'react-social-icons';
+import verifiedImg from './verified.png';
 
 const EditProfileModal = (props) => {
 
@@ -308,6 +309,11 @@ const ProfileHeading = (props) => {
     checkedLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultAvatar.jpg";
   }
 
+  var verified = props.platform.verified;
+  if (typeof checkedLink === "undefined" || checkedLink === ""){
+    verified = "false";
+  }
+
   const [editProfShow, setEditProfShow] = useState(false);
   const [editLinksShow, setEditLinksShow] = useState(false);
   const [profileLink, setProfileLink] = useState(checkedLink);
@@ -348,7 +354,12 @@ const ProfileHeading = (props) => {
           <Image className="profAvatar" src={profileLink} roundedCircle />
         </Col>
         <Col xs={4}>
-          <Row style={{fontSize: '40px'}}>{props.platform.username}</Row>
+          <Row className="align-items-center" style={{fontSize: '40px'}}>
+            {props.platform.username}
+            {verified === "true" ?
+            <Image src={verifiedImg} style={{width: '4vh', height: '4vh', marginLeft: '5px'}} /> :
+            <div></div>}
+          </Row>
         </Col>
         <Col xs={2} className="text-center">
           {createSocialIcon(links.facebook)}
@@ -403,7 +414,7 @@ const RecentWorks = (props) => {
     }
 
     var link = "/begin/" + quiz._id;
-    var coverImageLink = quiz.coverImage;
+    var coverImageLink = quiz.coverimage;
 
     if (typeof coverImageLink === 'undefined' || coverImageLink === ''){
       coverImageLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultQuiz.jpeg";

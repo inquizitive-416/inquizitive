@@ -84,6 +84,10 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
+  verified: {
+    type: String,
+    required: false,
+  },
 });
 const User = model("User", userSchema);
 module.exports = User;

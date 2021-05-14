@@ -24,6 +24,7 @@ const typeDefs = gql`
     youtubeLink: String
     instagramLink: String
     customLink: String
+    verified: String
   }
 
   extend type Query {
