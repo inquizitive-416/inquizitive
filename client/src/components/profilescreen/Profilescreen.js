@@ -390,13 +390,16 @@ const RecentWorks = (props) => {
 
   let quizzes = {};
 
+  const [scrollBot, setScrollBot] = useState(false);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'auto'
-    });
+    if (scrollBot) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'auto'
+      });
+    }
   });
 
   const { loading, error, data } = useQuery(GET_PAGINIZED_QUIZZES_BY_AGE, {
@@ -438,6 +441,7 @@ const RecentWorks = (props) => {
     const { name } = e.target;
     var nameInt = parseInt(name);
     setPage(nameInt);
+    setScrollBot(true);
   }
 
   const createPaginations = () => {
