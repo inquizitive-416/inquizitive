@@ -1,4 +1,5 @@
 import React, { useState, useEffect } 	from 'react';
+import { useQuery } from '@apollo/client';
 import NavbarTop					from '../navbar/NavbarTop';
 import AddQuestion					from './AddQuestion';
 import QuestionList                 from './QuestionList'
@@ -6,7 +7,10 @@ import {ADDQUIZ} from "./cache/mutation"
 import { graphql,useMutation } from '@apollo/client';
 import { Navbar, Nav } from 'react-bootstrap'
 import { Redirect } from "react-router-dom"
-import { uploadFile } from 'react-s3';
+import { uploadFile } from 'react-s3'
+import { getCurrentUser } from "../../data/LocalStorage"
+
+import { GET_CURRENT_USER } from '../settingsscreen/queries'
 
 import { Card, Button, Form, Col, Row } from 'react-bootstrap'
 
@@ -14,8 +18,9 @@ import { Card, Button, Form, Col, Row } from 'react-bootstrap'
 
 import './createscreen.css'
 import { AddArgumentsAsVariables } from 'graphql-tools';
-const CreateScreen = (props) => {
+const CreateScreenSub = (props) => {
 
+    
     const [questions , setQuestions] = useState([])
     const [showques , setshowques] = useState(true)
     const [showAdd , setShowAdd] = useState(false)
@@ -24,7 +29,7 @@ const CreateScreen = (props) => {
     const [image, setImage] = useState({});
     const [quizInfo,setQuizInfo] = useState(
         {
-            idOfCreator: "",
+            idOfCreator: props.user._id,
             title: "",
             description: "",
             coverimage:"",
@@ -43,8 +48,11 @@ const CreateScreen = (props) => {
 
         }
     )
-    const [addQuiz]=useMutation(ADDQUIZ)
 
+
+    const [addQuiz]= useMutation(ADDQUIZ)
+
+      
     const handleNewImage = (e) => {
         
         var newImage = e.target.files[0];
@@ -143,6 +151,8 @@ const CreateScreen = (props) => {
         
         //setQuizInfo({...quizInfo, questions: allQuestions});
         //console.log(" here questions", allQuestions)
+
+        
        
         const { error, data } = await addQuiz({ variables: { ...quizInfo } });
         // if (loading) { toggleLoading(true) };
@@ -254,5 +264,25 @@ const CreateScreen = (props) => {
 	);
 };
 
+const CreateScreen = (props) => {
+
+    let currentUser = 'base'
+
+    const { loading, error, data } = useQuery(GET_CURRENT_USER, {
+        variables: {_id: getCurrentUser()._id}
+    })
+    if (loading) { return <div></div>; }
+    if(error) { console.log(error);
+        return <div>Internal Error</div>; }
+	if(data) { currentUser = data.getUserById }
+
+    //console.log(currentUser)
+
+	return (
+		
+        <CreateScreenSub user={currentUser}/>
+            
+	);
+};
+
 export default CreateScreen;
-//{showAdd && <AddQuestion  addQues ={addQues}/>}
