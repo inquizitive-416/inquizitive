@@ -10,16 +10,17 @@ import { Redirect } from "react-router-dom"
 import { uploadFile } from 'react-s3'
 import { getCurrentUser } from "../../data/LocalStorage"
 import Toast from 'react-bootstrap/Toast'
-
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { GET_CURRENT_USER } from '../settingsscreen/queries'
 import SubmitModal from "./SubmitModal";
-
+import TimeBar	from '../TimerBar/TimerBar'
 import { Card, Button, Form, Col, Row } from 'react-bootstrap'
 
 
 
 import './createscreen.css'
 import { AddArgumentsAsVariables } from 'graphql-tools';
+import TimerBar from '../TimerBar/TimerBar';
 const CreateScreenSub = (props) => {
 
     
@@ -292,11 +293,9 @@ const CreateScreenSub = (props) => {
                {renderRedirect()}
                <button style= {{backgroundColor: "orange"}} onClick = {onSubmit} class= "btn btn-primary" >Create quiz</button>
 
+                       
                </div>
-              
                
-              
-              
                </form>
               
                
