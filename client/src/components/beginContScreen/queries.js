@@ -16,6 +16,7 @@ export const GET_CURRENT_QUIZ = gql`
 			description
 			idOfCreator
 			timer
+			difficulty
 			title
 			questions {
 				id

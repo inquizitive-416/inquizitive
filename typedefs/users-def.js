@@ -19,6 +19,12 @@ const typeDefs = gql`
     bgColor: String
     profilePublic: Boolean
     coins: Int
+    facebookLink: String
+    twitterLink: String
+    youtubeLink: String
+    instagramLink: String
+    customLink: String
+    verified: String
   }
 
   extend type Query {

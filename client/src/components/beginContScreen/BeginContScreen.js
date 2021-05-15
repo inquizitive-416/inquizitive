@@ -10,6 +10,8 @@ const QuizBaseInfo = (props) => {
 
     let quizOwner = {}
 
+    console.log("id: " + props.quiz.idOfCreator);
+
     const { loading, error, data } = useQuery(GET_QUIZ_OWNER, {
         variables: {_id: props.quiz.idOfCreator}
     })
@@ -18,18 +20,23 @@ const QuizBaseInfo = (props) => {
         return <div>Internal Error</div>; }
 	if(data) { quizOwner = data.getUserById }
 
+    var checkedLink = quizOwner.profilePicture;
+    if (typeof checkedLink === "undefined" || checkedLink === ""){
+        checkedLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultAvatar.jpg";
+    }
+
     return (
         <Row>
             <Col xs="2"></Col>
             <Col xs="2" className="text-center">
-                <Image className="avatar" src={quizOwner.profilePicture} roundedCircle />
+                <Image className="avatar" src={checkedLink} roundedCircle />
             </Col>
             <Col xs="4">
                 <Card border="dark" className="bg-dark text-white text-center">
                     <Card.Body>
                         <Card.Title style={{fontSize: '40px'}}>{props.quiz.title}</Card.Title>
                         <br />
-                        <Card.Text>Time Limit: {props.quiz.timer} minutes</Card.Text>
+                        <Card.Text>Difficulty: {props.quiz.difficulty}</Card.Text>
                         <Card.Text>{props.quiz.questions.length} Questions</Card.Text>
                     </Card.Body>
                 </Card>
@@ -59,7 +66,6 @@ const QuizDescription = (props) => {
 const StartCancelQuiz = (props) => {
     
     var link = "/play/" + props.quiz._id;
-    console.log(link);
 
     return (
         <Row style={{height: '4vh'}}>

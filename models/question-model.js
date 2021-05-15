@@ -1,6 +1,10 @@
 const { model, Schema, ObjectId } = require("mongoose");
 
 const questionSchema = new Schema({
+  _id: {
+    type: ObjectId,
+    
+  },
   id: {
     type: Number,
     

@@ -21,7 +21,6 @@ import { AddArgumentsAsVariables } from 'graphql-tools';
 const CreateScreenSub = (props) => {
 
     
-    const [currentUser , setCurrentUser] = useState("")
     const [questions , setQuestions] = useState([])
     const [showques , setshowques] = useState(true)
     const [showAdd , setShowAdd] = useState(false)

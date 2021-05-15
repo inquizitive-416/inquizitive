@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GET_CURRENT_USER = gql`
+export const GET_CURRENT_PLATFORM = gql`
   query GetCurrentUser($_id: String!) {
     getUserById(_id: $_id) {
       _id
@@ -19,6 +19,15 @@ export const GET_CURRENT_USER = gql`
       profilePublic
       bannerPicture
       bgColor
+      facebookLink
+      twitterLink
+      youtubeLink
+      instagramLink
+      customLink
+      verified
+    }
+    getAllQuizzesFromCreator(idOfCreator: $_id){
+      _id
     }
   }
 `;

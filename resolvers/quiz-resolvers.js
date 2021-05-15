@@ -15,12 +15,21 @@ module.exports = {
       const { _id } = args;
       const objectId = new ObjectId(_id);
       const quiz = await Quiz.findOne({ _id: objectId });
-      if (quiz) return quiz;
+      if (quiz) {
+        // console.log(quiz);
+        return quiz;
+      }
       else return {};
     },
   getQuizzesByRating: async (_, args) => {
     const quiz = await Quiz.find().limit(3).sort({ avgRating: -1 });
     if (quiz) return quiz;
+    else return {};
+  },
+  getAllQuizzesFromCreator: async (_, args) => {
+    const { idOfCreator } = args;
+    const quizzes = await Quiz.find({ idOfCreator: idOfCreator });
+    if (quizzes) return quizzes;
     else return {};
   },
   getPaginizedQuizzesByAge: async (_, args) => {
