@@ -37,6 +37,7 @@ const QuizBaseInfo = (props) => {
                         <Card.Title style={{fontSize: '40px'}}>{props.quiz.title}</Card.Title>
                         <br />
                         <Card.Text>Difficulty: {props.quiz.difficulty}</Card.Text>
+                        <Card.Text>Time Limit: {props.quiz.timer} minutes</Card.Text>
                         <Card.Text>{props.quiz.questions.length} Questions</Card.Text>
                     </Card.Body>
                 </Card>
