@@ -1,4 +1,5 @@
 import React, { useState, useEffect } 	from 'react';
+import { useQuery } from '@apollo/client';
 import NavbarTop					from '../navbar/NavbarTop';
 import AddQuestion					from './AddQuestion';
 import QuestionList                 from './QuestionList'
@@ -6,17 +7,25 @@ import {ADDQUIZ} from "./cache/mutation"
 import { graphql,useMutation } from '@apollo/client';
 import { Navbar, Nav } from 'react-bootstrap'
 import { Redirect } from "react-router-dom"
-import { uploadFile } from 'react-s3';
-
+import { uploadFile } from 'react-s3'
+import { getCurrentUser } from "../../data/LocalStorage"
+import Toast from 'react-bootstrap/Toast'
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import { GET_CURRENT_USER } from '../settingsscreen/queries'
+import SubmitModal from "./SubmitModal";
+import TimeBar	from '../TimerBar/TimerBar'
 import { Card, Button, Form, Col, Row } from 'react-bootstrap'
 
 
 
 import './createscreen.css'
 import { AddArgumentsAsVariables } from 'graphql-tools';
-const CreateScreen = (props) => {
+import TimerBar from '../TimerBar/TimerBar';
+const CreateScreenSub = (props) => {
 
+    
     const [questions , setQuestions] = useState([])
+    const [submodalShow, setSubmodalShow] = useState(false);
     const [showques , setshowques] = useState(true)
     const [showAdd , setShowAdd] = useState(false)
     const [gotoexplore, setgoto]= useState(false)
@@ -24,7 +33,7 @@ const CreateScreen = (props) => {
     const [image, setImage] = useState({});
     const [quizInfo,setQuizInfo] = useState(
         {
-            idOfCreator: "",
+            idOfCreator: props.user._id,
             title: "",
             description: "",
             coverimage:"",
@@ -43,8 +52,15 @@ const CreateScreen = (props) => {
 
         }
     )
-    const [addQuiz]=useMutation(ADDQUIZ)
 
+
+    const [addQuiz]= useMutation(ADDQUIZ)
+     
+    const subModal=()=>{
+        
+        setSubmodalShow(!submodalShow);
+    }
+      
     const handleNewImage = (e) => {
         
         var newImage = e.target.files[0];
@@ -55,6 +71,7 @@ const CreateScreen = (props) => {
 
         setImage(renamedImage);
     }
+
 
     const uploadNewImage = async (e) => {
         
@@ -138,11 +155,29 @@ const CreateScreen = (props) => {
              console.log("quess", quizInfo.questions)
      }
 
+     const onCheckValid = () =>
+     {
+         if (quizInfo.title === "" || quizInfo.description === "" || quizInfo.coverimage === "" || quizInfo.categories === "")
+         {
+             subModal()
+
+         }
+     }
+
      const onSubmit= async(e)=>{
         e.preventDefault();
         
         //setQuizInfo({...quizInfo, questions: allQuestions});
         //console.log(" here questions", allQuestions)
+        if (quizInfo.title === "" || quizInfo.description === "" || quizInfo.coverimage === "" || quizInfo.categories === "")
+         {
+             setSubmodalShow(true)
+
+         }
+        else
+        {
+
+        
        
         const { error, data } = await addQuiz({ variables: { ...quizInfo } });
         // if (loading) { toggleLoading(true) };
@@ -151,6 +186,7 @@ const CreateScreen = (props) => {
             console.log(data);
         }
         setgoto(true)
+    }
     }
 
     const onAdd = ()=>
@@ -162,7 +198,7 @@ const CreateScreen = (props) => {
 	return (
         <div>
 		<NavbarTop fetchUser={props.fetchUser}/>
-            <div  className ="create"  style={{overflow:"scroll"}}>
+            <div  className ="create"  style={{overflow:"scroll", position: "absolute"}}>
                 <div style={{backgroundColor: "#484848", height: 50, paddingBottom: 90, textAlign: "center"}} >
             
                     <header style= {{paddingTop:25, fontSize: 35, color:"#FFA500" }}> Create New Quiz  </header>
@@ -237,15 +273,29 @@ const CreateScreen = (props) => {
                   <button style= {{backgroundColor: "#ffa343", width: 915}}  onClick={onAdd} class="btn btn-primary" type="button"> <i class="fa fa-plus"></i> Add   New   Question</button>
                   {showAdd && <AddQuestion  addQues ={addQues} onAdd = {onAdd}/>}
                </div>
+
                <div style={{paddingTop:40 , paddingLeft:600}}>
-               {renderRedirect()}
-               <button style= {{backgroundColor: "orange"}} onClick = {onSubmit} class= "btn btn-primary" >Submit quiz</button>
+
+                <Toast show={submodalShow} onClose={subModal}>
+                <Toast.Header>
+                    <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
+                    <strong className="mr-auto">Warning</strong>
+                    <small>11 mins ago</small>
+                </Toast.Header>
+                <Toast.Body>Fill in missing fields before creating quiz</Toast.Body>
+                </Toast>
 
                </div>
-              
+
+
+               <div style={{ paddingBottom:30, paddingLeft:600}}>
+
+               {renderRedirect()}
+               <button style= {{backgroundColor: "orange"}} onClick = {onSubmit} class= "btn btn-primary" >Create quiz</button>
+
+                       
+               </div>
                
-              
-              
                </form>
               
                
@@ -254,5 +304,28 @@ const CreateScreen = (props) => {
 	);
 };
 
+const CreateScreen = (props) => {
+
+    let currentUser = 'base'
+
+    const { loading, error, data } = useQuery(GET_CURRENT_USER, {
+        variables: {_id: getCurrentUser()._id}
+    })
+    if (loading) { return <div></div>; }
+    if(error) { console.log(error);
+        return <div>Internal Error</div>; }
+	if(data) { currentUser = data.getUserById }
+
+    //console.log(currentUser)
+
+	return (
+        
+        <div style={{minHeight:"100vh"}} >
+        <CreateScreenSub user={currentUser}/>
+        </div>
+        
+            
+	);
+};
+
 export default CreateScreen;
-//{showAdd && <AddQuestion  addQues ={addQues}/>}
