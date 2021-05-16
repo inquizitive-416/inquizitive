@@ -25,11 +25,15 @@ const QuizBaseInfo = (props) => {
         checkedLink = "https://inquizitive416.s3.amazonaws.com/defaults/defaultAvatar.jpg";
     }
 
+    var link = "/platform/" + props.quiz.idOfCreator;
+
     return (
         <Row>
             <Col xs="2"></Col>
             <Col xs="2" className="text-center">
-                <Image className="avatar" src={checkedLink} roundedCircle />
+                <a style={{ cursor: 'pointer'}} href={link}>
+                    <Image className="avatar" src={checkedLink} roundedCircle />
+                </a>
             </Col>
             <Col xs="4">
                 <Card border="dark" className="bg-dark text-white text-center">
