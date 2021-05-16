@@ -17,7 +17,6 @@ import TimeBar	from '../TimerBar/TimerBar'
 import { Card, Button, Form, Col, Row } from 'react-bootstrap'
 
 
-
 import './createscreen.css'
 import { AddArgumentsAsVariables } from 'graphql-tools';
 import TimerBar from '../TimerBar/TimerBar';
@@ -25,6 +24,8 @@ const CreateScreenSub = (props) => {
 
     
     const [questions , setQuestions] = useState([])
+    const [hours , setHours] = useState(0)
+    const [minutes , setMinutes] = useState(0)
     const [submodalShow, setSubmodalShow] = useState(false);
     const [showques , setshowques] = useState(true)
     const [showAdd , setShowAdd] = useState(false)
@@ -53,6 +54,7 @@ const CreateScreenSub = (props) => {
         }
     )
 
+   
 
     const [addQuiz]= useMutation(ADDQUIZ)
      
@@ -105,6 +107,15 @@ const CreateScreenSub = (props) => {
 
     const onChange =(e)=>{
         setQuizInfo({...quizInfo,[e.target.name]:e.target.value});    
+    }
+
+    const onChangeHours =(e)=>{
+        setHours(e.target.value )  
+        setTiming();  
+    }
+    const onChangeMinutes =(e)=>{
+        setMinutes(e.target.value) 
+        setTiming();
     }
 
     const onSave=( id, newques)=>{
@@ -164,8 +175,19 @@ const CreateScreenSub = (props) => {
          }
      }
 
+     const setTiming = () =>
+     {
+         var tme = (parseInt(hours) * 3600) + (parseInt( minutes) * 60)
+         console.log(tme)
+
+         setQuizInfo({...quizInfo, ["timer"]: tme});
+
+     }
+
      const onSubmit= async(e)=>{
         e.preventDefault();
+
+        
         
         //setQuizInfo({...quizInfo, questions: allQuestions});
         //console.log(" here questions", allQuestions)
@@ -231,7 +253,42 @@ const CreateScreenSub = (props) => {
                     </Row>
                     </div>
 
+                    <div style = {{paddingLeft: 220, paddingBottom:20}}>
+
                     
+                    <select style= {{ paddingLeft: 100,backgroundColor: "#838383", width:455}} name="hours" onChange={onChangeHours} class="custom-select" id="inputGroupSelect02">
+                            <option  selected> Select Hours</option>
+                            <option value= "0" > 0 hours</option>
+                            <option value="1">1 hour</option>
+                            <option value="2">2 hours</option>
+                            <option value="3">3 hours</option>
+                            <option value="4">4 hours</option>
+                            <option value="5">5 hours</option>
+                            <option value="6">6 hours</option>
+                            <option value="7">7 hours</option>
+                            <option value="8">8 hours</option>
+                            <option value="9">9 hours</option>
+                            <option value="10">10 hours</option>
+                            <option value="11">11 hours</option>
+                    </select>
+
+                    <select style= {{ backgroundColor: "#838383", width:455, paddingLeft: 10}} name="minutes" onChange={onChangeMinutes} class="custom-select" id="inputGroupSelect02">
+                            <option  selected>Select Minutes</option>
+                            <option value = "0" > 0 minutes</option>
+                            <option value= "5" > 5 minutes</option>
+                            <option value="10">10 minutes</option>
+                            <option value="15">15 minutes</option>
+                            <option value="20">20 minutes</option>
+                            <option value="25">25 minutes</option>
+                            <option value="30">30 minutes</option>
+                            <option value="35">35 minutes</option>
+                            <option value="40">40 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="50">50 minutes</option>
+                            <option value="55">55 minutes</option>
+                            <option value="60">60 minutes</option>
+                    </select>
+                    </div>
 
                     <div style= {{paddingLeft: 220, width:1127}} class="input-group mb-3">
                         
@@ -295,7 +352,9 @@ const CreateScreenSub = (props) => {
 
                        
                </div>
-               
+
+               <TimerBar/>
+
                </form>
               
                
