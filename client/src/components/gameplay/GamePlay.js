@@ -8,50 +8,26 @@ import {GET_QUIZ} from './queries';
 import { useQuery } from '@apollo/client';
 
 const GamePlay = (props) => {
-    // const [quiz,setQuiz] = useState("")
-    let quiz={}
+    const [quiz,setQuiz] = useState(props.quiz)
     const [currQuestion,setCurrQuestion]=useState(0);
     const [currAnswer,setCurrAnswer]=useState("");
     const [currQText,setCurrQText]=useState("");
-    let answer = {}
-    // const [answer,setAnswer] = useState(["",""]);
+    const [answer,setAnswer] = useState(new Array(quiz.questions.length).fill(""));
     const [selected, setSelected] = useState("")
     const [scoreOpen, setScoreOpen] = useState(false)
     const [score, setScore] = useState(0)
-    // console.log('here');
-    // console.log(quiz);
-
-    let quizId = props.match.params.id;
-    // console.log(quizId)
-
-    const { loading, error, data } = useQuery(GET_QUIZ, {
-        variables: {_id: quizId}
-    })
-    if (loading) { return <div></div>; }
-    if(error) { console.log(error);
-        return <div>Internal Error</div>; }
-	if(data) { 
-        // console.log(data.getQuizById.questions)
-        quiz=(data.getQuizById)
-
-        answer=(new Array(quiz.questions.length).fill(""))
-        // console.log(answer)
-        
-    }
-    // console.log("Quiz")
-    // console.log(quiz.questions[0])
     
 
     const onClickNext= (props)=>{
         
         const nextQuestion = currQuestion + 1;
         answer[currQuestion]=selected;
-        // setAnswer(answer);
-        console.log(answer);
+        setAnswer(answer);
+        
 		if (nextQuestion < quiz.questions.length) {
-            
-			setCurrQuestion(nextQuestion);
-            setSelected(answer[nextQuestion]);
+            console.log(quiz)
+            setCurrQuestion(nextQuestion)
+			setSelected(answer[nextQuestion])
 		}
         
 
@@ -59,7 +35,7 @@ const GamePlay = (props) => {
     const onClickPrev= (props)=>{
         const prevQuestion = currQuestion - 1;
         answer[currQuestion]=selected;
-        // setAnswer(answer);
+        setAnswer(answer);
         console.log(answer);
 		if (prevQuestion >= 0) {
             setSelected(answer[prevQuestion]);
@@ -94,7 +70,7 @@ const GamePlay = (props) => {
     return(
         <div>
             <div style={{textAlign:'center',height:'20vh',backgroundColor:'#404040'}}>
-                <h1 style={{color:'white'}}>My First Quiz</h1>
+                <h1 style={{color:'white'}}>{quiz.title}</h1>
             </div>
             <div class='row' style={{height:'20vh',backgroundColor:'#424242'}}>
                 <div class='col' style={{display:'flex', marginLeft:'4vh',paddingBottom:'4vh',paddingTop:'4vh'}}>

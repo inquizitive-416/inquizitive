@@ -23,7 +23,7 @@ const quizdata=
         {
             _id:2,
             questionText: 'What is 4 + 33?',
-            questionType: 'FIB',
+            questionType: 'Fitb',
             correct: '37',
             answerOptions: [
                 
@@ -56,7 +56,7 @@ const quizdata=
         {
             _id:5,
             questionText: 'Oxygen formula?',
-            questionType: 'FIB',
+            questionType: 'Fitb',
             correct: 'O2',
             answerOptions: [
                 
