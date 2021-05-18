@@ -5,9 +5,9 @@ const QuestionList = ({questions, onDelete, changeQuestion, onSave}  ) => {
 
      return (
         <>
-        {questions.map( question => (
+        {questions.map( (question,index) => (
         
-          <CreateQuestion  question={question} onDelete={onDelete} changeQuestion={changeQuestion} onSave={onSave}/>
+          <CreateQuestion  question={question} index = {index} onDelete={onDelete} changeQuestion={changeQuestion} onSave={onSave}/>
         ))}
       </>
 

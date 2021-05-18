@@ -14,6 +14,7 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { GET_CURRENT_USER } from '../settingsscreen/queries'
 import SubmitModal from "./SubmitModal";
 import TimeBar	from '../TimerBar/TimerBar'
+import RatingBar	from '../RatingBar/RatingBar'
 import { Card, Button, Form, Col, Row } from 'react-bootstrap'
 
 
@@ -110,12 +111,16 @@ const CreateScreenSub = (props) => {
     }
 
     const onChangeHours =(e)=>{
-        setHours(e.target.value )  
-        setTiming();  
+        setHours(e.target.value ) 
+        var tme = (parseInt(e.target.value) * 3600) + (parseInt(minutes) * 60)
+        setQuizInfo({...quizInfo,["timer"]: tme}); 
+          
     }
     const onChangeMinutes =(e)=>{
         setMinutes(e.target.value) 
-        setTiming();
+        var tme = (parseInt(e.target.value) * 60) + (parseInt(hours) * 3600)
+        setQuizInfo({...quizInfo,["timer"]: tme}); 
+        //setTiming();
     }
 
     const onSave=( id, newques)=>{
@@ -181,10 +186,13 @@ const CreateScreenSub = (props) => {
          console.log(tme)
 
          setQuizInfo({...quizInfo, ["timer"]: tme});
+         console.log(quizInfo.timer)
 
      }
 
      const onSubmit= async(e)=>{
+
+        //setTiming();
         e.preventDefault();
 
         
@@ -225,7 +233,9 @@ const CreateScreenSub = (props) => {
             
                     <header style= {{paddingTop:25, fontSize: 35, color:"#FFA500" }}> Create New Quiz  </header>
                 </div>
+                
                 <form>
+               
                     <div style= {{paddingLeft: 220, paddingTop: 20}}class="form-group">
                          <label for="formGroupExampleInput"><b>Enter Quiz Name </b></label>
                          <input style= {{ backgroundColor: "#838383", width:900 }}  type="text" class="form-control" required = "true" value={quizInfo.title} name="title" onChange={onChange} id="formGroupExampleInput"  />
@@ -353,7 +363,7 @@ const CreateScreenSub = (props) => {
                        
                </div>
 
-               <TimerBar/>
+               
 
                </form>
               

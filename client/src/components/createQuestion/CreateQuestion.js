@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import { uploadFile } from 'react-s3';
 
 
-const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
+const CreateQuestion = ({question, index , onDelete,changeQuestion, onSave}) => {
     //console.log(key)
     //console.log(question)
     console.log(question.questype)
@@ -105,7 +105,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                <Card>
                     <Card.Header style = {{backgroundColor: "#545454"}}>
                         <span>
-                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
+                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                             <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"> <i class="fa fa-trash"></i> Delete</button>
                             <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i> Save </b></button>
@@ -140,7 +140,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
            <Card>
                 <Card.Header style = {{backgroundColor: "#545454"}}>
                     <span>
-                        <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
+                        <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                         <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"><i class="fa fa-trash"></i> Delete</button>
                         <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i> Save </b></button>
@@ -205,7 +205,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                <Card>
                     <Card.Header style = {{backgroundColor: "#545454"}}>
                         <span>
-                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
+                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                             <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"><i class="fa fa-trash"></i>  Delete</button>
                             
@@ -273,7 +273,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                <Card>
                     <Card.Header style = {{backgroundColor: "#545454"}}>
                         <span>
-                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
+                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                             <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"><i class="fa fa-trash"></i>  Delete</button>
                             
