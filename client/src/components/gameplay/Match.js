@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import { DragDropContext,Droppable, Draggable } from 'react-beautiful-dnd';
 import {Card} from 'react-bootstrap'
 
-const OrderQuestion=(props)=>{
+const Match=(props)=>{
     const myArr=["Title1","Title2","Title3","Title4"]
     const [characters, updateCharacters] = useState(myArr);
     const onDragEnd=(result)=>{
@@ -22,19 +22,20 @@ const OrderQuestion=(props)=>{
                 class="row"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style = {{backgroundColor:"grey",height:"100%"}}
+                style = {{backgroundColor:"grey",height:"50vh",borderColor:"red",border:"50px"}}
                 // style={getListStyle(snapshot.isDraggingOver)}
               >
                 {characters.map((item, index) => (
                   <Draggable key={item} draggableId={item} index={index}>
                     {(provided) => (
-                    <div class='col' style={{paddinLeft:"10px",backgroundColor:"red"}}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                    >
-                        <Card>
-                            <Card.Img src="https://i.imgur.com/A8eQsll.jpg"/>
+                    <div class="col" style={{padding:20,width:200, height:200}}>
+                        <Card
+                            // style={{height:200}}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            
+                        >
                             <Card.Body>
                                 <Card.Title>
                                     {item}
@@ -55,4 +56,4 @@ const OrderQuestion=(props)=>{
         </DragDropContext>
       );
 }
-export default OrderQuestion;
+export default Match;
