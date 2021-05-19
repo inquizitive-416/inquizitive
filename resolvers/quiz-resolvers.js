@@ -115,9 +115,12 @@ module.exports = {
 	
       UpdateQuiz: async (_, args) => {
         let { _id, idOfCreator, title, description, coverimage, categories, hashtagone, hashtagtwo, hashtagthree, difficulty, quizposted, timer, questions, ratings, avgRating, numOfTimesPlayed, isReported} = args;
-        // console.log(args);
+         
         const objectId = new ObjectId(_id);
-
+        for (const [index, value] of questions.entries()) {
+          value._id=new ObjectId();
+        } 
+        console.log("updated ques", questions);
         const saved = await Quiz.updateOne({ _id: objectId }, {
             idOfCreator: idOfCreator, title: title,  description: description, coverimage: coverimage, categories: categories, hashtagone: hashtagone, hashtagtwo:hashtagtwo,hashtagthree:hashtagthree,
             difficulty: difficulty, quizposted: quizposted, timer:timer, questions:questions, ratings: ratings, avgRating:avgRating, numOfTimesPlayed:numOfTimesPlayed, isReported: isReported

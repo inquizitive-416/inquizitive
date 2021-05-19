@@ -3,7 +3,8 @@ import { useQuery } from '@apollo/client';
 import NavbarTop					from '../navbar/NavbarTop';
 import AddQuestion					from './AddQuestion';
 import QuestionList                 from './QuestionList'
-import {ADDQUIZ, UPDATE_QUIZ} from "./cache/mutation"
+import {ADDQUIZ, UPDATE_QUIZ, DELETE_QUIZ} from "./cache/mutation"
+
 import { graphql,useMutation } from '@apollo/client';
 import { Navbar, Nav } from 'react-bootstrap'
 import { Redirect } from "react-router-dom"
@@ -89,13 +90,14 @@ const CreateScreenSub = (props) => {
         }
     )
 
-     
+     console.log("initial ques", quizInfo.questions)
 
     
    
 
     const [addQuiz]= useMutation(ADDQUIZ)
     const [UpdateQuiz]= useMutation(UPDATE_QUIZ)
+    const [deleteQuiz]= useMutation(DELETE_QUIZ)
     const subModal=()=>{
         
         setSubmodalShow(!submodalShow);
@@ -140,8 +142,18 @@ const CreateScreenSub = (props) => {
     const renderRedirect = () => {
         console.log("go to ")
         if (gotoexplore || update) {
-            console.log("explore")
-          return <Redirect to='../explore' />
+
+            if(upd)
+            {
+                return <Redirect to='../explore' />
+            }
+            else
+            {
+                const PlatformLink = "/platform/" + props.user._id;
+                return <Redirect to='../explore' />
+
+            }
+          
         }
       }
 
@@ -305,6 +317,11 @@ const CreateScreenSub = (props) => {
     {
         setShowAdd(!showAdd)
     }
+
+    const deleteMyQuiz= ()=>
+    {
+        deleteQuiz({ variables: { _id: props.quiz._id } });
+    }
     
 
 	return (
@@ -313,8 +330,11 @@ const CreateScreenSub = (props) => {
 		<NavbarTop fetchUser={props.fetchUser}/>
             <div  className ="create"  style={{overflow:"scroll", position: "absolute"}}>
                 <div style={{backgroundColor: "#484848", height: 50, paddingBottom: 90, textAlign: "center"}} >
-            
-                    <header style= {{paddingTop:25, fontSize: 35, color:"#FFA500" }}> {isempty ? "Create New Quiz": "Edit Quiz"}  </header>
+                    
+                        <div style={{display:"inline"}}>
+                        <header style= {{paddingTop:25, fontSize: 35, color:"#FFA500" }}> {isempty ? "Create New Quiz": "Edit Quiz"}  </header>
+                        </div>
+                    
                 </div>
                 
                 <form>
@@ -451,6 +471,9 @@ const CreateScreenSub = (props) => {
                {renderRedirect()}
                
                <button style= {{backgroundColor: "orange"}} onClick = {isempty ? onSubmit: onUpdate} class= "btn btn-primary" >Create quiz</button>
+               <div style={{display:"inline"}}>
+                        {!isempty &&  <button style= {{backgroundColor: "orange"}} onClick = {deleteMyQuiz} class= "btn btn-primary" >Delete Quiz</button>}
+                        </div>
 
                        
                </div>

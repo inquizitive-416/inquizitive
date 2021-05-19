@@ -90,6 +90,7 @@ export const UPDATE_QUIZ = gql`
             timer
             questions
             {
+                _id
                 id
                 questype
                 choice1
@@ -108,5 +109,10 @@ export const UPDATE_QUIZ = gql`
             isReported
         }
         
+    }
+`;
+export const DELETE_QUIZ = gql`
+    mutation deleteQuiz($_id: String!){
+        deleteQuiz(_id: $_id)
     }
 `;

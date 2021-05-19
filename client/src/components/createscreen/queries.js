@@ -19,6 +19,7 @@ export const GET_QUIZ = gql`
             {
                 
                 _id
+                id
                 questype
                 questionPrompt
                 choice1
