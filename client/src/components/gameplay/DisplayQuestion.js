@@ -14,7 +14,7 @@ const DisplayQuestion = ({question,onClick,onChange,onOrder,answers,onMatch}) =>
         );
     }
     else if (question.questype==='Fitb'){
-        console.log(question);
+        // console.log(question);
         // console.log(answers)
         return(
             <Fillintheblank style={{height:"60vh"}} onChange={onChange} question={question} selected={answers}/>
