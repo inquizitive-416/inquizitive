@@ -6,6 +6,7 @@ import Settingsscreen from './components/settingsscreen/Settingsscreen';
 import Shopscreen from './components/shopscreen/Shopscreen';
 import Profilescreen from "./components/profilescreen/Profilescreen";
 import GamePlay from "./components/gameplay/GamePlay";
+import NewQuiz from "./components/gameplay/NewQuiz";
 import BeginContscreen from "./components/beginContScreen/BeginContScreen";
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import * as queries 	from './components/welcomescreen/cache/queries';
@@ -82,7 +83,7 @@ const App = (props) => {
 				<Route
 					path="/play/:id"
 					name="play"
-					render={(props) => <GamePlay {...props}/>}
+					render={(props) => <NewQuiz {...props}/>}
 					/>
 			</Switch>
 		</BrowserRouter>

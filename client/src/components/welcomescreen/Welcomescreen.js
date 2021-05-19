@@ -37,7 +37,7 @@ const Welcome = (props) => {
         setLoginInput({...loginInput,[e.target.name]:e.target.value});
         setLoginError(false);
     }
-    
+   
     const handleLogin= async(e)=>{
         // setLoginInput({...loginInput,email:email,password:password});
         e.preventDefault();
