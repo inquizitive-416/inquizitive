@@ -12,7 +12,7 @@ const Score=(props)=>{
                     <text style={{alignContent:'center'}}>Score is {props.score} out of {props.total}</text>
                     
                 </div>
-                <Button href='./explore'>Close</Button>
+                <Button href='../explore'>Close</Button>
             </Modal>
         </div>
     );

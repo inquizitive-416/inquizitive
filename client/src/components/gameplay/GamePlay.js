@@ -196,13 +196,37 @@ const GamePlay = (props) => {
     }
 
     const Submit=()=>{
-        answer[currQuestion]=selected;
-        setAnswer(answer);
+        
         var n=0;
         var score=0;
+        console.log("answer",answer)
         for(const [index,elem] of quiz.questions.entries()){
-            if(elem.correctAnswer===answer[index]){
-                score=score+1;
+            console.log("hererere",elem)
+            if (elem.questype==='MCQ'){
+                if (elem.correctAnswer==='1'){
+                    if (elem.choice1.toUpperCase()===answer[index].toUpperCase()){
+                        score+=1
+                    }
+                }
+                else if (elem.correctAnswer==='2'){
+                    if (elem.choice2.toUpperCase()===answer[index].toUpperCase()){
+                        score+=1
+                    }
+                }
+                else if (elem.correctAnswer==='3'){
+                    if (elem.choice3.toUpperCase()===answer[index].toUpperCase()){
+                        score+=1
+                    }
+                }
+                else if (elem.correctAnswer==='4'){
+                    if (elem.choice4.toUpperCase()===answer[index].toUpperCase()){
+                        score+=1
+                    }
+                }
+            }
+            else if (elem.correctAnswer.toUpperCase()===answer[index].toUpperCase()){
+                console.log("hello", answer[index])
+                score+=1
             }
         }
         console.log(score);
