@@ -92,10 +92,7 @@ const typeDefs = gql`
 		isReported: Boolean
 	}
 	input QuestionInput {
-<<<<<<< HEAD
-=======
 		_id:String
->>>>>>> e1d2c277361b2a3b1807c50002916a4f96e2ef60
 		id: Int
 		questype: String
 		questionPrompt: String

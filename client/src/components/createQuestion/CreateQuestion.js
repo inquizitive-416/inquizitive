@@ -44,6 +44,14 @@ const CreateQuestion = ({question, isempty, index , onDelete,changeQuestion, onS
         //changeQuestion( question.questype, question.id, ques)
   
     }
+    const changecorrect =(e)=>
+    {
+        setQues({...ques,["correctAnswer"]:e.currentTarget.value})
+  
+    }
+
+
+    
 
     const saveit = (id, ques) => {
         if(question.questype == "MCQ")
@@ -205,9 +213,9 @@ const CreateQuestion = ({question, isempty, index , onDelete,changeQuestion, onS
                                     <fieldset class="form-group row">
                                     <legend style= {{color: "lightgrey", fontSize: 18}} class="col-form-legend col-sm-2">Choose Answer:</legend>
                                     <div class="col-sm-10">
-                                        <div class="form-check">
+                                        {/* <div class="form-check">
                                             <label style= {{color: "lightgrey", fontSize: 15}} class="form-check-label">
-                                            <input  onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) }  class="form-check-input radio-inline" type="radio" name="gridRadios" id="gridRadios1" value="1" ></input>
+                                            <input  onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) }  class="form-check-input radio-inline" type="radio" name="gridRadios" id="gridRadios1" value="1" {...ques.correctAnswer=="1" ? "checked" : "" }></input>
                                             Option one</label>
                                             <label style={{paddingLeft :60,color: "lightgrey", fontSize: 15}} class="form-check-label">
                                             <input  onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) }  class="form-check-input radio-inline" type="radio" name="gridRadios" id="gridRadios2" value="2"></input>
@@ -219,7 +227,16 @@ const CreateQuestion = ({question, isempty, index , onDelete,changeQuestion, onS
                                             <input   onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) } class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="4" ></input>
                                             Option Four</label>
 
-                                        </div>
+                                        </div> */}
+                                        <select style= {{ backgroundColor: "#838383", width:300, paddingLeft: 10}} onChange={changecorrect} class="custom-select" id="inputGroupSelect02">
+                                            <option  selected> Option {ques.correctAnswer} </option>
+                                            <option value = "1" > Option 1</option>
+                                            <option value= "2" > Option 2</option>
+                                            <option value="3">  Option 3</option>
+                                            <option value="4">  Option 4</option>
+                                            
+                                       </select>
+
                                         </div>  
                                     </fieldset>
                                 </div>    

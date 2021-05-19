@@ -79,7 +79,7 @@ const CreateScreenSub = (props) => {
             hashtagtwo: isempty ? "" : props.quiz.hashtagtwo,
             hashtagthree: isempty ? "" : props.quiz.hashtagthree,
             difficulty: isempty ? "" : props.quiz.difficulty,
-            quizposted: isempty ? false : props.quiz.quizposted,
+            quizposted: isempty ? true : props.quiz.quizposted,
             timer: isempty ? 0 : props.quiz.timer,
             questions: isempty ? [] : clonedques,
             ratings: isempty ? 0 : props.quiz.ratings,
@@ -150,7 +150,7 @@ const CreateScreenSub = (props) => {
             else
             {
                 const PlatformLink = "/platform/" + props.user._id;
-                return <Redirect to='../explore' />
+                return <Redirect to={PlatformLink} />
 
             }
           
@@ -222,14 +222,27 @@ const CreateScreenSub = (props) => {
 
      const onCheckValid = () =>
      {
-        if (quizInfo.title === "" || quizInfo.description === "" || quizInfo.coverimage === "" || quizInfo.categories === "" || quizInfo.hashtagone === "" || quizInfo.hashtagtwo === "" || quizInfo.hashtagthree === "" || quizInfo.difficulty === "" || quizInfo.timer === 0 || questions.length == 0  )
+        if (quizInfo.title === "" || quizInfo.title === "" || quizInfo.coverimage === "" || quizInfo.categories === "" || quizInfo.hashtagone === "" || quizInfo.hashtagtwo === "" || quizInfo.hashtagthree === "" || quizInfo.difficulty === "" || quizInfo.timer === 0 || quizInfo.questions.length == 0  )
         {
+            console.log(quizInfo.title === "")
+            console.log(quizInfo.description === "")
+            console.log(quizInfo.coverimage === "")
+            console.log(quizInfo.categories === "")
+            console.log(quizInfo.title === "")
+            console.log(quizInfo.hashtagone === "")
+            console.log(quizInfo.hashtagtwo === "")
+            console.log(quizInfo.hashtagthree === "")
+            console.log(quizInfo.difficulty === "")
+            console.log(quizInfo.timer === 0)
+            console.log(quizInfo.questions.length === 0)
+
             
             return true
 
         }
         else
         {
+            setQuizInfo({...quizInfo, quizposted: true});
             return false
 
         }
@@ -250,7 +263,13 @@ const CreateScreenSub = (props) => {
         console.log("my info", quizInfo)
         
         
-
+        if (onCheckValid() == true)
+        {
+            console.log(quizInfo)
+            setSubmodalShow(true)
+        }
+        else
+        {
 
         const { data } = await UpdateQuiz({
             variables: {
@@ -278,9 +297,10 @@ const CreateScreenSub = (props) => {
             console.log("Updated successfully");
             //return <Redirect to='/explore' />
         }
-        else console.log("Error in updating");
+        else console.log("Error in updating");  
         setUpd(false)
         setgoto(true)
+    }
         //renderRedirect()
      }
 
@@ -293,14 +313,14 @@ const CreateScreenSub = (props) => {
 
         
         
-        //setQuizInfo({...quizInfo, questions: allQuestions});
-        //console.log(" here questions", allQuestions)
-        // if (onCheckValid() == true)
-        // {
-        //     setSubmodalShow(true)
-        // }
-        // else
-        //{
+        setQuizInfo({...quizInfo, questions: allQuestions});
+        console.log(" here questions", allQuestions)
+        if (onCheckValid() == true)
+        {
+            setSubmodalShow(true)
+        }
+        else
+        {
         const { error, data } = await addQuiz({ variables: { ...quizInfo } });
         // if (loading) { toggleLoading(true) };
         if (error) { return `Error: ${error.message}` };
@@ -311,7 +331,7 @@ const CreateScreenSub = (props) => {
 
         setgoto(true)
     }
-    //}
+    }
 
     const onAdd = ()=>
     {
@@ -321,6 +341,8 @@ const CreateScreenSub = (props) => {
     const deleteMyQuiz= ()=>
     {
         deleteQuiz({ variables: { _id: props.quiz._id } });
+        setgoto(true)
+        setUpd(true)
     }
     
 
@@ -470,7 +492,7 @@ const CreateScreenSub = (props) => {
                <div style={{ paddingBottom:30, paddingLeft:600}}>
                {renderRedirect()}
                
-               <button style= {{backgroundColor: "orange"}} onClick = {isempty ? onSubmit: onUpdate} class= "btn btn-primary" >Create quiz</button>
+               <button style= {{backgroundColor: "orange"}} onClick = {isempty ? onSubmit: onUpdate} class= "btn btn-primary" >{isempty ? "Create quiz" :"Update quiz"}</button>
                <div style={{display:"inline"}}>
                         {!isempty &&  <button style= {{backgroundColor: "orange"}} onClick = {deleteMyQuiz} class= "btn btn-primary" >Delete Quiz</button>}
                         </div>
