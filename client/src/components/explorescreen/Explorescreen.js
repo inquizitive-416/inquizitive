@@ -440,10 +440,10 @@ const ExploreHashtagSearch = (props) => {
 const FilterByDifficulty = (props) => {
   let quizzes = {};
   const [page, setPage] = useState(1);
-  let difficulty = "Easy";
+  let diff = "Easy";
 
   const { loading: loadingQuiz, error: errorQuiz, data: dataQuiz } = useQuery(FILTER_BY_DIFFICULTY, {
-    variables: {difficulty, skip: (page - 1) * 6, limit: 6}
+    variables: {difficulty: diff, skip: (page - 1) * 6, limit: 6}
   })
   const { loading, error, data } = useQuery(GET_ALL_QUIZZES_COUNT);
 
