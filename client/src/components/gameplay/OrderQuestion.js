@@ -30,10 +30,10 @@ const OrderQuestion=(props)=>{
           <Droppable droppableId="droppable" direction="horizontal">
             {(provided) => (
               <div
-                class="row"
+                class="row" style = {{height:"60vh",width:"100vw"}}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style = {{backgroundColor:"grey",height:"100%"}}
+                
                 // style={getListStyle(snapshot.isDraggingOver)}
               >
                 
@@ -41,15 +41,16 @@ const OrderQuestion=(props)=>{
                 characters.map((item, index) => (
                   <Draggable key={item[0]} draggableId={item[0]} index={index}>
                     {(provided) => (
-                    <div class='col' 
+                    <div class='col' style={{alignContent:"center",width:"25vw",height:"60vh"}}
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
+                        
                     >
-                      <div style={{position:"relative",top: "50%",transform: "translate(0, -50%)"}} >
-                        <Card >
-                            <Card.Img src={item[1]} style={{height:"40vh"}}/>
-                            <Card.Body>
+                      <div style={{height:"45vh",width:"22vw",position:"relative",top: "50%",left:"50%",transform: "translate(-50%, -50%)"}} >
+                        <Card style={{}}>
+                            <Card.Img src={item[1]} style={{height:"35vh"}}/>
+                            <Card.Body style={{height:"10vh"}}>
                                 <Card.Title>
                                     {item[0]}
                                 </Card.Title>

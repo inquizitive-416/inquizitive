@@ -26,15 +26,15 @@ const Match=(props)=>{
     }
     // characters.sort(() => Math.random() - 0.5)
     return (
-      <div>
-        <div class='row' style={{padding:10}}>
+      <div style={{height:"60vh"}}>
+        <div class='row' style = {{backgroundColor:"#383838",height:"10vh",width:"100vw"}}>
         {
                 qArr.map((item, index) => (
                   
-                      <div class='col'  >
-                        <Card >
-                            <Card.Body>
-                                <Card.Title>
+                      <div class='col' style={{alignContent:"center",width:"25vw",height:"10vh"}} >
+                        <Card style={{height:"8vh",width:"22vw",position:"relative",top: "50%",left:"50%",transform: "translate(-50%, -50%)"}} >
+                            <Card.Body >
+                                <Card.Title style={{textAlign:"center",position:"relative",top: "50%",left:"50%",transform: "translate(-50%, -50%)"}}>
                                     {item}
                                 </Card.Title>
                             
@@ -48,10 +48,10 @@ const Match=(props)=>{
           <Droppable droppableId="droppable" direction="horizontal">
             {(provided) => (
               <div
-                class="row"
+                class="row" style = {{height:"50vh",width:"100vw"}}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style = {{backgroundColor:"grey",height:"50vh"}}
+                // style = {{backgroundColor:"grey",height:"50vh"}}
                 // style={getListStyle(snapshot.isDraggingOver)}
               >
                 
@@ -59,13 +59,13 @@ const Match=(props)=>{
                 characters.map((item, index) => (
                   <Draggable key={item[0]} draggableId={item[0]} index={index}>
                     {(provided) => (
-                    <div class='col' 
+                    <div class='col' style={{alignContent:"center",width:"25vw",height:"50vh"}}
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                     >
-                      <div style={{position:"relative",top: "50%",transform: "translate(0, -50%)"}} >
-                        <Card >
+                      <div style={{height:"45vh",width:"22vw",position:"relative",top: "50%",left:"50%",transform: "translate(-50%, -50%)"}}>
+                        <Card style={{height:"45vh",width:"22vw",position:"relative",top: "50%",left:"50%",transform: "translate(-50%, -50%)"}}>
                             <Card.Img src={item[0]} style={{height:"40vh"}}/>
                     
                         </Card>

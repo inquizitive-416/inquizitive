@@ -17,7 +17,7 @@ const DisplayQuestion = ({question,onClick,onChange,onOrder,answers,onMatch}) =>
         console.log(question);
         // console.log(answers)
         return(
-            <Fillintheblank onChange={onChange} question={question} selected={answers}/>
+            <Fillintheblank style={{height:"60vh"}} onChange={onChange} question={question} selected={answers}/>
         );
     }
     else if (question.questype==='Ordering'){
