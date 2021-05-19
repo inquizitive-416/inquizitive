@@ -69,7 +69,7 @@ const typeDefs = gql`
 			isReported: Boolean): Quiz
 
 		deleteQuiz(_id: String!): Boolean
-		updateQuizField(_id: String!, field: String!, value: String!): Boolean
+		UpdateQuiz(_id: String!, idOfCreator: String, title:String, description:String , coverimage:String, categories:String , hashtagone:String, hashtagtwo:String , hashtagthree:String , difficulty: String, quizposted: Boolean, timer: Int, questions: [QuestionInput],ratings: Int , avgRating: Int ,numOfTimesPlayed: Int , isReported: Boolean): Quiz
 	}
 
 	input QuizInput {

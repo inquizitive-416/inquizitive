@@ -6,12 +6,12 @@ import Button from 'react-bootstrap/Button'
 import { uploadFile } from 'react-s3';
 
 
-const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
+const CreateQuestion = ({question, isempty, index , onDelete,changeQuestion, onSave}) => {
     //console.log(key)
     //console.log(question)
     console.log(question.questype)
 
-    
+    console.log("MY TYPE", question.questype)
     const [image1, setImage1] = useState({});
     const [image2, setImage2] = useState({});
     const [image3, setImage3] = useState({});
@@ -21,16 +21,16 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
         {
             id: question.id,
             questype: question.questype,
-            questionPrompt: "",
-            choice1: "",
-            choice2: "",
-            choice3: "",
-            choice4: "",
-            image1: "",
-            image2: "",
-            image3: "",
-            image4: "",
-            correctAnswer: ""
+            questionPrompt: isempty ? "" : question.questionPrompt,
+            choice1: isempty ? "" : question.choice1,
+            choice2: isempty ? "" : question.choice2, 
+            choice3: isempty ? "" : question.choice3,
+            choice4: isempty ? "" : question.choice4,
+            image1: isempty ? "" : question.image1,
+            image2: isempty ? "" : question.image2,
+            image3: isempty ? "" : question.image3,
+            image4: isempty ? "" : question.image4,
+            correctAnswer: isempty ? "" : question.correctAnswer
 
         }
     )
@@ -43,6 +43,52 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
 
         //changeQuestion( question.questype, question.id, ques)
   
+    }
+    const changecorrect =(e)=>
+    {
+        setQues({...ques,["correctAnswer"]:e.currentTarget.value})
+  
+    }
+
+
+    
+
+    const saveit = (id, ques) => {
+        if(question.questype == "MCQ")
+        {
+            console.log("hey")
+            if(ques.correctAnswer == "1")
+            {
+                console.log("here")
+                setQues({...ques,["correctAnswer"]:ques.choice1}); 
+            }  
+            else if(ques.correctAnswer == "2")
+            {
+                setQues({...ques,["correctAnswer"]:ques.choice2}); 
+            }  
+            else if(ques.correctAnswer == "3")
+            {
+                setQues({...ques,["correctAnswer"]:ques.choice3}); 
+            }  
+            else
+            {
+                setQues({...ques,["correctAnswer"]:ques.choice4}); 
+            }  
+        }
+        else if(question.questype == "MTP")
+        {
+            ques.correctAnswer = "1234"
+        }
+        else if (question.questype == "Ordering")
+        {
+            ques.correctAnswer = "1234"
+        }
+
+        onSave(id, ques)
+
+         
+
+
     }
     const handleNewImage = (e) => {
         
@@ -105,7 +151,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                <Card>
                     <Card.Header style = {{backgroundColor: "#545454"}}>
                         <span>
-                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
+                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                             <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"> <i class="fa fa-trash"></i> Delete</button>
                             <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i> Save </b></button>
@@ -140,7 +186,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
            <Card>
                 <Card.Header style = {{backgroundColor: "#545454"}}>
                     <span>
-                        <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
+                        <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                         <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"><i class="fa fa-trash"></i> Delete</button>
                         <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i> Save </b></button>
@@ -167,9 +213,9 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                                     <fieldset class="form-group row">
                                     <legend style= {{color: "lightgrey", fontSize: 18}} class="col-form-legend col-sm-2">Choose Answer:</legend>
                                     <div class="col-sm-10">
-                                        <div class="form-check">
+                                        {/* <div class="form-check">
                                             <label style= {{color: "lightgrey", fontSize: 15}} class="form-check-label">
-                                            <input  onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) }  class="form-check-input radio-inline" type="radio" name="gridRadios" id="gridRadios1" value="1" ></input>
+                                            <input  onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) }  class="form-check-input radio-inline" type="radio" name="gridRadios" id="gridRadios1" value="1" {...ques.correctAnswer=="1" ? "checked" : "" }></input>
                                             Option one</label>
                                             <label style={{paddingLeft :60,color: "lightgrey", fontSize: 15}} class="form-check-label">
                                             <input  onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) }  class="form-check-input radio-inline" type="radio" name="gridRadios" id="gridRadios2" value="2"></input>
@@ -181,7 +227,16 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                                             <input   onChange={(e) => setQues({...ques,["correctAnswer"]:e.currentTarget.value}) } class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="4" ></input>
                                             Option Four</label>
 
-                                        </div>
+                                        </div> */}
+                                        <select style= {{ backgroundColor: "#838383", width:300, paddingLeft: 10}} onChange={changecorrect} class="custom-select" id="inputGroupSelect02">
+                                            <option  selected> Option {ques.correctAnswer} </option>
+                                            <option value = "1" > Option 1</option>
+                                            <option value= "2" > Option 2</option>
+                                            <option value="3">  Option 3</option>
+                                            <option value="4">  Option 4</option>
+                                            
+                                       </select>
+
                                         </div>  
                                     </fieldset>
                                 </div>    
@@ -205,7 +260,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                <Card>
                     <Card.Header style = {{backgroundColor: "#545454"}}>
                         <span>
-                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
+                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                             <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"><i class="fa fa-trash"></i>  Delete</button>
                             
@@ -273,7 +328,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                <Card>
                     <Card.Header style = {{backgroundColor: "#545454"}}>
                         <span>
-                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {question.id}</Accordion.Toggle> 
+                            <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                             <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"><i class="fa fa-trash"></i>  Delete</button>
                             
@@ -296,7 +351,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                                                 
                                                 <input type="file" name="image1" onChange={handleNewImage} />
                                                 <Button variant='light' name="image1" onClick={uploadNewImage} >Upload Image 1</Button>
-                                               
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice1" value={ques.choice1} onChange={onChangeQues} />
                                     
                                              </Card.Body>
                                          </Card>
@@ -304,21 +359,21 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
                                             <Card.Body style={{backgroundColor: "#585858"}}>
                                                 <input class= "inline-block" type="file" name="image2" onChange={handleNewImage} />
                                                 <Button class= "inline-block" variant='light' name="image2" onClick={uploadNewImage} >Upload Image 2</Button>
-                                                
+                                                <input class= "inline-block" style = {{backgroundColor: "#939393", width: 200, }} type="text" id="typeText" class="form-control" name="choice2" value={ques.choice2} onChange={onChangeQues} />
                                              </Card.Body>
                                         </Card>
                             <           Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
                                             <Card.Body style={{backgroundColor: "#585858"}}>
                                                 <input type="file" name="image3" onChange={handleNewImage} />
                                                 <Button variant='light' name="image3" onClick={uploadNewImage} >Upload Image 3</Button>
-                                                
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice3" value={ques.choice3} onChange={onChangeQues} />
                                             </Card.Body>
                                          </Card>
                                          <Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
                                             <Card.Body style={{backgroundColor: "#585858"}}>
                                                  <input type="file" name="image4" onChange={handleNewImage} />
                                                 <Button variant='light' name="image4"  onClick={uploadNewImage} >Upload Image 4</Button>
-                                              
+                                                <input style = {{backgroundColor: "#939393", width: 200}} type="text" id="typeText" class="form-control" name="choice4" value={ques.choice4} onChange={onChangeQues} />
                                         </Card.Body>
                                         </Card>
                                     </div>
@@ -332,9 +387,7 @@ const CreateQuestion = ({question,onDelete,changeQuestion, onSave}) => {
            </Accordion> 
     
             );
-
     }
-	
 };
 
 export default CreateQuestion;

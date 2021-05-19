@@ -415,8 +415,15 @@ const RecentWorks = (props) => {
     if (typeof quiz === 'undefined'){
       return (<div></div>);
     }
+    if(props.myplatform === true)
+    {
+      var link = "/create/" + quiz._id
+    }
+    else{
+      var link = "/begin/" + quiz._id;
 
-    var link = "/begin/" + quiz._id;
+    }
+    
     var coverImageLink = quiz.coverimage;
 
     if (typeof coverImageLink === 'undefined' || coverImageLink === ''){
@@ -503,8 +510,10 @@ const Profilescreen = (props) => {
   let currUserId = getCurrentUser()._id;
   let platformId = props.match.params.id;
   let numOfQuizzes = -1;
+  
   const [bgColor, setBgColor] = useState("blank");
   const [bannerLink, setBannerLink] = useState("blank");
+  let myplatform = false
 
   const { loading, error, data} = useQuery(GET_CURRENT_PLATFORM, {
     variables: {_id: platformId}
@@ -516,6 +525,15 @@ const Profilescreen = (props) => {
              numOfQuizzes = data.getAllQuizzesFromCreator.length; }
 
   // set the state only once
+
+  if (platformId === currUserId)                                    //sara block
+  {
+   myplatform = true
+  }
+  else{
+    myplatform = false
+  }
+  
   if (bgColor === "blank"){
     setBgColor(currentPlatform.bgColor);
   }
@@ -538,7 +556,7 @@ const Profilescreen = (props) => {
         <br />
         <ProfileHeading platform={currentPlatform} setBgColor={setBgColor} currBgColor={bgColor} setBannerLink={setBannerLink} currUser={currUserId}/>
         <br />
-        <RecentWorks platform={currentPlatform} numOfQuizzes={numOfQuizzes}/>
+        <RecentWorks platform={currentPlatform} myplatform = {myplatform} numOfQuizzes={numOfQuizzes}/>        
         <br />
       </div>
   );
