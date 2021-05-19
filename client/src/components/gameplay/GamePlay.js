@@ -116,7 +116,7 @@ const GamePlay = (props) => {
         setScoreOpen(true);
     }
     return(
-        <div style={{height:"100vh",width:"100vw",backgroundColor:"red"}}>
+        <div style={{height:"100vh",width:"100vw",backgroundColor:"#424242"}}>
             <div style={{textAlign:"center",height:"15vh",width:"100vw",backgroundColor:'#404040'}}>
                 <h1 style={{color:'white',fontSize:"8vh",fontStyle:"black",position:"relative",top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}>{quiz.title}</h1>
             </div>
