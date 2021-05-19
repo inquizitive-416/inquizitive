@@ -17,7 +17,6 @@ export const GET_QUIZ = gql`
             timer
             questions
             {
-                
                 _id
                 questype
                 questionPrompt
