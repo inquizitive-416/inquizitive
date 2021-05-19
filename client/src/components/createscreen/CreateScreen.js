@@ -358,6 +358,8 @@ const CreateScreenSub = (props) => {
                         </div>
                     
                 </div>
+
+                <RatingBar/>
                 
                 <form>
                
