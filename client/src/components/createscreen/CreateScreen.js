@@ -373,7 +373,7 @@ const CreateScreenSub = (props) => {
 
                     <div  style= {{paddingLeft: 220}} class="form-group">
                     
-                        <label for="exampleFormControlTextarea1"><b>Enter cover image </b></label>
+                        <label for="exampleFormControlTextarea1"><b>{isempty? "Enter": "Change"} cover image </b></label>
                         <Row>
                     
                         <Col xs="9">
