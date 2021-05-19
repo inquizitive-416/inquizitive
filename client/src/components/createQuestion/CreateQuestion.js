@@ -6,12 +6,12 @@ import Button from 'react-bootstrap/Button'
 import { uploadFile } from 'react-s3';
 
 
-const CreateQuestion = ({question, index , onDelete,changeQuestion, onSave}) => {
+const CreateQuestion = ({question, isempty, index , onDelete,changeQuestion, onSave}) => {
     //console.log(key)
     //console.log(question)
     console.log(question.questype)
 
-    
+    console.log("MY TYPE", question.questype)
     const [image1, setImage1] = useState({});
     const [image2, setImage2] = useState({});
     const [image3, setImage3] = useState({});
@@ -21,16 +21,16 @@ const CreateQuestion = ({question, index , onDelete,changeQuestion, onSave}) => 
         {
             id: question.id,
             questype: question.questype,
-            questionPrompt: "",
-            choice1: "",
-            choice2: "",
-            choice3: "",
-            choice4: "",
-            image1: "",
-            image2: "",
-            image3: "",
-            image4: "",
-            correctAnswer: ""
+            questionPrompt: isempty ? "" : question.questionPrompt,
+            choice1: isempty ? "" : question.choice1,
+            choice2: isempty ? "" : question.choice2, 
+            choice3: isempty ? "" : question.choice3,
+            choice4: isempty ? "" : question.choice4,
+            image1: isempty ? "" : question.image1,
+            image2: isempty ? "" : question.image2,
+            image3: isempty ? "" : question.image3,
+            image4: isempty ? "" : question.image4,
+            correctAnswer: isempty ? "" : question.correctAnswer
 
         }
     )
@@ -146,7 +146,7 @@ const CreateQuestion = ({question, index , onDelete,changeQuestion, onSave}) => 
                             <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                             <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"> <i class="fa fa-trash"></i> Delete</button>
-                            <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => saveit(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i> Save </b></button>
+                            <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i> Save </b></button>
                         </span>     
                     </Card.Header>
                     <Accordion.Collapse eventKey="0">
@@ -181,7 +181,7 @@ const CreateQuestion = ({question, index , onDelete,changeQuestion, onSave}) => 
                         <Accordion.Toggle style={{color:"orange"}} as={Button} variant="link" eventKey="0"> Question {index + 1}</Accordion.Toggle> 
                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                         <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"><i class="fa fa-trash"></i> Delete</button>
-                        <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => saveit(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i> Save </b></button>
+                        <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i> Save </b></button>
                     </span>     
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
@@ -247,7 +247,7 @@ const CreateQuestion = ({question, index , onDelete,changeQuestion, onSave}) => 
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                             <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"><i class="fa fa-trash"></i>  Delete</button>
                             
-                            <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => saveit(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i>  Save </b></button>
+                            <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i>  Save </b></button>
                         </span>     
                     </Card.Header>
                     <Accordion.Collapse eventKey="0">
@@ -315,7 +315,7 @@ const CreateQuestion = ({question, index , onDelete,changeQuestion, onSave}) => 
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                             <button style= {{backgroundColor: "#ffa343", float: 'right' }} onClick={(e) => onDelete(question.id)} class="btn btn-primary" type="button"><i class="fa fa-trash"></i>  Delete</button>
                             
-                            <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => saveit(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i>  Save </b></button>
+                            <button style= {{backgroundColor: "white", float: 'right', color: "orange" }} onClick={(e) => onSave(question.id,ques)} class="btn btn-primary" type="button"><b><i class="fa fa-save"></i>  Save </b></button>
                         </span>     
                     </Card.Header>
                     <Accordion.Collapse eventKey="0">

@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import NavbarTop					from '../navbar/NavbarTop';
 import AddQuestion					from './AddQuestion';
 import QuestionList                 from './QuestionList'
-import {ADDQUIZ} from "./cache/mutation"
+import {ADDQUIZ, UPDATE_QUIZ} from "./cache/mutation"
 import { graphql,useMutation } from '@apollo/client';
 import { Navbar, Nav } from 'react-bootstrap'
 import { Redirect } from "react-router-dom"
@@ -25,16 +25,38 @@ import TimerBar from '../TimerBar/TimerBar';
 import { isValidES3Identifier } from '@babel/types';
 const CreateScreenSub = (props) => {
 
-   
+    let update = false
     let quizhours = 0
     let quizminutes = 0
     let isempty = Object.keys(props.quiz).length === 0
-    if(!isempty)
+    let clonedques=[]
+    const [upd, setUpd] = useState(true)
+    if(!isempty )
     {   console.log(props.quiz.timer)
         quizhours = Math.floor(props.quiz.timer/3600);
         quizminutes =  (props.quiz.timer % 3600) /60
-    }
+
+        let my_questions = props.quiz.questions
+        console.log("my questions",my_questions)
+        let i = 0;
+        
+        if (my_questions != null)
+        {
+            for(i=0;i< my_questions.length;i++)
+        {
+            let clone = Object.assign({}, my_questions[i]);
+            delete clone.__typename
     
+            console.log("clone",clone)
+            clonedques.push(clone)
+    
+        }
+
+        }
+        
+       
+        
+    }
     
     const [questions , setQuestions] = useState([])
     const [hours , setHours] = useState(0)
@@ -56,25 +78,24 @@ const CreateScreenSub = (props) => {
             hashtagtwo: isempty ? "" : props.quiz.hashtagtwo,
             hashtagthree: isempty ? "" : props.quiz.hashtagthree,
             difficulty: isempty ? "" : props.quiz.difficulty,
-            quizposted: false,
-            timer: 0,
-            questions: [],
-            ratings: 0,
-            avgRating: 0,
-            numOfTimesPlayed:0,
-            isReported: false
+            quizposted: isempty ? false : props.quiz.quizposted,
+            timer: isempty ? 0 : props.quiz.timer,
+            questions: isempty ? [] : clonedques,
+            ratings: isempty ? 0 : props.quiz.ratings,
+            avgRating: isempty ? 0 : props.quiz.avgRating,
+            numOfTimesPlayed: isempty ? 0 : props.quiz.numOfTimesPlayed,
+            isReported: isempty ? false : props.quiz.isReported
 
         }
     )
 
+     
+
     
-
-
-
    
 
     const [addQuiz]= useMutation(ADDQUIZ)
-     
+    const [UpdateQuiz]= useMutation(UPDATE_QUIZ)
     const subModal=()=>{
         
         setSubmodalShow(!submodalShow);
@@ -117,8 +138,10 @@ const CreateScreenSub = (props) => {
 
 
     const renderRedirect = () => {
-        if (gotoexplore) {
-          return <Redirect to='/explore' />
+        console.log("go to ")
+        if (gotoexplore || update) {
+            console.log("explore")
+          return <Redirect to='../explore' />
         }
       }
 
@@ -175,16 +198,12 @@ const CreateScreenSub = (props) => {
         setshowques(false)
         
          const id = Math.floor(Math.random() * 10000) + 1
-         const newQuestion = {id, questype }
+         //const newQuestion = {id, questype }
 
          console.log("type is" , questype)
-         setQuestions([...questions, newQuestion])
+         //setQuestions([...questions, newQuestion])
          
              const newques = {id: id, questype: questype, questionPrompt: "",choice1: "", choice2: "", choice3: "", choice4: "",image1: "", image2: "", image3: "", image4: "" ,correctAnswer: "" }
-            
-             //setallQuestions([...allQuestions, newques]) 
-             //var myarr = quizInfo.questions
-            // const newarr = myarr.push(newques)
              setQuizInfo({...quizInfo, questions: [...quizInfo.questions,newques]});
              console.log("quess", quizInfo.questions)
      }
@@ -214,10 +233,50 @@ const CreateScreenSub = (props) => {
 
      }
 
-     const onSubmit= async(e)=>{
+     const onUpdate= async(e)=>{
+        e.preventDefault();
+        console.log("my info", quizInfo)
+        
+        
 
+
+        const { data } = await UpdateQuiz({
+            variables: {
+                _id: props.quiz._id,
+                idOfCreator: props.quiz.idOfCreator,
+                title: quizInfo.title,
+                description: quizInfo.description,
+                coverimage: quizInfo.coverimage,
+                categories: quizInfo.categories ,
+                hashtagone : quizInfo.hashtagone,
+                hashtagtwo: quizInfo.hashtagtwo,
+                hashtagthree: quizInfo.hashtagthree,
+                difficulty: quizInfo.difficulty,
+                quizposted: props.quiz.quizposted,
+                timer: quizInfo.timer,
+                questions: quizInfo.questions,
+                ratings: quizInfo.ratings,
+                avgRating: quizInfo.avgRating,
+                numOfTimesPlayed: quizInfo.numOfTimesPlayed,
+                isReported: quizInfo.isReported
+            }
+        })
+        if (data && data.UpdateQuiz) 
+        {
+            console.log("Updated successfully");
+            //return <Redirect to='/explore' />
+        }
+        else console.log("Error in updating");
+        setUpd(false)
+        setgoto(true)
+        //renderRedirect()
+     }
+
+     const onSubmit= async(e)=>{
+  
         //setTiming();
         e.preventDefault();
+        console.log("in submit")
         setQuizInfo({...quizInfo, ["quizposted"]: true});
 
         
@@ -236,6 +295,8 @@ const CreateScreenSub = (props) => {
         if(data){
             console.log(data);
         }
+
+
         setgoto(true)
     }
     //}
@@ -248,6 +309,7 @@ const CreateScreenSub = (props) => {
 
 	return (
         <div>
+       
 		<NavbarTop fetchUser={props.fetchUser}/>
             <div  className ="create"  style={{overflow:"scroll", position: "absolute"}}>
                 <div style={{backgroundColor: "#484848", height: 50, paddingBottom: 90, textAlign: "center"}} >
@@ -363,12 +425,13 @@ const CreateScreenSub = (props) => {
                         </select>
                     </div>
                     {showques && <label style={{paddingLeft: 250, paddingTop: 17}}> <b>No Questions to Display</b> </label>}
-                    <QuestionList questions= {questions} onDelete = {onDelete} changeQuestion={changeQuestion} onSave= {onSave}/>
+                  <QuestionList questions= {upd ? quizInfo.questions : []} isempty = {isempty} onDelete = {onDelete} changeQuestion={changeQuestion} onSave= {onSave}/> 
                <div style={{paddingLeft: 217, paddingTop: 15}}>
                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                   <button style= {{backgroundColor: "#ffa343", width: 915}}  onClick={onAdd} class="btn btn-primary" type="button"> <i class="fa fa-plus"></i> Add   New   Question</button>
                   {showAdd && <AddQuestion  addQues ={addQues} onAdd = {onAdd}/>}
                </div>
+               
 
                <div style={{paddingTop:40 , paddingLeft:600}}>
 
@@ -385,9 +448,9 @@ const CreateScreenSub = (props) => {
 
 
                <div style={{ paddingBottom:30, paddingLeft:600}}>
-
                {renderRedirect()}
-               <button style= {{backgroundColor: "orange"}} onClick = {onSubmit} class= "btn btn-primary" >Create quiz</button>
+               
+               <button style= {{backgroundColor: "orange"}} onClick = {isempty ? onSubmit: onUpdate} class= "btn btn-primary" >Create quiz</button>
 
                        
                </div>
