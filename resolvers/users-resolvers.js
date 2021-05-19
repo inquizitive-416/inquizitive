@@ -37,6 +37,27 @@ module.exports = {
         if (users) return users;
         else return {};
       },
+
+      getSearchedPlatforms: async (_, args) => {
+        const { username, skip, limit } = args;
+        const users = await User.find({ username: {$regex: username, $options: 'i'} }).sort({ _id: -1 }).skip(skip).limit(limit);
+        if (users) return users;
+        else return {};
+      },
+
+      getAllUsersCount: async (_, args) => {
+        const { skip, limit } = args;
+        const users = await User.find().sort({ _id: -1 });
+        if (users) return users;
+        else return {};
+      },
+
+      getSearchedPlatformsCount: async (_, args) => {
+        const { username } = args;
+        const users = await User.find({ username: {$regex: username, $options: 'i'} });
+        if (users) return users;
+        else return {};
+      },
     },
 
     Mutation: {
