@@ -41,12 +41,44 @@ module.exports = {
     if (quizzes) return quizzes;
     else return {};
   },
-      getSearchedQuizzes: async (_, args) => {
-        const { categories, skip, limit} = args;
-        const quizzes = await Quiz.find({ categories: categories }).sort({ _id: -1 }).skip(skip).limit(limit);
-        if (quizzes) return quizzes;
-        else return {};
-      },
+  searchByCategory: async (_, args) => {
+    const { categories, skip, limit} = args;
+    const quizzes = await Quiz.find({ categories: {$regex: categories, $options: 'i'} }).sort({ _id: -1 }).skip(skip).limit(limit);
+    if (quizzes)
+      return quizzes;
+    else return {};
+  },
+    searchByHashtag: async (_, args) => {
+      const { hashtag, skip, limit} = args;
+      const quizzes = await Quiz.find( {hashtagone: hashtag }).sort({ _id: -1 }).skip(skip).limit(limit);
+      if (quizzes)
+        return quizzes;
+      else return {};
+    },
+
+    getSearchedCategoryCount: async (_, args) => {
+      const { categories } = args;
+      const quizzes = await Quiz.find({ categories: {$regex: categories, $options: 'i'} });
+      if (quizzes)
+        return quizzes;
+      else return {};
+    },
+
+    filterByDifficulty: async (_, args) => {
+      const { difficulty, skip, limit } = args;
+      const quizzes = await Quiz.find( {difficulty: difficulty }).sort({ _id: -1 }).skip(skip).limit(limit);
+      if (quizzes)
+        return quizzes;
+      else return {};
+    },
+
+    getAllQuizzesCount: async (_, args) => {
+      const { skip, limit } = args;
+      const users = await Quiz.find().sort({ _id: -1 });
+      if (users) return users;
+      else return {};
+    },
+
    },
 
     Mutation: {

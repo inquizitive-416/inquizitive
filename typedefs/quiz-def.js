@@ -41,9 +41,13 @@ const typeDefs = gql`
 	extend type Query {
 		getQuizById(_id: String!): Quiz
 		getQuizzesByRating: [Quiz]
-		getSearchedQuizzes(categories: String!, skip: Int!, limit: Int!): [Quiz]
+		searchByCategory(categories: String!, skip: Int!, limit: Int!): [Quiz]
+		searchByHashtag(hastag: String!, skip: Int!, limit: Int!): [Quiz]
 		getAllQuizzesFromCreator(idOfCreator: String!): [Quiz]
 		getPaginizedQuizzesByAge(idOfCreator: String!, skip: Int!, limit: Int!): [Quiz]
+		getSearchedCategoryCount(categories: String!): [Quiz]
+		filterByDifficulty(difficulty: String!): [Quiz]
+		getAllQuizzesCount: [Quiz]
 	}
 	extend type Mutation {
 		addQuiz(
