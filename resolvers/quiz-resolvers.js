@@ -114,6 +114,11 @@ module.exports = {
           numOfTimesPlayed,
           isReported
         } = args;
+
+        for (const [index, value] of questions.entries()) {
+          value._id=new ObjectId();
+        } 
+        
         const newQuiz = new Quiz({
           _id: objectId,
           idOfCreator: idOfCreator,
@@ -137,6 +142,24 @@ module.exports = {
         if (updated) return objectId;
         else return "Could not add quiz";
       },
+
+      
+	
+      UpdateQuiz: async (_, args) => {
+        let { _id, idOfCreator, title, description, coverimage, categories, hashtagone, hashtagtwo, hashtagthree, difficulty, quizposted, timer, questions, ratings, avgRating, numOfTimesPlayed, isReported} = args;
+         
+        const objectId = new ObjectId(_id);
+        for (const [index, value] of questions.entries()) {
+          value._id=new ObjectId();
+        } 
+        console.log("updated ques", questions);
+        const saved = await Quiz.updateOne({ _id: objectId }, {
+            idOfCreator: idOfCreator, title: title,  description: description, coverimage: coverimage, categories: categories, hashtagone: hashtagone, hashtagtwo:hashtagtwo,hashtagthree:hashtagthree,
+            difficulty: difficulty, quizposted: quizposted, timer:timer, questions:questions, ratings: ratings, avgRating:avgRating, numOfTimesPlayed:numOfTimesPlayed, isReported: isReported
+        })
+        if (saved) return objectId;
+        else return null;
+    },
       /**
 		 	@param 	 {object} args - a quiz objectID
 			@returns {boolean} true on successful delete, false on failure
@@ -148,28 +171,6 @@ module.exports = {
         if (deleted) return true;
         else return false;
       },
-      /**
-		 	@param 	 {object} args - a quiz objectID, field (title, description, etc), and the update value
-			@returns {boolean} true on successful update, false on failure
-		**/
-      updateQuizField: async (_, args) => {
-        const { field, value, _id } = args;
-        const objectId = new ObjectId(_id);
-        const updated = await Quiz.updateOne(
-          { _id: objectId },
-          { [field]: value }
-        );
-        if (updated) return true;
-        else return false;
-      },
 
-  
-      /**
-            @return {array} - return array of reported Quizzes
-        **/
-      // getAllReportedQuizzes: async (_, __) => {
-      //   const reportedQuizzes = await Quiz.find({ isReported: True });
-      //   if (reportedQuizzes) return reportedQuizzes;
-      // },
     },
   }
