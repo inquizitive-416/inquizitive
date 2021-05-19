@@ -88,6 +88,7 @@ const typeDefs = gql`
 		isReported: Boolean
 	}
 	input QuestionInput {
+		_id: String
 		id: Int
 		questype: String
 		questionPrompt: String

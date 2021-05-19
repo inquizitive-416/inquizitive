@@ -50,11 +50,10 @@ const App = (props) => {
 					} 
 				/>
 				<Route 
-					exact path="/create" 
+					exact path="/create/:id" 
 					name="create" 
-					render={(props) => 
-						<CreateScreen user={user} {...props} fetchUser={refetch}/>
-					} 
+				    render={(props) => <CreateScreen user={user} {...props} fetchUser={refetch}/>} 
+					
 				/>
 				<Route 
 					path="/settings" 

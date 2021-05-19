@@ -82,6 +82,11 @@ module.exports = {
           numOfTimesPlayed,
           isReported
         } = args;
+
+        for (const [index, value] of questions.entries()) {
+          value._id=new ObjectId();
+        } 
+        
         const newQuiz = new Quiz({
           _id: objectId,
           idOfCreator: idOfCreator,

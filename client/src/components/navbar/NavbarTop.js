@@ -18,13 +18,14 @@ const LoggedOut = (props) => {
     };
 
     const selfPlatformLink = "/platform/" + props.user._id;
+    const createlink = "/create/" + "null"
 
     return (
         <Navbar bg="dark" variant="dark">
             <Navbar.Brand href="/explore">In<span style={{color: '#f5ae31'}}>Quiz</span>Itive</Navbar.Brand>
             <Nav className="mr-auto">
                 <Nav.Link href="/explore">Explore</Nav.Link>
-                <Nav.Link href="/create">Create</Nav.Link>
+                <Nav.Link href={createlink} >Create</Nav.Link>
                 {/* <Nav.Link href="/tournaments">Tournaments</Nav.Link> */}
                 {/* <Nav.Link href="/shop">Shop</Nav.Link> */}
                 {/* <Nav.Link href="/begin">Play</Nav.Link> */}

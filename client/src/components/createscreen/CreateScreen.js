@@ -16,13 +16,25 @@ import SubmitModal from "./SubmitModal";
 import TimeBar	from '../TimerBar/TimerBar'
 import RatingBar	from '../RatingBar/RatingBar'
 import { Card, Button, Form, Col, Row } from 'react-bootstrap'
+import {GET_QUIZ} from './queries';
 
 
 import './createscreen.css'
 import { AddArgumentsAsVariables } from 'graphql-tools';
 import TimerBar from '../TimerBar/TimerBar';
+import { isValidES3Identifier } from '@babel/types';
 const CreateScreenSub = (props) => {
 
+   
+    let quizhours = 0
+    let quizminutes = 0
+    let isempty = Object.keys(props.quiz).length === 0
+    if(!isempty)
+    {   console.log(props.quiz.timer)
+        quizhours = Math.floor(props.quiz.timer/3600);
+        quizminutes =  (props.quiz.timer % 3600) /60
+    }
+    
     
     const [questions , setQuestions] = useState([])
     const [hours , setHours] = useState(0)
@@ -36,14 +48,14 @@ const CreateScreenSub = (props) => {
     const [quizInfo,setQuizInfo] = useState(
         {
             idOfCreator: props.user._id,
-            title: "",
-            description: "",
-            coverimage:"",
-            categories: "",
-            hashtagone : "",
-            hashtagtwo: "",
-            hashtagthree: "",
-            difficulty: "",
+            title: isempty ? "" : props.quiz.title,
+            description: isempty ? "" : props.quiz.description,
+            coverimage: isempty ? "" : props.quiz.coverimage,
+            categories: isempty ? "" : props.quiz.categories ,
+            hashtagone : isempty ? "" : props.quiz.hashtagone,
+            hashtagtwo: isempty ? "" : props.quiz.hashtagtwo,
+            hashtagthree: isempty ? "" : props.quiz.hashtagthree,
+            difficulty: isempty ? "" : props.quiz.difficulty,
             quizposted: false,
             timer: 0,
             questions: [],
@@ -54,6 +66,10 @@ const CreateScreenSub = (props) => {
 
         }
     )
+
+    
+
+
 
    
 
@@ -107,7 +123,9 @@ const CreateScreenSub = (props) => {
       }
 
     const onChange =(e)=>{
-        setQuizInfo({...quizInfo,[e.target.name]:e.target.value});    
+        setQuizInfo({...quizInfo,[e.target.name]:e.target.value});  
+        
+        console.log(quizInfo)
     }
 
     const onChangeHours =(e)=>{
@@ -173,11 +191,17 @@ const CreateScreenSub = (props) => {
 
      const onCheckValid = () =>
      {
-         if (quizInfo.title === "" || quizInfo.description === "" || quizInfo.coverimage === "" || quizInfo.categories === "")
-         {
-             subModal()
+        if (quizInfo.title === "" || quizInfo.description === "" || quizInfo.coverimage === "" || quizInfo.categories === "" || quizInfo.hashtagone === "" || quizInfo.hashtagtwo === "" || quizInfo.hashtagthree === "" || quizInfo.difficulty === "" || quizInfo.timer === 0 || questions.length == 0  )
+        {
+            
+            return true
 
-         }
+        }
+        else
+        {
+            return false
+
+        }
      }
 
      const setTiming = () =>
@@ -194,21 +218,18 @@ const CreateScreenSub = (props) => {
 
         //setTiming();
         e.preventDefault();
+        setQuizInfo({...quizInfo, ["quizposted"]: true});
 
         
         
         //setQuizInfo({...quizInfo, questions: allQuestions});
         //console.log(" here questions", allQuestions)
-        if (quizInfo.title === "" || quizInfo.description === "" || quizInfo.coverimage === "" || quizInfo.categories === "")
-         {
-             setSubmodalShow(true)
-
-         }
-        else
-        {
-
-        
-       
+        // if (onCheckValid() == true)
+        // {
+        //     setSubmodalShow(true)
+        // }
+        // else
+        //{
         const { error, data } = await addQuiz({ variables: { ...quizInfo } });
         // if (loading) { toggleLoading(true) };
         if (error) { return `Error: ${error.message}` };
@@ -217,13 +238,13 @@ const CreateScreenSub = (props) => {
         }
         setgoto(true)
     }
-    }
+    //}
 
     const onAdd = ()=>
     {
         setShowAdd(!showAdd)
     }
-
+    
 
 	return (
         <div>
@@ -231,7 +252,7 @@ const CreateScreenSub = (props) => {
             <div  className ="create"  style={{overflow:"scroll", position: "absolute"}}>
                 <div style={{backgroundColor: "#484848", height: 50, paddingBottom: 90, textAlign: "center"}} >
             
-                    <header style= {{paddingTop:25, fontSize: 35, color:"#FFA500" }}> Create New Quiz  </header>
+                    <header style= {{paddingTop:25, fontSize: 35, color:"#FFA500" }}> {isempty ? "Create New Quiz": "Edit Quiz"}  </header>
                 </div>
                 
                 <form>
@@ -252,9 +273,9 @@ const CreateScreenSub = (props) => {
                         <Row>
                     
                         <Col xs="9">
-                            <Card style={{backgroundColor: "#505050"}} className="bg-secondary text-white text-center">
-                                <Card.Body style={{backgroundColor: "#585858"}}>
-                                    <input type="file" onChange={handleNewImage} />
+                            <Card style = {{backgroundColor: "#505050"}}  className="bg-secondary text-white text-center">
+                                <Card.Body style = {{backgroundColor: "#585858"}}>
+                                    <input type="file"  onChange={handleNewImage} />
                                     <Button variant='light' onClick={uploadNewImage} >Upload a New Photo</Button>
                                 </Card.Body>
                             </Card>
@@ -267,8 +288,8 @@ const CreateScreenSub = (props) => {
 
                     
                     <select style= {{ paddingLeft: 100,backgroundColor: "#838383", width:455}} name="hours" onChange={onChangeHours} class="custom-select" id="inputGroupSelect02">
-                            <option  selected> Select Hours</option>
-                            <option value= "0" > 0 hours</option>
+                            <option  selected> {isempty ? "Select Hours": quizhours + " hours"}</option>
+                            <option value= "0" >0 hours</option>
                             <option value="1">1 hour</option>
                             <option value="2">2 hours</option>
                             <option value="3">3 hours</option>
@@ -283,7 +304,7 @@ const CreateScreenSub = (props) => {
                     </select>
 
                     <select style= {{ backgroundColor: "#838383", width:455, paddingLeft: 10}} name="minutes" onChange={onChangeMinutes} class="custom-select" id="inputGroupSelect02">
-                            <option  selected>Select Minutes</option>
+                            <option  selected>{isempty ? "Select Minutes": quizminutes + " minutes"}</option>
                             <option value = "0" > 0 minutes</option>
                             <option value= "5" > 5 minutes</option>
                             <option value="10">10 minutes</option>
@@ -303,7 +324,7 @@ const CreateScreenSub = (props) => {
                     <div style= {{paddingLeft: 220, width:1127}} class="input-group mb-3">
                         
                         <select style= {{ backgroundColor: "#838383", width:1200}} name="categories" onChange={onChange} class="custom-select" id="inputGroupSelect02">
-                            <option  selected>Choose categories</option>
+                            <option  selected> {isempty ? "Choose Categories": quizInfo.categories}</option>
                             <option value="Geography">Geography</option>
                             <option value="Computer Science">Computer Science</option>
                             <option value="Mathematics">Mathematics</option>
@@ -314,6 +335,14 @@ const CreateScreenSub = (props) => {
                             <option value="Chemistry">Chemistry</option>
                             <option value="Physics">Physics</option>
                             <option value="Biology">Biology</option>
+                            <option value="Art">Art</option>
+                            <option value="Astronomy">Astronomy</option>
+                            <option value="Mythology">Mythology</option>
+                            <option value="Environment">Environment</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Literature">Literature</option>
+                            <option value="Music">Music</option>
+
                         </select>
                     </div>
 
@@ -327,7 +356,7 @@ const CreateScreenSub = (props) => {
                     <div style= {{paddingLeft: 220, width:1128}} class="input-group mb-3">
                        <label for="formGroupExampleInput"><b>Enter Difficulty: </b></label>
                         <select style= {{ backgroundColor: "#838383", width:900}} name="difficulty" onChange={onChange} class="custom-select" id="inputGroupSelect03">
-                            <option  selected>Choose Difficulty</option>
+                            <option  selected>{ isempty ? "Choose Difficulty" : quizInfo.difficulty}</option>
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
                             <option value="Hard">Hard</option>
@@ -347,7 +376,7 @@ const CreateScreenSub = (props) => {
                 <Toast.Header>
                     <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
                     <strong className="mr-auto">Warning</strong>
-                    <small>11 mins ago</small>
+                    <small> Missing Fields</small>
                 </Toast.Header>
                 <Toast.Body>Fill in missing fields before creating quiz</Toast.Body>
                 </Toast>
@@ -373,24 +402,50 @@ const CreateScreenSub = (props) => {
 	);
 };
 
+const CreateScreenIt = (props) => {
+
+    
+    let quiz={}
+    
+    const { data, error, loading} = useQuery(GET_QUIZ, {
+        variables: {_id: props.quizId}
+    })
+    if (loading) { return <div></div>; }
+    if(error) { console.log(error);
+        quiz = {} }
+	if(data) { 
+        // console.log(data.getQuizById.questions)
+        quiz=(data.getQuizById)  
+    
+    console.log(quiz)
+    }
+
+	return (
+        
+        <div style={{minHeight:"100vh"}} >
+        <CreateScreenSub user={props.user}  quiz = {quiz} /> */
+        </div>
+        
+            
+	);
+};
+
 const CreateScreen = (props) => {
 
+    let quizId = props.match.params.id;
     let currentUser = 'base'
-
-    const { loading, error, data } = useQuery(GET_CURRENT_USER, {
+    const { loading, error, data} = useQuery(GET_CURRENT_USER, {
         variables: {_id: getCurrentUser()._id}
     })
     if (loading) { return <div></div>; }
     if(error) { console.log(error);
         return <div>Internal Error</div>; }
 	if(data) { currentUser = data.getUserById }
-
-    //console.log(currentUser)
-
+   
 	return (
         
         <div style={{minHeight:"100vh"}} >
-        <CreateScreenSub user={currentUser}/>
+        <CreateScreenIt user={currentUser} quizId = {quizId}/>
         </div>
         
             
