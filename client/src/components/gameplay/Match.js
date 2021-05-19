@@ -16,6 +16,10 @@ const Match=(props)=>{
     }
     return (
         <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable>
+            
+          </Droppable>
+            
           <Droppable droppableId="droppable" direction="horizontal">
             {(provided) => (
               <div

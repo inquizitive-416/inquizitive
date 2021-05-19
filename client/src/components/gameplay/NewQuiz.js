@@ -8,14 +8,14 @@ const NewQuiz=(props)=>{
     let quizId = props.match.params.id;
 
     const { loading, error, data } = useQuery(GET_QUIZ, {
-        variables: {_id: "609548bc35b719d744489fbe"}
+        variables: {_id: "60a441bec53ddea2dea2a5bb"}
     })
     if (loading) { return <div></div>; }
     if(error) { console.log(error);
         return <div>Internal Error</div>; }
 	if(data) { 
         quiz=(data.getQuizById) 
-        console.log(quiz);       
+        console.log("Quiz:",quiz);       
     }
 
 

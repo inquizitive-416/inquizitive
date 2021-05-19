@@ -3,8 +3,10 @@ import { DragDropContext,Droppable, Draggable } from 'react-beautiful-dnd';
 import {Card} from 'react-bootstrap'
 
 const OrderQuestion=(props)=>{
-    const myArr=["Title1","Title2","Title3","Title4"]
-    const [characters, updateCharacters] = useState(myArr);
+    const question = props.question;
+    const myArr=[question.choice1,question.choice2,question.choice3,question.choice4]
+    // const imgArr=[question.image1,question.image2,question.image3,question.image4]
+    const [characters, updateCharacters] = useState(props.myArr);
     const onDragEnd=(result)=>{
         if (!result.destination) return;
     
@@ -13,7 +15,16 @@ const OrderQuestion=(props)=>{
         items.splice(result.destination.index, 0, reorderedItem);
     
         updateCharacters(items);
+
+        var order=""
+        for(const [index,elem] of items.entries()){
+          // console.log("order",elem[2])
+          order+=elem[2]
+        }
+        
+        props.onOrder(order)
     }
+    // characters.sort(() => Math.random() - 0.5)
     return (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable" direction="horizontal">
@@ -25,25 +36,27 @@ const OrderQuestion=(props)=>{
                 style = {{backgroundColor:"grey",height:"100%"}}
                 // style={getListStyle(snapshot.isDraggingOver)}
               >
-                {characters.map((item, index) => (
-                  <Draggable key={item} draggableId={item} index={index}>
+                
+                {
+                characters.map((item, index) => (
+                  <Draggable key={item[0]} draggableId={item[0]} index={index}>
                     {(provided) => (
-                    <div class='col' style={{paddinLeft:"10px",backgroundColor:"red"}}
+                    <div class='col' 
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                     >
-                        <Card>
-                            <Card.Img src="https://i.imgur.com/A8eQsll.jpg"/>
+                      <div style={{position:"relative",top: "50%",transform: "translate(0, -50%)"}} >
+                        <Card >
+                            <Card.Img src={item[1]} style={{height:"40vh"}}/>
                             <Card.Body>
                                 <Card.Title>
-                                    {item}
+                                    {item[0]}
                                 </Card.Title>
-                                <Card.Text>
-                                    {item}
-                                </Card.Text>
+                            
                             </Card.Body>
                         </Card>
+                      </div>
                     </div>
                     )}
                   </Draggable>
