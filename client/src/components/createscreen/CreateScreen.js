@@ -188,11 +188,11 @@ const CreateScreenSub = (props) => {
     
      const onDelete =(id)=> { 
            
-        setQuestions(questions.filter( ques => ques.id !== id))
+        //setQuestions(questions.filter( ques => ques.id !== id))
 
         setQuizInfo({...quizInfo, questions: quizInfo.questions.filter(ques => ques.id !== id )});
 
-        if((questions.length - 1) == 0)
+        if((quizInfo.questions.length - 1) == 0)
         {
             
             setshowques(true)
