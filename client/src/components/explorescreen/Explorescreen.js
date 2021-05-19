@@ -1,124 +1,18 @@
-import React, { useState, useEffect, Component, Fragment } from "react";
+import React, { useState, useEffect, Component, Fragment, Select, SearchField } from "react";
+import { ButtonGroup } from "react-bootstrap";
 import "./explorescreen.css";
 import {
   Form,
-  FormLabel,
-  FormControl,
-  InputGroup,
-  DropdownButton,
   Button,
-  Dropdown,
   Row,
   Col,
   Card,
 } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import NavbarTop from "../navbar/NavbarTop";
-import { GET_POPULAR_QUIZZES, GET_SEARCHED_QUIZZES, GET_ALL_USERS, GET_USER_BY_ID } from "./queries";
+import { GET_POPULAR_QUIZZES, GET_SEARCHED_PLATFORMS_COUNT, GET_SEARCHED_CATEGORY_COUNT, SEARCH_BY_CATEGORY, SEARCH_BY_HASHTAG, GET_ALL_USERS, GET_ALL_USERS_COUNT, GET_SEARCHED_PLATFORMS, GET_ALL_QUIZZES_COUNT, FILTER_BY_DIFFICULTY } from "./queries";
 import { useQuery } from "@apollo/client";
-import Pagination from "./Pagination";
-
-const SearchBar = (props) => {
-  return(
-    <Form>
-      <Form.Row className="align-items-center">
-        <Col xs="auto" className="my-1">
-          <Form.Label className="mr-sm-2" htmlFor="inlineFormCustomSelect" srOnly>
-            Preference
-          </Form.Label>
-          <Form.Control
-            as="select"
-            className="mr-sm-2"
-            id="inlineFormCustomSelect"
-            custom
-          >
-            <option value="0">Choose...</option>
-            <option value="1">Platforms</option>
-            <option value="2">Categories</option>
-            <option value="3">Hashtags</option>
-          </Form.Control>
-        </Col>
-
-        <Col sm={3} className="my-1">
-          <Form.Label htmlFor="inlineFormInputName" srOnly>
-            Search
-          </Form.Label>
-          <Form.Control id="inlineFormInputName" placeholder="Search" />
-        </Col>
-
-        <Col xs="auto" className="my-1">
-          <Button type="submit" >Submit</Button>
-        </Col>
-      </Form.Row>
-    </Form>
-  );
-};
-
-/*
-const SearchFilters = (props) => {
-  return (
-    <Container>
-      
-      <Row>
-        <Col>
-          <DropdownButton
-            bg="#f5ae31"
-            variant="#f5ae31"
-            className={"dropdownStyle"}
-            id="dropdown-subject-filter-button"
-            title="Filter By Subject"
-          >
-            
-            <Dropdown.Item as="button">Geography</Dropdown.Item>
-            <Dropdown.Item as="button">Science</Dropdown.Item>
-            <Dropdown.Item as="button">Math</Dropdown.Item>
-          </DropdownButton>
-        </Col>
-        <Col>
-          <DropdownButton
-            bg="#f5ae31"
-            variant="#f5ae31"
-            className={"dropdownStyle"}
-            id="dropdown-subject-filter-button"
-            title="Filter By Difficulty"
-          >
-            
-            <Dropdown.Item as="button">Easy</Dropdown.Item>
-            <Dropdown.Item as="button">Medium</Dropdown.Item>
-            <Dropdown.Item as="button">Hard</Dropdown.Item>
-          </DropdownButton>
-        </Col>
-        <Col>
-          <DropdownButton
-            bg="#f5ae31"
-            variant="#f5ae31"
-            className={"dropdownStyle"}
-            id="dropdown-subject-filter-button"
-            title="Sort By Rating"
-          >
-            
-            <Dropdown.Item as="button">Low to High Rating</Dropdown.Item>
-            <Dropdown.Item as="button">High to Low Rating</Dropdown.Item>
-          </DropdownButton>
-        </Col>
-        <Col xs={3}>
-          <InputGroup className="mb-3 searchStyle">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="inputGroup-sizing-default">
-                Search
-              </InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              aria-label="Search"
-              aria-describedby="inputGroup-sizing-default"
-            />
-          </InputGroup>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
-*/
+import SearchBar from './SearchBar';
 
 const PopularQuizzes = (props) => {
   let popularQuizzes = [];
@@ -182,26 +76,37 @@ const PopularQuizzes = (props) => {
 const ExplorePlatforms = (props) => {
   /** shows all platforms - before user searches */
   let platforms = {};
-
   const [page, setPage] = useState(1);
-  const { loading, error, data } = useQuery(GET_ALL_USERS, {
+  
+  const { loading: loadingUser, error: errorUser, data: dataUser } = useQuery(GET_ALL_USERS, {
     variables: {skip: (page - 1) * 6, limit: 6}
   })
+  const { loading, error, data } = useQuery(GET_ALL_USERS_COUNT);
+
+  if (loadingUser) { return <div></div>; }
+  if(errorUser) { console.log(error);
+    return <div>Internal Error</div>; }
+	if(dataUser) { platforms = dataUser.getAllUsers }
+
+  let numOfPlatforms = 0; //GET # OF PLATFORMS
   if (loading) { return <div></div>; }
   if(error) { console.log(error);
     return <div>Internal Error</div>; }
-	if(data) { platforms = data.getAllUsers }
+	if(data) { numOfPlatforms = data.getAllUsersCount.length }
 
   const createCard = (platform) => {
     if (typeof platform === 'undefined'){
       return (<div></div>);
     }
     var link = "/platform/" + platform._id;
-    /** user img ? */
+    var profileImg  = platform.profilePicture;
+    if(profileImg == "" ){ profileImg = "https://inquizitive416.s3.amazonaws.com/defaults/defaultQuiz.jpeg" }
+
     return (
     <Col xs="4">
       <a style={{ cursor: 'pointer'}} href={link}>
         <Card className="bg-dark text-white text-center">
+          <Card.Img style={{ width: '100%', height: '20vh', objectFit: 'cover' }} variant="top" src={profileImg} />
           <Card.Body>
             <h4>{platform.username}</h4>
           </Card.Body>
@@ -210,6 +115,26 @@ const ExplorePlatforms = (props) => {
     </Col>
     )
   }
+
+  const handleNewPage = (e) => {
+    const { name } = e.target;
+    var nameInt = parseInt(name);
+    setPage(nameInt);
+  }
+
+  const createPaginations = () => {
+    let items = [];
+    let pages = numOfPlatforms / 6 + 1;
+    for (var i = 1; i < pages; i++){
+      items.push(
+        <Button variant="warning" name={i} onClick={handleNewPage} disabled={i === page}>
+          {i}
+        </Button>
+      );
+    }
+    return items;
+  }
+
   return(
     <Container style={{maxWidth: "80%"}}>
       <Row style={{fontSize: "30px", color: "#ffffff", padding: '10px'}}></Row>
@@ -226,43 +151,175 @@ const ExplorePlatforms = (props) => {
         {createCard(platforms[5])}
       </Row></div> :
       <div></div>}
+      <br />
+      <Row>
+        <Col className="text-center">
+          <ButtonGroup>
+            {createPaginations()}
+          </ButtonGroup>
+        </Col>
+      </Row>
     </Container>
   );
 
 };
 
-const ExplorePlatformsSearch = (props) => {
-
-  let quizzes = {};
+const ExplorePlatformSearch = (props) => {
+  let platforms = {};
   const [page, setPage] = useState(1);
 
-  /* Return all platforms that have created quizzes in the category that the user searched for */
-  const { loading, error, data } = useQuery(GET_SEARCHED_QUIZZES, {
-    variables: {categories: "Chemistry", skip: (page - 1) * 6, limit: 6} /* using chemistry for example */
+  const { loading:LoadingPlatform, error:errorPlatform, data:dataPlatform } = useQuery(GET_SEARCHED_PLATFORMS, {
+    variables: {username: "nasa", skip: (page - 1) * 6, limit: 6}
   })
+  const { loading, error, data } = useQuery(GET_SEARCHED_PLATFORMS_COUNT, {
+    variables: {username: "nasa"}
+  })
+
+  if (LoadingPlatform) { return <div></div>; }
+  if(errorPlatform) { console.log(errorPlatform);
+    return <div>Internal Error</div>; }
+  if(dataPlatform) { platforms = dataPlatform.getSearchedPlatforms }
+
+  let numOfPlatforms = 0; //GET # OF PLATFORMS
   if (loading) { return <div></div>; }
   if(error) { console.log(error);
     return <div>Internal Error</div>; }
-  if(data) { quizzes = data.getSearchedQuizzes }
+	if(data) { numOfPlatforms = data.getSearchedPlatformsCount.length }
 
-  const createCard = (quiz) => {
-    if (typeof quiz === 'undefined'){
+  const createCard = (platform) => {
+    if (typeof platform === 'undefined'){
       return (<div></div>);
     }
-    /* links to the platform(user), not the quizzes */
-    var link = "/platform/" + quiz.idOfCreator;
+    var link = "/platform/" + platform._id;
+    var profileImg  = platform.profilePicture;
+    if(profileImg == "" ){ profileImg = "https://inquizitive416.s3.amazonaws.com/defaults/defaultQuiz.jpeg" }
 
     return (
     <Col xs="4">
       <a style={{ cursor: 'pointer'}} href={link}>
         <Card className="bg-dark text-white text-center">
+          <Card.Img style={{ width: '100%', height: '20vh', objectFit: 'cover' }} variant="top" src={profileImg} />
           <Card.Body>
-            <h4>{quiz.idOfCreator}</h4>
+            <h4>{platform.username}</h4>
           </Card.Body>
         </Card>
       </a>
     </Col>
     )
+  }
+
+  const handleNewPage = (e) => {
+    const { name } = e.target;
+    var nameInt = parseInt(name);
+    setPage(nameInt);
+  }
+
+  const createPaginations = () => {
+    let items = [];
+    let pages = numOfPlatforms / 6 + 1;
+    for (var i = 1; i < pages; i++){
+      items.push(
+        <Button variant="warning" name={i} onClick={handleNewPage} disabled={i === page}>
+          {i}
+        </Button>
+      );
+    }
+    return items;
+  }
+
+  return(
+    <div>
+      <Container style={{maxWidth: "80%"}}>
+        <Row style={{fontSize: "30px", color: "#ffffff", padding: '10px'}}></Row>
+        <Row>
+          {createCard(platforms[0])}
+          {createCard(platforms[1])}
+          {createCard(platforms[2])}
+        </Row>
+        {platforms.length > 3 ? 
+        <div><br />
+        <Row>
+          {createCard(platforms[3])}
+          {createCard(platforms[4])}
+          {createCard(platforms[5])}
+        </Row></div> :
+        <div></div>}
+        <br />
+      <Row>
+        <Col className="text-center">
+          <ButtonGroup>
+            {createPaginations()}
+          </ButtonGroup>
+        </Col>
+      </Row>
+      </Container>
+
+    </div>
+  );
+};
+
+const ExploreCategorySearch = (props) => {
+  let quizzes = {};
+  const [page, setPage] = useState(1);
+  /* Return all quizzes in that category the user searched for if there are any */
+  const { loading:loadingCat, error:errorCat, data:dataCat } = useQuery(SEARCH_BY_CATEGORY, {
+    variables: {categories: "biology", skip: (page - 1) * 6, limit: 6} /* using biology for example */
+  })
+  const { loading, error, data } = useQuery(GET_SEARCHED_CATEGORY_COUNT, {
+    variables: {categories: "biology"}
+  })
+
+  if (loadingCat) { return <div></div>; }
+  if(errorCat) { console.log(errorCat);
+    return <div>Internal Error</div>; }
+  if(dataCat) { quizzes = dataCat.searchByCategory }
+
+  let numOfQuizzes = 0; //GET # OF PLATFORMS
+  if (loading) { return <div></div>; }
+  if(error) { console.log(error);
+    return <div>Internal Error</div>; }
+	if(data) { numOfQuizzes = data.getSearchedCategoryCount.length }
+
+  const createCard = (quiz) => {
+    if (typeof quiz === 'undefined'){
+      return (<div></div>);
+    }
+    var link = "/begin/" + quiz._id;
+    var quizImg  = quiz.coverimage;
+    if(quizImg == "" ){ quizImg = "https://inquizitive416.s3.amazonaws.com/defaults/defaultQuiz.jpeg" }
+
+    return (
+    <Col xs="4">
+      <a style={{ cursor: 'pointer'}} href={link}>
+        <Card className="bg-dark text-white text-center tooltipCard">
+          <Card.Img style={{ width: '100%', height: '20vh', objectFit: 'cover' }} variant="top" src={quizImg} />
+          <span className="tooltiptext">Average Rating: {quiz.avgRating}</span>
+          <Card.Body>
+            <h4>{quiz.title}</h4>
+          </Card.Body>
+        </Card>
+      </a>
+    </Col>
+    )
+  }
+
+  const handleNewPage = (e) => {
+    const { name } = e.target;
+    var nameInt = parseInt(name);
+    setPage(nameInt);
+  }
+
+  const createPaginations = () => {
+    let items = [];
+    let pages = numOfQuizzes / 6 + 1;
+    for (var i = 1; i < pages; i++){
+      items.push(
+        <Button variant="warning" name={i} onClick={handleNewPage} disabled={i === page}>
+          {i}
+        </Button>
+      );
+    }
+    return items;
   }
 
   return(
@@ -282,58 +339,282 @@ const ExplorePlatformsSearch = (props) => {
           {createCard(quizzes[5])}
         </Row></div> :
         <div></div>}
+        <br />
+      <Row>
+        <Col className="text-center">
+          <ButtonGroup>
+            {createPaginations()}
+          </ButtonGroup>
+        </Col>
+      </Row>
       </Container>
+    </div>
+  );
+};
 
-      {/** pagination
-      <Container>
-        <div>
-          <div className="container">
-              <div className="text-center">
-                  {this.state.pageOfItems.map(quiz =>
-                      <div key={quiz._id}>{quiz.title}</div>
-                  )}
-                  <Pagination items={this.state.exampleItems} onChangePage={this.onChangePage} />
-              </div>
-          </div>
-          <div className="text-center"></div>
+const ExploreHashtagSearch = (props) => {
+  let quizzes = {};
+  const [page, setPage] = useState(1);
+  /* Return all quizzes with the hashtag the user searched for if there are any */
+  const { loading, error, data } = useQuery(SEARCH_BY_HASHTAG, {
+    variables: {hashtag: "maps", skip: (page - 1) * 6, limit: 6}
+  })
+  if (loading) { return <div></div>; }
+  if(error) { console.log(error);
+    return <div>Internal Error</div>; }
+  if(data) { quizzes = data.searchByHashtag}
+
+  const createCard = (quiz) => {
+    if (typeof quiz === 'undefined'){
+      return (<div></div>);
+    }
+    var link = "/quiz/" + quiz._id;
+    var quizImg  = quiz.coverimage;
+    if(quizImg == "" ){ quizImg = "https://inquizitive416.s3.amazonaws.com/defaults/defaultQuiz.jpeg" }
+
+    return (
+    <Col xs="4">
+      <a style={{ cursor: 'pointer'}} href={link}>
+        <Card className="bg-dark text-white text-center">
+          <Card.Img style={{ width: '100%', height: '20vh', objectFit: 'cover' }} variant="top" src={quizImg} />
+          <Card.Body>
+            <h4>{quiz.title}</h4>
+          </Card.Body>
+        </Card>
+      </a>
+    </Col>
+    )
+  }
+
+  const handleNewPage = (e) => {
+    const { name } = e.target;
+    var nameInt = parseInt(name);
+    setPage(nameInt);
+  }
+
+  let numOfQuizzes = 12; //GET # OF QUIZZES
+
+  const createPaginations = () => {
+    let items = [];
+    let pages = numOfQuizzes / 6 + 1;
+    for (var i = 1; i < pages; i++){
+      items.push(
+        <Button variant="warning" name={i} onClick={handleNewPage} disabled={i === page}>
+          {i}
+        </Button>
+      );
+    }
+    return items;
+  }
+
+  return(
+    <div>
+      <Container style={{maxWidth: "80%"}}>
+        <Row style={{fontSize: "30px", color: "#ffffff", padding: '10px'}}></Row>
+        <Row>
+          {createCard(quizzes[0])}
+          {createCard(quizzes[1])}
+          {createCard(quizzes[2])}
+        </Row>
+        {quizzes.length > 3 ? 
+        <div><br />
+        <Row>
+          {createCard(quizzes[3])}
+          {createCard(quizzes[4])}
+          {createCard(quizzes[5])}
+        </Row></div> :
+        <div></div>}
+        <br />
+      <Row>
+        <Col className="text-center">
+          <ButtonGroup>
+            {createPaginations()}
+          </ButtonGroup>
+        </Col>
+      </Row>
+      </Container>
+    </div>
+  );
+}; //giving 400 error on query
+
+const FilterByDifficulty = (props) => {
+  let quizzes = {};
+  const [page, setPage] = useState(1);
+  let difficulty = "Easy";
+
+  const { loading: loadingQuiz, error: errorQuiz, data: dataQuiz } = useQuery(FILTER_BY_DIFFICULTY, {
+    variables: {difficulty, skip: (page - 1) * 6, limit: 6}
+  })
+  const { loading, error, data } = useQuery(GET_ALL_QUIZZES_COUNT);
+
+  if (loadingQuiz) { return <div></div>; }
+  if(errorQuiz) { console.log(errorQuiz);
+    return <div>Internal Error</div>; }
+	if(dataQuiz) { quizzes = dataQuiz.filterByDifficulty }
+
+  let numOfQuizzes = 0; //GET # OF QUIZZES
+  if (loading) { return <div></div>; }
+  if(error) { console.log(error);
+    return <div>Internal Error</div>; }
+	if(data) { numOfQuizzes = data.getAllQuizzesCount.length }
+
+  const createCard = (quiz) => {
+    if (typeof quiz === 'undefined'){
+      return (<div></div>);
+    }
+    var link = "/begin/" + quiz._id;
+    var quizImg  = quiz.coverimage;
+    if(quizImg == "" ){ quizImg = "https://inquizitive416.s3.amazonaws.com/defaults/defaultQuiz.jpeg" }
+
+    return (
+    <Col xs="4">
+      <a style={{ cursor: 'pointer'}} href={link}>
+        <Card className="bg-dark text-white text-center tooltipCard">
+          <Card.Img style={{ width: '100%', height: '20vh', objectFit: 'cover' }} variant="top" src={quizImg} />
+          <span className="tooltiptext">Average Rating: {quiz.avgRating}</span>
+          <Card.Body>
+            <h4>{quiz.title}</h4>
+          </Card.Body>
+        </Card>
+      </a>
+    </Col>
+    )
+  }
+
+  const handleNewPage = (e) => {
+    const { name } = e.target;
+    var nameInt = parseInt(name);
+    setPage(nameInt);
+  }
+
+  const createPaginations = () => {
+    let items = [];
+    let pages = numOfQuizzes / 6 + 1;
+    for (var i = 1; i < pages; i++){
+      items.push(
+        <Button variant="warning" name={i} onClick={handleNewPage} disabled={i === page}>
+          {i}
+        </Button>
+      );
+    }
+    return items;
+  }
+
+  return(
+    <div>
+      <Container style={{maxWidth: "80%"}}>
+        <Row style={{fontSize: "30px", color: "#ffffff", padding: '10px'}}></Row>
+        <Row>
+          {createCard(quizzes[0])}
+          {createCard(quizzes[1])}
+          {createCard(quizzes[2])}
+        </Row>
+        {quizzes.length > 3 ? 
+        <div><br />
+        <Row>
+          {createCard(quizzes[3])}
+          {createCard(quizzes[4])}
+          {createCard(quizzes[5])}
+        </Row></div> :
+        <div></div>}
+        <br />
+      <Row>
+        <Col className="text-center">
+          <ButtonGroup>
+            {createPaginations()}
+          </ButtonGroup>
+        </Col>
+      </Row>
+      </Container>
+    </div>
+  );
+} //internal error on query
+
+class Explorescreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {searchfield:'init', categoryVar:'', platformVar:'', filterDifficulty:''};
+    
+    this.handlePlatform = this.handlePlatform.bind(this);
+    this.handleCategory = this.handleCategory.bind(this);
+  }
+  
+  handlePlatform() {
+    this.setState({searchfield: 'platform'});
+  }
+  handleCategory() {
+    this.setState({searchfield: 'category'});
+  }
+
+  handleCatVar(e) {
+    this.setState({categoryVar: e.target.value});
+  }
+  handlePlatVar(e) {
+    this.setState({platformVar: e.target.value});
+  }
+
+  render (){
+    if(this.state.searchfield==='init'){
+      return(
+      <div className={"body"}>
+        {/* Navbar on top of screen: */}
+        <NavbarTop />
+        <br />
+        <SearchBar placeholder={"Search"}  />
+        <br/>
+          <Col xs="auto" className="my-1">
+              <Button type="submit" variant="warning" onClick={this.handlePlatform}>Platform</Button>
+              <Button type="submit" variant="warning" onClick={this.handleCategory}>Category</Button>
+          </Col>
+        <br />
+        <span className={"headerStyle"}>Most Popular Quizzes</span>
+        <br />
+        <PopularQuizzes />
+        <br />
+        <span className={"headerStyle"}>Explore Platforms</span>
+        <br />
+        <ExplorePlatforms  />
+      </div>
+      );
+    }
+    else if(this.state.searchfield==='platform'){
+      return(
+        <div className={"body"}>
+          <NavbarTop />
+          <br />
+          <SearchBar placeholder={"Search"} />
+          <br/>
+          <Col xs="auto" className="my-1">
+              <Button type="submit" variant="warning" onClick={this.handlePlatform}>Platform</Button>
+              <Button type="submit" variant="warning" onClick={this.handleCategory}>Category</Button>
+          </Col>
+          <br />
+          <span className={"headerStyle"}>Explore 'nasa' Platforms</span>
+          <br />
+          <ExplorePlatformSearch />
         </div>
-      </Container>
-      */}
-    </div>
-  );
-};
-
-/* move into exploreplatforms instead ^
-const QuizPages = (props) => {
-  return (
-    <Container>
-      <Pagination className={"center"}>
-        <Pagination.Prev />
-        <Pagination.Item active>{1}</Pagination.Item>
-        <Pagination.Next />
-      </Pagination>
-    </Container>
-  );
-};
-*/
-
-const Explorescreen = (props) => {
-  return (
-    <div className={"body"}>
-      {/* Navbar on top of screen: */}
-      <NavbarTop />
-      <br />
-      <SearchBar />
-      <br />
-      <span className={"headerStyle"}>Most Popular Quizzes</span>
-      <br />
-      <PopularQuizzes />
-      <br />
-      <span className={"headerStyle"}>Explore Platforms</span>
-      <br />
-      <ExplorePlatforms />
-    </div>
-  );
-};
+        );
+    }
+    else{
+      return(
+        <div className={"body"}>
+          <NavbarTop />
+          <br />
+          <SearchBar placeholder={"Search"} />
+          <br/>
+          <Col xs="auto" className="my-1">
+              <Button type="submit" variant="warning" onClick={this.handlePlatform}>Platform</Button>
+              <Button type="submit" variant="warning" onClick={this.handleCategory}>Category</Button>
+          </Col>
+          <br />
+          <span className={"headerStyle"}>Explore 'biology' Quizzes</span>
+          <br />
+          <ExploreCategorySearch />
+        </div>
+        );
+    }
+  }
+}
 
 export default Explorescreen;
