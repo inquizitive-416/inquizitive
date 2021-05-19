@@ -186,6 +186,15 @@ const GamePlay = (props) => {
 
         console.log("onOrder:",answer)
     }
+
+    function onMatch(match){
+        // setSelected(e.target.value)
+        answer[currQuestion]=match
+        setAnswer(answer)
+
+        console.log("onMatch:",answer)
+    }
+
     const Submit=()=>{
         answer[currQuestion]=selected;
         setAnswer(answer);
@@ -218,7 +227,7 @@ const GamePlay = (props) => {
             </div>
             <div style={{ backgroundColor:'#4d4d4d',height:"60%",width:"100%"}}>
                 {
-                    <DisplayQuestion onClick={answerClick} onOrder={onOrder} onChange={onChange} question={quiz.questions[currQuestion]} answers = {answer[currQuestion]}/>                    
+                    <DisplayQuestion onMatch={onMatch} onClick={answerClick} onOrder={onOrder} onChange={onChange} question={quiz.questions[currQuestion]} answers = {answer[currQuestion]}/>                    
                 }
             </div>
             <div class='row' style={{backgroundColor:'#424242',height:"10%",width:"100%"}}>
