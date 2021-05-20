@@ -24,17 +24,28 @@ const ForgotPassword = ({isOpen,forModal}) => {
 
 
     const [getUser,{loading, error, data}]=useLazyQuery(GETUSERBYEMAIL);
+
     const getPassword=async(e)=>{
         e.preventDefault()
-        if(email==="" || sec1==="" || sec2===""){
-            setVIEnable(true)
-            return
-        }
+        // if(email=="" || sec1=="" || sec2==""){
+        //     setVIEnable(true)
+        //     return
+        // }
         console.log("hum",await getUser({ variables:  {email:email}  }));
         // console.log("ret",ret)
         if (error) { return `Error: ${error.message}` };
         if(loading){console.log("loading")}
-        if (data=== null) {
+        if (data=== null ) {
+            // console.log("here");
+            setVIEnable(false)
+            console.log(true);
+        }
+        else if (typeof data==='undefined') {
+            // console.log("here");
+            setVIEnable(false)
+            console.log(true);
+        }
+        else if (data.getUserByEmail._id===null) {
             // console.log("here");
             setVIEnable(false)
             console.log(true);
@@ -47,18 +58,19 @@ const ForgotPassword = ({isOpen,forModal}) => {
             console.log("data",User);
             if(User.securityAnswerOne.toUpperCase()===sec1.toUpperCase() && User.securityAnswerTwo.toUpperCase()===sec2.toUpperCase()){
                 setPass(!pass)
-                
+                setVIEnable(true)
             }
             else{
                 console.log("error")
+                setVIEnable(false)
             }
 
             
         //     // props.fetchUser();
         }
-        else{
-            setVIEnable(false)
-        }
+        // else{
+        //     setVIEnable(false)
+        // }
     }
     function validateEmail() {
         return email.length > 0 && email.indexOf('.')>0 && email.indexOf('@')>0 && email.length-1>email.indexOf('.');
