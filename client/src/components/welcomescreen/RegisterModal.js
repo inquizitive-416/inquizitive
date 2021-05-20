@@ -59,7 +59,17 @@ const RegisterModal = (props) => {
     }
     const onSubmit= async(e)=>{
         e.preventDefault();
-        
+        if(
+            userInfo.lastName===""||
+            userInfo.email===""||
+            userInfo.username===""||
+            userInfo.password===""||
+            userInfo.securityQuestionOne===""||
+            userInfo.securityAnswerOne===""||
+            userInfo.securityQuestionTwo===""||
+            userInfo.securityAnswerTwo===""){
+                return
+        }
         console.log(userInfo);
         const { error, data } = await addUser({ variables: { ...userInfo } });
         // if (loading) { toggleLoading(true) };
