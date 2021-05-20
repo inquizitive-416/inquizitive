@@ -178,6 +178,15 @@ const CreateScreenSub = (props) => {
 
     const onSave=( id, newques)=>{
         console.log("saving", id)
+        if(newques.questype == "MTP")
+        {
+            newques.correctAnswer = "1234"
+        }
+        else if (newques.questype == "Ordering")
+        {
+            newques.correctAnswer = "1234"
+        }
+        console.log(newques)
         //setallQuestions( allQuestions.map(ques => ques.id == id  ? newques  : ques ))
        // setQuizInfo({...quizInfo, questions: allQuestions});
        setQuizInfo({...quizInfo, questions: quizInfo.questions.map(ques => ques.id === id  ? newques  : ques )});
