@@ -66,6 +66,27 @@ mutation Register(
 }
 `;
 
+export const RESET = gql`
+    mutation Reset($email: String!, $password: String!) {
+        reset(email: $email, password: $password) {
+            _id
+            firstName
+            lastName
+            email
+            username
+            password
+            dateOfBirth
+            securityQuestionOne
+            securityAnswerOne
+            securityQuestionTwo
+            securityAnswerTwo
+            profilePicture
+            profilePublic
+            coins
+            
+        }
+    }
+`;
 export const LOGOUT = gql`
 	mutation Logout {
 		logout 
