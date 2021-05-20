@@ -203,7 +203,7 @@ const RegisterModal = (props) => {
                             type="sec1"
                             name="securityAnswerOne"
                             value={userInfo.securityAnswerOne}
-                            placeholder={"Answer 1"}
+                            placeholder={""}
                             onChange={onChange}
                             style={{ color: registerError ? "red" : ""}}
                         />
@@ -224,7 +224,7 @@ const RegisterModal = (props) => {
                             type="sec2"
                             name="securityAnswerTwo"
                             value={userInfo.securityAnswerTwo}
-                            placeholder={"Answer 2"}
+                            placeholder={""}
                             onChange={onChange}
                             style={{ color: registerError ? "red" : ""}}
                         />
