@@ -493,8 +493,6 @@ const Settingsscreen = (props) => {
             <br />
             <ChangeSecurityQuestions user={currentUser}/>
             <br />
-            <ChangeProfileVisibility user={currentUser}/>
-            <br />
         </div>
 	);
 };

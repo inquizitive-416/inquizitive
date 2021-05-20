@@ -34,10 +34,10 @@ const RatingBar = (props) =>  {
   
   return (
 
-    <Card style = {{}}>
-  <Card.Header style = {{backgroundColor: "grey", color: "gold", fontSize: 20, paddingLeft: 630}}><b>Rate This Quiz </b></Card.Header>
+    <Card style={{width:495}}>
+  <Card.Header style = {{backgroundColor: "grey", color: "gold", fontSize: 20,paddingLeft:172}}><b>Rate This Quiz </b></Card.Header>
   <Card.Body style={{backgroundColor: "#353434"}}>
-  <div style={{width: 900, paddingLeft: 508}}>
+  <div style={{width:450}}>
        <StarRating totalStars={5} onRate={props.onRate}/>
        
    </div>

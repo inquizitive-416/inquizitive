@@ -35,8 +35,6 @@ const GamePlay = (props) => {
         await UpdateRate({ variables: { _id: quiz._id, avgRating:newRating, numOfTimesPlayed: numplay}});
     }
     
-
-
     const onClickNext= (props)=>{
 
         const nextQuestion = currQuestion + 1;
