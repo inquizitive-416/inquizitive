@@ -19,6 +19,7 @@ module.exports = {
           return found;
       }
     },
+
     /**
 		 	@param 	 {object} args - a user id
 			@returns {object} a user on success and an empty object on failure
@@ -28,6 +29,21 @@ module.exports = {
         const objectId = new ObjectId(_id);
         const user = await User.findOne({ _id: objectId });
         if (user) return user;
+        else return {};
+      },
+      getUserByEmail: async (_, args) => {
+        const { email } = args;
+        console.log("email",email)
+        // const objectId = new ObjectId();
+        const user = await User.findOne({ email: email });
+        
+        if (user) {
+          
+          const original_password = await bcrypt.hash(user.password, 10);
+          user.password=original_password
+          console.log("user",user)
+          return user;
+        }
         else return {};
       },
 
@@ -96,7 +112,17 @@ module.exports = {
       console.log(res);
       return user;
     },
+    reset: async (_,args)=>{
+      const {email,password} = args;
+      const user = await User.findOne({email:email})
+      console.log(user)
+      const hashed = await bcrypt.hash(password,10)
+      const updated = await User.updateOne({_id:user._id},{password:hashed})
+      console.log(updated)
+      if(updated) return user
+      else return false
 
+    },
       /**
 		 	@param 	 {object} args - an empty user object
 			@returns {string} the objectID of the new user, or an error message

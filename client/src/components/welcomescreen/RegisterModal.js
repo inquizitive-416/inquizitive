@@ -1,6 +1,6 @@
 // import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
-import Modal from 'react-modal';
+import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form";
 import "./RegisterModal.css";
 import {LOGIN,REGISTER} from "./cache/mutation"
@@ -12,7 +12,7 @@ import { flowRight as compose } from 'lodash';
 import { setCurrentUser } from "../../data/LocalStorage";
 
 
-Modal.setAppElement('#root');
+// Modal.setAppElement('#root');
 const RegisterModal = (props) => {
 
     const [error, setError] = useState({});
@@ -59,7 +59,17 @@ const RegisterModal = (props) => {
     }
     const onSubmit= async(e)=>{
         e.preventDefault();
-        
+        if(
+            userInfo.lastName===""||
+            userInfo.email===""||
+            userInfo.username===""||
+            userInfo.password===""||
+            userInfo.securityQuestionOne===""||
+            userInfo.securityAnswerOne===""||
+            userInfo.securityQuestionTwo===""||
+            userInfo.securityAnswerTwo===""){
+                return
+        }
         console.log(userInfo);
         const { error, data } = await addUser({ variables: { ...userInfo } });
         // if (loading) { toggleLoading(true) };
@@ -96,33 +106,33 @@ const RegisterModal = (props) => {
     return (
         <div >
             <Modal
-            isOpen={props.isOpen}
+            show={props.isOpen}
             centered
             >
-                <Form onSubmit={onSubmit}>
+                <Form onSubmit={onSubmit} style={{padding:20,backgroundColor:"#424242"}}>
                 <div class="row">
                     <div class="col">
                         <Form.Group size="lg" controlId="firstName">
-                        <Form.Label>First Name</Form.Label>
+                        <Form.Label style={{color:"white"}}>First Name</Form.Label>
                             <Form.Control
                                 autoFocus
                                 type="firstName"
                                 name="firstName"
                                 value={userInfo.firstName}
                                 onChange={onChange}
-                                style={{ color: registerError ? "red" : ""}}
+                                style={{backgroundColor:"#424242", color: registerError ? "red" : "white"}}
                             />
                         </Form.Group>
                     </div>
                     <div class="col">
                         <Form.Group size="lg" controlId="lastName">
-                            <Form.Label>Last Name</Form.Label>
+                            <Form.Label style={{color:"white"}}>Last Name</Form.Label>
                             <Form.Control
                                 type="lastName"
                                 name="lastName"
                                 value={userInfo.lastName}
                                 onChange={onChange}
-                                style={{ color: registerError ? "red" : ""}}
+                                style={{backgroundColor:"#424242", color: registerError ? "red" : "white"}}
                             />
                         </Form.Group>
                     </div>
@@ -131,27 +141,27 @@ const RegisterModal = (props) => {
                 <div class="row">
                     <div class="col">
                         <Form.Group size="lg" controlId="email">
-                        <Form.Label>Email</Form.Label>
+                        <Form.Label style={{color:"white"}}>Email</Form.Label>
                             <Form.Control
                                 autoFocus
                                 type="email"
                                 name="email"
                                 value={userInfo.email}
                                 onChange={onChange}
-                                style={{ color: registerError ? "red" : ""}}
+                                style={{backgroundColor:"#424242",  color: registerError ? "red" : "white"}}
 
                             />
                         </Form.Group>
                     </div>
                     <div class="col">
                         <Form.Group size="lg" controlId="username">
-                            <Form.Label>Username</Form.Label>
+                            <Form.Label style={{color:"white"}}>Username</Form.Label>
                             <Form.Control
                                 type="username"
                                 name="username"
                                 value={userInfo.username}
                                 onChange={onChange}
-                                style={{ color: registerError ? "red" : ""}}
+                                style={{ backgroundColor:"#424242", color: registerError ? "red" : "white"}}
                             />
                         </Form.Group>
                     </div>
@@ -160,26 +170,26 @@ const RegisterModal = (props) => {
                 <div class="row">
                     <div class="col">
                         <Form.Group size="lg" controlId="password">
-                        <Form.Label>password</Form.Label>
+                        <Form.Label style={{color:"white"}}>Password</Form.Label>
                             <Form.Control
                                 autoFocus
                                 type="password"
                                 name="password"
                                 value={userInfo.password}
                                 onChange={onChange}
-                                style={{color: (registerError ||validatePassword()) ? "":"red"}}
+                                style={{backgroundColor:"#424242", color: (registerError ||validatePassword()) ? "white":"red"}}
                             />
                         </Form.Group>
                     </div>
                     <div class="col">
                         <Form.Group size="lg" controlId="cpassword">
-                            <Form.Label>Confirm Password</Form.Label>
+                            <Form.Label style={{color:"white"}}>Confirm Password</Form.Label>
                             <Form.Control
                                 type="password"
                                 name="cpassword"
                                 value={cpass}
                                 onChange={(e) => setCpass(e.target.value)}
-                                style={{color: (registerError ||checkPassword()) ? "":"red"}}
+                                style={{backgroundColor:"#424242", color: (registerError ||checkPassword()) ? "white":"red"}}
                             />
                         </Form.Group>
                     </div>
@@ -188,12 +198,12 @@ const RegisterModal = (props) => {
             
                 <div className="sec" class="sec1">
                     <Form.Group size="lg">
-                        <select class="custom-select" id="inputGroupSelect01" name="securityQuestionOne" onChange={onChange}>
-                            <option selected>Choose question 1</option>
-                            <option value="What was your childhood nickname?">What was your childhood nickname?</option>
-                            <option value="What is the name of your favorite childhood friend?">What is the name of your favorite childhood friend?</option>
-                            <option value="What was the name of your first stuffed animal?">What was the name of your first stuffed animal?</option>
-                            <option value="What is your dream car?">What is your dream car?</option>
+                        <select style={{backgroundColor:"#424242",color:"white"}} class="custom-select" id="inputGroupSelect01" name="securityQuestionOne" onChange={onChange}>
+                            <option style={{color:"white"}} selected>Choose question 1</option>
+                            <option style={{color:"white"}} value="What was your childhood nickname?">What was your childhood nickname?</option>
+                            <option style={{color:"white"}} value="What is the name of your favorite childhood friend?">What is the name of your favorite childhood friend?</option>
+                            <option style={{color:"white"}} value="What was the name of your first stuffed animal?">What was the name of your first stuffed animal?</option>
+                            <option style={{color:"white"}} value="What is your dream car?">What is your dream car?</option>
                         </select>
 
                         
@@ -203,20 +213,20 @@ const RegisterModal = (props) => {
                             type="sec1"
                             name="securityAnswerOne"
                             value={userInfo.securityAnswerOne}
-                            placeholder={"Answer 1"}
+                            placeholder={""}
                             onChange={onChange}
-                            style={{ color: registerError ? "red" : ""}}
+                            style={{backgroundColor:"#424242",  color: registerError ? "red" : "white"}}
                         />
                     </Form.Group>
                 </div>
                 <div className="sec" class="sec2">
                     <Form.Group size="lg">
-                        <select class="custom-select" id="inputGroupSelect02" name="securityQuestionTwo" onChange={onChange}>
-                            <option selected>Choose question 2</option>
-                            <option value="What is the location of your dream vacation?">What is the location of your dream vacation?</option>
-                            <option value="What is the name of your favorite sports team?">What is the name of your favorite sports team?</option>
-                            <option value="Where were you when you first heard about 9/11?">Where were you when you first heard about 9/11?</option>
-                            <option value="What is the name of a college you applied to but didn't attend?">What is the name of a college you applied to but didn't attend?</option>
+                        <select style={{backgroundColor:"#424242",color:"white"}} class="custom-select" id="inputGroupSelect02" name="securityQuestionTwo" onChange={onChange}>
+                            <option style={{color:"white"}} selected>Choose question 2</option>
+                            <option style={{color:"white"}} value="What is the location of your dream vacation?">What is the location of your dream vacation?</option>
+                            <option style={{color:"white"}} value="What is the name of your favorite sports team?">What is the name of your favorite sports team?</option>
+                            <option style={{color:"white"}} value="Where were you when you first heard about 9/11?">Where were you when you first heard about 9/11?</option>
+                            <option style={{color:"white"}} value="What is the name of a college you applied to but didn't attend?">What is the name of a college you applied to but didn't attend?</option>
                         </select>
                     </Form.Group>
                     <Form.Group controlId="secans2">
@@ -224,18 +234,18 @@ const RegisterModal = (props) => {
                             type="sec2"
                             name="securityAnswerTwo"
                             value={userInfo.securityAnswerTwo}
-                            placeholder={"Answer 2"}
+                            placeholder={""}
                             onChange={onChange}
-                            style={{ color: registerError ? "red" : ""}}
+                            style={{backgroundColor:"#424242",  color: registerError ? "red" : "white"}}
                         />
                     </Form.Group>
                 </div>
-                <Form.Group>
-                    <input type="submit" value="Register" />
-                </Form.Group>
-                <Form.Group>
-                    <input type="button" value="Close" onClick={close}/>
-                </Form.Group>
+                
+                <Modal.Footer>
+                    <Button type="button" style={{backgroundColor:"white",color:"orange"}} onClick={close}>Close</Button>
+                    <Button type="submit" style={{color:"white",backgroundColor:"orange"}} >Register</Button>
+                    
+                </Modal.Footer>
                     
             
                 </Form>

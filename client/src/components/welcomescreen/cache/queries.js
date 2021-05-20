@@ -20,3 +20,24 @@ export const GETUSER = gql`
         }
     }
 `;
+
+export const GETUSERBYEMAIL = gql`
+    query GetUserByEmail($email: String) {
+        getUserByEmail(email: $email) {
+            _id
+            firstName
+            lastName
+            email
+            username
+            password
+            dateOfBirth
+            securityQuestionOne
+            securityAnswerOne
+            securityQuestionTwo
+            securityAnswerTwo
+            profilePicture
+            profilePublic
+            coins
+        }
+    }
+`;

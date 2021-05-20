@@ -29,6 +29,7 @@ const typeDefs = gql`
 
   extend type Query {
     getUserById(_id: String!): User
+    getUserByEmail(email: String): User
     getCurrentUser: User
     getAllUsers(skip: Int!, limit: Int!): [User]
     getSearchedPlatforms(username: String!, skip: Int!, limit: Int!): [User]
@@ -37,6 +38,7 @@ const typeDefs = gql`
   }
   extend type Mutation {
     login(email: String!, password: String!): User
+    reset(email: String!, password: String!): User
     register(
       firstName:String!,
       lastName:String!,
