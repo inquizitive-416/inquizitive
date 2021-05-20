@@ -35,6 +35,8 @@ const RegisterModal = (props) => {
     const [loginUser]=useMutation(LOGIN);
     const [addUser]=useMutation(REGISTER)
     const [registerError, setRegisterError] = useState(false);
+    const [rienable, setRIEnable] = useState(true);
+
     const onChange =(e)=>{
         setUserInfo({...userInfo,[e.target.name]:e.target.value});
         setRegisterError(false)
@@ -55,6 +57,7 @@ const RegisterModal = (props) => {
         setRegisterError(false);
         setCpass("");
         setLoginInput({email:"",password:""});
+        setRIEnable(true)
         props.regModal();
     }
     const onSubmit= async(e)=>{
@@ -68,6 +71,7 @@ const RegisterModal = (props) => {
             userInfo.securityAnswerOne===""||
             userInfo.securityQuestionTwo===""||
             userInfo.securityAnswerTwo===""){
+                setRIEnable(false)
                 return
         }
         console.log(userInfo);
@@ -85,6 +89,7 @@ const RegisterModal = (props) => {
         else if (data) {
             // console.log("imhere");
             setCurrentUser(data.register);
+            setRIEnable(true)
             props.fetchUser();
         }
         
@@ -240,7 +245,7 @@ const RegisterModal = (props) => {
                         />
                     </Form.Group>
                 </div>
-                
+                <small style={{color: rienable ? "#424242" : "red"}}>All Fields must be filled</small>
                 <Modal.Footer>
                     <Button type="button" style={{backgroundColor:"white",color:"orange"}} onClick={close}>Close</Button>
                     <Button type="submit" style={{color:"white",backgroundColor:"orange"}} >Register</Button>
