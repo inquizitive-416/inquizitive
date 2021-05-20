@@ -222,19 +222,9 @@ const CreateScreenSub = (props) => {
 
      const onCheckValid = () =>
      {
-        if (quizInfo.title === "" || quizInfo.title === "" || quizInfo.coverimage === "" || quizInfo.categories === "" || quizInfo.hashtagone === "" || quizInfo.hashtagtwo === "" || quizInfo.hashtagthree === "" || quizInfo.difficulty === "" || quizInfo.timer === 0 || quizInfo.questions.length == 0  )
+        if (quizInfo.title === "" || quizInfo.description === "" || quizInfo.coverimage === "" || quizInfo.categories === "" || quizInfo.hashtagone === "" || quizInfo.hashtagtwo === "" || quizInfo.hashtagthree === "" || quizInfo.difficulty === "" || quizInfo.timer === 0 || quizInfo.questions.length == 0  )
         {
-            console.log(quizInfo.title === "")
-            console.log(quizInfo.description === "")
-            console.log(quizInfo.coverimage === "")
-            console.log(quizInfo.categories === "")
-            console.log(quizInfo.title === "")
-            console.log(quizInfo.hashtagone === "")
-            console.log(quizInfo.hashtagtwo === "")
-            console.log(quizInfo.hashtagthree === "")
-            console.log(quizInfo.difficulty === "")
-            console.log(quizInfo.timer === 0)
-            console.log(quizInfo.questions.length === 0)
+           
 
             
             return true
@@ -359,7 +349,7 @@ const CreateScreenSub = (props) => {
                     
                 </div>
 
-                <RatingBar/>
+
                 
                 <form>
                
@@ -524,7 +514,7 @@ const CreateScreenIt = (props) => {
     if(error) { console.log(error);
         quiz = {} }
 	if(data) { 
-        // console.log(data.getQuizById.questions)
+        
         quiz=(data.getQuizById)  
     
     console.log(quiz)

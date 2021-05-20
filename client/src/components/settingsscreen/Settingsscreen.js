@@ -52,7 +52,7 @@ const ChangeProfilePicture = (props) => {
             <Col xs="2">
                 <Card className="bg-dark text-white text-center" border="dark">
                     <Card.Body>
-                        <Form.Label className="text-warning">Change your Profile Picture</Form.Label>
+                        <Form.Label className="text-warning">Change your Platform Picture</Form.Label>
                     </Card.Body>
                 </Card>
             </Col>
@@ -429,7 +429,7 @@ const ChangeProfileVisibility = (props) => {
             <Col xs="2">
                 <Card className="bg-dark text-white text-center" border="dark">
                     <Card.Body>
-                        <Form.Label className="text-warning">Change your Profile Visibility</Form.Label>
+                        <Form.Label className="text-warning">Change your Platform Visibility</Form.Label>
                     </Card.Body>
                 </Card>
             </Col>
@@ -438,7 +438,7 @@ const ChangeProfileVisibility = (props) => {
                     <Card.Body>
                         <Form>
                         <Form.Group controlId="formVisibility">
-                            <Form.Label className="text-warning">Profile Visibility</Form.Label>
+                            <Form.Label className="text-warning">Platform Visibility</Form.Label>
                             <Form.Row>
                                 <Col sm="1">
                                     <Form.Label>Private</Form.Label>

@@ -10,6 +10,7 @@ const QuizBaseInfo = (props) => {
 
     let quizOwner = {}
 
+
     console.log("id: " + props.quiz.idOfCreator);
 
     const { loading, error, data } = useQuery(GET_QUIZ_OWNER, {
@@ -26,6 +27,8 @@ const QuizBaseInfo = (props) => {
     }
 
     var link = "/platform/" + props.quiz.idOfCreator;
+    let quizhours = Math.floor(props.quiz.timer/3600);
+    let quizminutes =  (props.quiz.timer % 3600) /60
 
     return (
         <Row>
@@ -41,7 +44,7 @@ const QuizBaseInfo = (props) => {
                         <Card.Title style={{fontSize: '40px'}}>{props.quiz.title}</Card.Title>
                         <br />
                         <Card.Text>Difficulty: {props.quiz.difficulty}</Card.Text>
-                        <Card.Text>Time Limit: {props.quiz.timer} minutes</Card.Text>
+                        <Card.Text>Time Limit: {quizhours} hours {quizminutes} minutes </Card.Text>
                         <Card.Text>{props.quiz.questions.length} Questions</Card.Text>
                     </Card.Body>
                 </Card>

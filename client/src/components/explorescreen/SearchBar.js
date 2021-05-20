@@ -31,7 +31,7 @@ const SearchBar = (props) => {
             <Form.Label htmlFor="inlineFormInputName" srOnly>
                 Search
             </Form.Label>
-            <Form.Control id="inlineFormInputName" placeholder="Search" />
+            <Form.Control id="inlineFormInputName"  />
         </Col>
 
           <Col xs="auto" className="my-1">

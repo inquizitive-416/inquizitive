@@ -160,6 +160,15 @@ module.exports = {
         if (saved) return objectId;
         else return null;
     },
+    updateRating: async (_, args) => {
+      let { _id, avgRating , numOfTimesPlayed} = args;
+      console.log(numOfTimesPlayed)
+      const objectId = new ObjectId(_id);
+      let saved = await Quiz.updateOne({ _id: objectId }, { avgRating: avgRating, numOfTimesPlayed: numOfTimesPlayed});
+      if (saved) return true;
+      else return false;
+  },
+  
       /**
 		 	@param 	 {object} args - a quiz objectID
 			@returns {boolean} true on successful delete, false on failure
@@ -173,4 +182,8 @@ module.exports = {
       },
 
     },
+
+
+
+    
   }

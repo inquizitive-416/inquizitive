@@ -7,7 +7,10 @@ const Star = ({ selected = false, onClick = f => f }) => (
   <div className={selected ? "star selected" : "star"} onClick={onClick} />
 );
 
-const StarRating = ({ totalStars }) => {
+const StarRating = ({ totalStars , onRate}) => {
+
+  
+
   const [starsSelected, selectStar] = useState(0);
   return (
     <div className="star-rating">
@@ -21,6 +24,7 @@ const StarRating = ({ totalStars }) => {
       <p style = {{color: "goldenrod"}}>
         {starsSelected} of {totalStars} stars
       </p>
+      <button style= {{backgroundColor: "gold"}} onClick = {()=>onRate(starsSelected)} class= "btn btn-primary" >Submit rating </button>
     </div>
   );
 };
@@ -34,7 +38,8 @@ const RatingBar = (props) =>  {
   <Card.Header style = {{backgroundColor: "grey", color: "gold", fontSize: 20, paddingLeft: 630}}><b>Rate This Quiz </b></Card.Header>
   <Card.Body style={{backgroundColor: "#353434"}}>
   <div style={{width: 900, paddingLeft: 508}}>
-       <StarRating totalStars={5} />
+       <StarRating totalStars={5} onRate={props.onRate}/>
+       
    </div>
     
     

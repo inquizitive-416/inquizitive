@@ -43,8 +43,8 @@ const PopularQuizzes = (props) => {
     <Col xs="4">
       <a style={{ cursor: 'pointer'}} href={link}>
         <Card className="bg-dark text-white text-center tooltipCard">
-          <Card.Img style={{ width: '100%', height: '20vh', objectFit: 'cover' }} variant="top" src={coverImageLink} />
-          <span className="tooltiptext">Average Rating: {quiz.avgRating}</span>
+          <Card.Img style={{ width: '100%', height: '20vh', objectFit: 'cover' }} variant="top" src={quiz.coverimage} />
+          <span className="tooltiptext">Average Rating: {(quiz.avgRating/parseFloat(quiz.numOfTimesPlayed)).toFixed(2)}</span>
           <Card.Body>
             <h4>{quiz.title}</h4>
           </Card.Body>
@@ -561,7 +561,7 @@ class Explorescreen extends React.Component {
         {/* Navbar on top of screen: */}
         <NavbarTop />
         <br />
-        <SearchBar placeholder={"Search"}  />
+        <SearchBar   />
         <br/>
           <Col xs="auto" className="my-1">
               <Button type="submit" variant="warning" onClick={this.handlePlatform}>Platform</Button>
@@ -583,7 +583,7 @@ class Explorescreen extends React.Component {
         <div className={"body"}>
           <NavbarTop />
           <br />
-          <SearchBar placeholder={"Search"} />
+          <SearchBar  />
           <br/>
           <Col xs="auto" className="my-1">
               <Button type="submit" variant="warning" onClick={this.handlePlatform}>Platform</Button>
@@ -601,7 +601,7 @@ class Explorescreen extends React.Component {
         <div className={"body"}>
           <NavbarTop />
           <br />
-          <SearchBar placeholder={"Search"} />
+          <SearchBar  />
           <br/>
           <Col xs="auto" className="my-1">
               <Button type="submit" variant="warning" onClick={this.handlePlatform}>Platform</Button>
