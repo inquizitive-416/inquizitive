@@ -3,6 +3,8 @@ import Multiplechoice from './Multiplechoice';
 import DisplayQuestion from './DisplayQuestion';
 import Button from "react-bootstrap/Button";
 import Score from './Score'
+// import TimerBar from "./TimerBar"
+import TimerBar from "../TimerBar/TimerBar"
 
 import "./Multiplechoice.css";
 // import quiz from './QuizData';
@@ -57,6 +59,7 @@ const GamePlay = (props) => {
         // setSelected(e.target.value)
         answer[currQuestion]=e.target.value
         setAnswer(answer)
+        // this.setState({[e.target.className]:e.target.value,});
 
         console.log("onchange:",answer)
     }
@@ -116,10 +119,22 @@ const GamePlay = (props) => {
         setScoreOpen(true);
     }
     return(
-        <div style={{height:"100vh",width:"100vw",backgroundColor:"red"}}>
-            <div style={{textAlign:"center",height:"15vh",width:"100vw",backgroundColor:'#404040'}}>
-                <h1 style={{color:'white',fontSize:"8vh",fontStyle:"black",position:"relative",top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}>{quiz.title}</h1>
+        <div style={{height:"100vh",width:"100vw",backgroundColor:"#424242"}}>
+            <div class='row' style={{backgroundColor:'#404040',height:"15vh",width:"100vw"}}>
+                <div class='col' style={{alignContent:"right", height:"15vh",width:"25vw"}}>
+                    <img className='img' src={quiz.coverimage} style={{position:"relative",top:"50%",left:"100%",transform:"translate(-50%,-50%)",borderRadius:"50%",height:"12vh",width:"12vh" }}/>
+                </div>
+                <div class='col' style={{height:"15vh",width:"50vw",textAlign:"center"}}>
+                    <h2 style={{fontSize:"8vh", width:"50vw",color:'white' ,position:"relative",top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}>{quiz.title}</h2>
+                </div>
+                <div class='col' style={{textAlign:"center",height:"15vh",width:"25vw"}} >
+                    {/* <TimerBar/> */}
+                    {/* <h2 className='nextprev' style={{fontSize:"5vh",position:"relative",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:"15vw"}} >next{'>'}</h2> */}
+                </div>
             </div>
+            {/* <div style={{textAlign:"center",height:"15vh",width:"100vw",backgroundColor:'#404040'}}>
+                <h1 style={{color:'white',fontSize:"8vh",fontStyle:"black",position:"relative",top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}>{quiz.title}</h1>
+            </div> */}
             <div class='row' style={{backgroundColor:'#424242',height:"20vh",width:"100vw"}}>
                 <div class='col' style={{textAlign:"center", height:"20vh",width:"10vw"}}>
                     <h2 className='nextprev' style={{fontSize:"5vh",position:"relative",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:"15vw" }} onClick={onClickPrev}>{'<'}prev</h2>

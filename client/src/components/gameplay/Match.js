@@ -31,7 +31,7 @@ const Match=(props)=>{
         {
                 qArr.map((item, index) => (
                   
-                      <div class='col' style={{alignContent:"center",width:"25vw",height:"10vh"}} >
+                      <div id="index" class='col' style={{alignContent:"center",width:"25vw",height:"10vh"}} >
                         <Card style={{height:"8vh",width:"22vw",position:"relative",top: "50%",left:"50%",transform: "translate(-50%, -50%)"}} >
                             <Card.Body >
                                 <Card.Title style={{textAlign:"center",position:"relative",top: "50%",left:"50%",transform: "translate(-50%, -50%)"}}>

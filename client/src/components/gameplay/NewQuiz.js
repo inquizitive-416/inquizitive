@@ -8,7 +8,7 @@ const NewQuiz=(props)=>{
     let quizId = props.match.params.id;
 
     const { loading, error, data } = useQuery(GET_QUIZ, {
-        variables: {_id: "60a55d03298eaf12e8138430"}
+        variables: {_id: quizId}
     })
     if (loading) { return <div></div>; }
     if(error) { console.log(error);
