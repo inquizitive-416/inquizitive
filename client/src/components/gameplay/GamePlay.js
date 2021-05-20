@@ -1,22 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import Multiplechoice from './Multiplechoice';
+import {useMutation} from "@apollo/client";
 import DisplayQuestion from './DisplayQuestion';
 import Button from "react-bootstrap/Button";
+import { UPDATE_RATING } from "./mutations"
 import Score from './Score'
 // import TimerBar from "./TimerBar"
 import TimerBar from "../TimerBar/TimerBar"
 
+
+
 import "./Multiplechoice.css";
+
 // import quiz from './QuizData';
 
 const GamePlay = (props) => {
+   
     const [quiz,setQuiz] = useState(props.quiz)
     const [currQuestion,setCurrQuestion]=useState(0);
     const [answer, setAnswer]=useState(new Array(quiz.questions.length).fill(""))
     const [scoreOpen, setScoreOpen] = useState(false)
     const [score, setScore] = useState(0)
+    const [UpdateRate]= useMutation(UPDATE_RATING);
+    const [tf,setTF]=useState(new Array(quiz.questions.length).fill(""))
+    
+    
+
+    const onRate = async(stars) => {
+        let newRating = quiz.avgRating + stars
+        let numplay = quiz.numOfTimesPlayed + 1
+        console.log(numplay)
 
 
+        await UpdateRate({ variables: { _id: quiz._id, avgRating:newRating, numOfTimesPlayed: numplay}});
+    }
+    
     const onClickNext= (props)=>{
 
         const nextQuestion = currQuestion + 1;
@@ -34,6 +52,8 @@ const GamePlay = (props) => {
 
 
     }
+
+  
     const onClickPrev= (props)=>{
         const prevQuestion = currQuestion - 1;
         // answer[currQuestion]=selected;
@@ -90,30 +110,60 @@ const GamePlay = (props) => {
                 if (elem.correctAnswer==='1'){
                     if (elem.choice1.toUpperCase()===answer[index].toUpperCase()){
                         score+=1
+                        tf[index]=true
+                        setTF(tf)
+                    }
+                    else{
+                        tf[index]=false
+                        setTF(tf)
                     }
                 }
                 else if (elem.correctAnswer==='2'){
                     if (elem.choice2.toUpperCase()===answer[index].toUpperCase()){
                         score+=1
+                        tf[index]=true
+                        setTF(tf)
+                    }
+                    else{
+                        tf[index]=false
+                        setTF(tf)
                     }
                 }
                 else if (elem.correctAnswer==='3'){
                     if (elem.choice3.toUpperCase()===answer[index].toUpperCase()){
                         score+=1
+                        tf[index]=true
+                        setTF(tf)
+                    }
+                    else{
+                        tf[index]=false
+                        setTF(tf)
                     }
                 }
                 else if (elem.correctAnswer==='4'){
                     if (elem.choice4.toUpperCase()===answer[index].toUpperCase()){
                         score+=1
+                        tf[index]=true
+                        setTF(tf)
+                    }
+                    else{
+                        tf[index]=false
+                        setTF(tf)
                     }
                 }
             }
             else if (elem.correctAnswer.toUpperCase()===answer[index].toUpperCase()){
                 console.log("hello", answer[index])
                 score+=1
+                tf[index]=true
+                setTF(tf)
+            }
+            else{
+                tf[index]=false
+                setTF(tf)
             }
         }
-        console.log(score);
+        console.log("TFTF",tf);
 
         setScore(score);
         setScoreOpen(true);
@@ -128,7 +178,7 @@ const GamePlay = (props) => {
                     <h2 style={{fontSize:"8vh", width:"50vw",color:'white' ,position:"relative",top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}>{quiz.title}</h2>
                 </div>
                 <div class='col' style={{textAlign:"center",height:"15vh",width:"25vw"}} >
-                    {/* <TimerBar/> */}
+                    <TimerBar timer ={quiz.timer}/>
                     {/* <h2 className='nextprev' style={{fontSize:"5vh",position:"relative",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:"15vw"}} >next{'>'}</h2> */}
                 </div>
             </div>
@@ -162,7 +212,7 @@ const GamePlay = (props) => {
                 <div class='col' style={{alignContent:"center", height:"5vh",width:"20vw"}}>
                     <Button onClick={Submit} style={{backgroundColor:'orange',borderRadius:'25px',position:"relative",top:"50%",left:"50%",transform:"translate(-50%,-50%)",height:"4.5vh",width:"8vw"}}>
                         Submit</Button>
-                    <Score isOpen={scoreOpen} score={score} total={quiz.questions.length}/>
+                    <Score isOpen={scoreOpen} score={score} total={quiz.questions.length} checkAns={tf} quiz = {quiz} onRate={onRate} />
                 </div>
             </div>
         </div>

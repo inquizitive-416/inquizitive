@@ -178,6 +178,15 @@ const CreateScreenSub = (props) => {
 
     const onSave=( id, newques)=>{
         console.log("saving", id)
+        if(newques.questype == "MTP")
+        {
+            newques.correctAnswer = "1234"
+        }
+        else if (newques.questype == "Ordering")
+        {
+            newques.correctAnswer = "1234"
+        }
+        console.log(newques)
         //setallQuestions( allQuestions.map(ques => ques.id == id  ? newques  : ques ))
        // setQuizInfo({...quizInfo, questions: allQuestions});
        setQuizInfo({...quizInfo, questions: quizInfo.questions.map(ques => ques.id === id  ? newques  : ques )});
@@ -222,19 +231,9 @@ const CreateScreenSub = (props) => {
 
      const onCheckValid = () =>
      {
-        if (quizInfo.title === "" || quizInfo.title === "" || quizInfo.coverimage === "" || quizInfo.categories === "" || quizInfo.hashtagone === "" || quizInfo.hashtagtwo === "" || quizInfo.hashtagthree === "" || quizInfo.difficulty === "" || quizInfo.timer === 0 || quizInfo.questions.length == 0  )
+        if (quizInfo.title === "" || quizInfo.description === "" || quizInfo.coverimage === "" || quizInfo.categories === "" || quizInfo.hashtagone === "" || quizInfo.hashtagtwo === "" || quizInfo.hashtagthree === "" || quizInfo.difficulty === "" || quizInfo.timer === 0 || quizInfo.questions.length == 0  )
         {
-            console.log(quizInfo.title === "")
-            console.log(quizInfo.description === "")
-            console.log(quizInfo.coverimage === "")
-            console.log(quizInfo.categories === "")
-            console.log(quizInfo.title === "")
-            console.log(quizInfo.hashtagone === "")
-            console.log(quizInfo.hashtagtwo === "")
-            console.log(quizInfo.hashtagthree === "")
-            console.log(quizInfo.difficulty === "")
-            console.log(quizInfo.timer === 0)
-            console.log(quizInfo.questions.length === 0)
+           
 
             
             return true
@@ -358,40 +357,62 @@ const CreateScreenSub = (props) => {
                         </div>
                     
                 </div>
+
+
                 
                 <form>
+               <div style={{paddingLeft: 220, paddingTop: 20, width:1200}} >
+                <div class="card"  >
+                    <div  class="card-header" style= {{ backgroundColor: "#484848" }} >
+                        <label style={{color:"orange"}}for="formGroupExampleInput"><b>Enter Quiz Name </b></label>
+                    </div>
+                    <div class="card-body" style= {{ backgroundColor: "#696969" }} >
+                    <input style= {{ backgroundColor: "#989898", width:930 }}  type="text" class="form-control" required = "true" value={quizInfo.title} name="title" onChange={onChange} id="formGroupExampleInput"  />
+                    </div>
+                </div>
+              </div>
+
+              <div style={{paddingLeft: 220, width:1200}} >
+                <div class="card"  >
+                    <div  class="card-header" style= {{ backgroundColor: "#484848" }} >
+                     <label style={{color:"orange"}} for="exampleFormControlTextarea1"><b>Enter Description </b></label>
+                    </div>
+                    <div class="card-body" style= {{ backgroundColor: "#696969" }} >
+                    <textarea  style= {{ backgroundColor: "#838383", width:930}} class="form-control" value={quizInfo.description} name="description" onChange={onChange} id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+              </div>
+
+              <div style={{paddingLeft: 220, width:1200}} >
+                <div class="card"  >
+                    <div  class="card-header" style= {{ backgroundColor: "#484848" }} >
+                    <label style={{color:"orange"}} for="exampleFormControlTextarea1"><b>{isempty? "Enter": "Change"} Cover Image </b></label>
+                    </div>
+                    <div class="card-body" style= {{ backgroundColor: "#696969" }} >
+                    <Row>
+                    
+                    <Col xs="9">
+                        <Card style = {{backgroundColor: "#505050"}}  className="bg-secondary text-white text-center">
+                            <Card.Body style = {{backgroundColor: "#585858"}}>
+                                <input style={{paddingLeft:50}} type="file"  onChange={handleNewImage} />
+                                <Button variant='light' onClick={uploadNewImage} >Upload a New Photo</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                
+                </Row>
+                    </div>
+                </div>
+              </div>
                
-                    <div style= {{paddingLeft: 220, paddingTop: 20}}class="form-group">
-                         <label for="formGroupExampleInput"><b>Enter Quiz Name </b></label>
-                         <input style= {{ backgroundColor: "#838383", width:900 }}  type="text" class="form-control" required = "true" value={quizInfo.title} name="title" onChange={onChange} id="formGroupExampleInput"  />
+
+              <div style={{paddingLeft: 220, width:1200}} >
+                <div class="card"  >
+                    <div  class="card-header" style= {{ backgroundColor: "#484848" }} >
+                     <label style={{color:"orange"}} for="exampleFormControlTextarea1"><b>Quiz Time </b></label>
                     </div>
-
-                    <div style= {{paddingLeft: 220}} class="form-group">
-                         <label for="exampleFormControlTextarea1"><b>Enter Description </b></label>
-                         <textarea  style= {{ backgroundColor: "#838383", width:900}} class="form-control" value={quizInfo.description} name="description" onChange={onChange} id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-
-                    <div  style= {{paddingLeft: 220}} class="form-group">
-                    
-                        <label for="exampleFormControlTextarea1"><b>{isempty? "Enter": "Change"} cover image </b></label>
-                        <Row>
-                    
-                        <Col xs="9">
-                            <Card style = {{backgroundColor: "#505050"}}  className="bg-secondary text-white text-center">
-                                <Card.Body style = {{backgroundColor: "#585858"}}>
-                                    <input type="file"  onChange={handleNewImage} />
-                                    <Button variant='light' onClick={uploadNewImage} >Upload a New Photo</Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    
-                    </Row>
-                    </div>
-
-                    <div style = {{paddingLeft: 220, paddingBottom:20}}>
-
-                    
-                    <select style= {{ paddingLeft: 100,backgroundColor: "#838383", width:455}} name="hours" onChange={onChangeHours} class="custom-select" id="inputGroupSelect02">
+                    <div class="card-body" style= {{ backgroundColor: "#696969" }} >
+                    <select style= {{ paddingLeft: 100,backgroundColor: "#838383", width:462}} name="hours" onChange={onChangeHours} class="custom-select" id="inputGroupSelect02">
                             <option  selected> {isempty ? "Select Hours": quizhours + " hours"}</option>
                             <option value= "0" >0 hours</option>
                             <option value="1">1 hour</option>
@@ -407,7 +428,7 @@ const CreateScreenSub = (props) => {
                             <option value="11">11 hours</option>
                     </select>
 
-                    <select style= {{ backgroundColor: "#838383", width:455, paddingLeft: 10}} name="minutes" onChange={onChangeMinutes} class="custom-select" id="inputGroupSelect02">
+                    <select style= {{ backgroundColor: "#838383", width:462, paddingLeft: 10}} name="minutes" onChange={onChangeMinutes} class="custom-select" id="inputGroupSelect02">
                             <option  selected>{isempty ? "Select Minutes": quizminutes + " minutes"}</option>
                             <option value = "0" > 0 minutes</option>
                             <option value= "5" > 5 minutes</option>
@@ -424,10 +445,16 @@ const CreateScreenSub = (props) => {
                             <option value="60">60 minutes</option>
                     </select>
                     </div>
+                </div>
+              </div>
 
-                    <div style= {{paddingLeft: 220, width:1127}} class="input-group mb-3">
-                        
-                        <select style= {{ backgroundColor: "#838383", width:1200}} name="categories" onChange={onChange} class="custom-select" id="inputGroupSelect02">
+              <div style={{paddingLeft: 220, width:1200}} >
+                <div class="card"  >
+                    <div  class="card-header" style= {{ backgroundColor: "#484848" }} >
+                     <label style={{color:"orange"}} for="exampleFormControlTextarea1"><b>Enter Quiz Category </b></label>
+                    </div>
+                    <div class="card-body" style= {{ backgroundColor: "#696969" }} >
+                    <select style= {{ backgroundColor: "#838383", width:930}} name="categories" onChange={onChange} class="custom-select" id="inputGroupSelect02">
                             <option  selected> {isempty ? "Choose Categories": quizInfo.categories}</option>
                             <option value="Geography">Geography</option>
                             <option value="Computer Science">Computer Science</option>
@@ -449,25 +476,47 @@ const CreateScreenSub = (props) => {
 
                         </select>
                     </div>
+                </div>
+              </div>
+                    
 
-                    <div style= {{paddingLeft: 220}}class="form-group">
-                        <label for="formGroupExampleInput"><b>Enter Hashtags: </b></label>
-                        <input style= {{backgroundColor: "#838383", width:910}}  value ={quizInfo.hashtagone} onChange= {onChange} name="hashtagone" type="text" class="form-control" id="formGroupExampleInput" />
-                        <input style= {{ backgroundColor: "#838383", width:910}} value ={quizInfo.hashtagtwo} onChange= {onChange} name="hashtagtwo" type="text" class="form-control" id="formGroupExampleInput" />
-                        <input style= {{ backgroundColor: "#838383", width:910}} value ={quizInfo.hashtagthree} onChange= {onChange} name="hashtagthree" type="text" class="form-control" id="formGroupExampleInput" />
-                     </div>
+              <div style={{paddingLeft: 220, width:1200}} >
+                <div class="card"  >
+                    <div  class="card-header" style= {{ backgroundColor: "#484848" }} >
+                     <label style={{color:"orange"}} for="exampleFormControlTextarea1"><b>Enter Hashtags: </b></label>
+                    </div>
+                    <div class="card-body" style= {{ backgroundColor: "#696969" }} >
+                    <input style= {{backgroundColor: "#838383", width:930}}  value ={quizInfo.hashtagone} onChange= {onChange} name="hashtagone" type="text" class="form-control" id="formGroupExampleInput" />
+                        <input style= {{ backgroundColor: "#838383", width:930}} value ={quizInfo.hashtagtwo} onChange= {onChange} name="hashtagtwo" type="text" class="form-control" id="formGroupExampleInput" />
+                        <input style= {{ backgroundColor: "#838383", width:930}} value ={quizInfo.hashtagthree} onChange= {onChange} name="hashtagthree" type="text" class="form-control" id="formGroupExampleInput" />
+                    </div>
+                </div>
+              </div>
 
-                    <div style= {{paddingLeft: 220, width:1128}} class="input-group mb-3">
-                       <label for="formGroupExampleInput"><b>Enter Difficulty: </b></label>
-                        <select style= {{ backgroundColor: "#838383", width:900}} name="difficulty" onChange={onChange} class="custom-select" id="inputGroupSelect03">
+              <div style={{paddingLeft: 220, width:1200}} >
+                <div class="card"  >
+                    <div  class="card-header" style= {{ backgroundColor: "#484848" }} >
+                     <label style={{color:"orange"}} for="exampleFormControlTextarea1"><b>Enter Difficulty: </b></label>
+                    </div>
+                    <div class="card-body" style= {{ backgroundColor: "#696969" }} >
+                    <select style= {{ backgroundColor: "#838383", width:930}} name="difficulty" onChange={onChange} class="custom-select" id="inputGroupSelect03">
                             <option  selected>{ isempty ? "Choose Difficulty" : quizInfo.difficulty}</option>
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
                             <option value="Hard">Hard</option>
-                        </select>
+                    </select>
+                    
                     </div>
-                    {showques && <label style={{paddingLeft: 250, paddingTop: 17}}> <b>No Questions to Display</b> </label>}
+                </div>
+              </div>
+
+              <div style= {{paddingTop:20}}>
+
+              {showques && <label style={{paddingLeft: 250, paddingTop: 17}}> <b>No Questions to Display</b> </label>}
                   <QuestionList questions= {upd ? quizInfo.questions : []} isempty = {isempty} onDelete = {onDelete} changeQuestion={changeQuestion} onSave= {onSave}/> 
+
+              </div>
+
                <div style={{paddingLeft: 217, paddingTop: 15}}>
                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                   <button style= {{backgroundColor: "#ffa343", width: 915}}  onClick={onAdd} class="btn btn-primary" type="button"> <i class="fa fa-plus"></i> Add   New   Question</button>
@@ -522,7 +571,7 @@ const CreateScreenIt = (props) => {
     if(error) { console.log(error);
         quiz = {} }
 	if(data) { 
-        // console.log(data.getQuizById.questions)
+        
         quiz=(data.getQuizById)  
     
     console.log(quiz)

@@ -8,7 +8,7 @@ const daySeconds = 86400;
 
 const timerProps = {
   isPlaying: true,
-  size: 115,
+  size: 100,
   strokeWidth: 5,
   trailColor: "#a8a8a8"
 };
@@ -16,7 +16,7 @@ const timerProps = {
 const renderTime = (dimension, time) => {
   return (
     <div style= {{ color: "orange"}} className="time-wrapper">
-      <div style= {{fontSize: 25, paddingLeft:17}} className="time">{time}</div>
+      <div style= {{fontSize: 25, }} className="time">{time}</div>
       <div style= {{color: "grey"}}>{dimension}</div>
     </div>
   );
@@ -29,13 +29,19 @@ const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 
 const TimerBar = (props) =>  {
   const stratTime = Date.now() / 1000; // use UNIX timestamp in seconds
-  const endTime = stratTime + 800; // use UNIX timestamp in seconds
+  const endTime = stratTime + props.timer; // use UNIX timestamp in seconds
   
   const remainingTime = endTime - stratTime;
+
+  if (remainingTime == 0)
+  {
+    console.log("over")
+  }
   return (
-    <div style = {{backgroundColor: "#484848", paddingLeft: 10, paddingTop: 13, paddingBottom: 10, width: 390, paddingRight:10}} >
-      <div style= {{display: "inline-block"}}> 
+    <div  style = {{backgroundColor: "#404040",height:"12vh",width:"25vw",}} >
+      <div  style= {{display: "inline-block",alignContent:"center"}}> 
       <CountdownCircleTimer
+        style={{position:"relative",top:"50%",left:"100%",transform:"translate(-50%,-50%)"}}
         {...timerProps}
         colors={[["#FFA500"]]}
         duration={daySeconds}
@@ -49,8 +55,9 @@ const TimerBar = (props) =>  {
         }
       </CountdownCircleTimer>
       </div>
-      <div style= {{display: "inline-block", paddingLeft: 10}}>
+      <div  style= {{display: "inline-block",alignContent:"center"}}>
       <CountdownCircleTimer
+      style={{position:"relative",top:"50%",left:"100%",transform:"translate(-50%,-50%)"}}
         {...timerProps}
         colors={[["#FFA500"]]}
         duration={hourSeconds}
@@ -64,8 +71,9 @@ const TimerBar = (props) =>  {
         }
       </CountdownCircleTimer>
       </div>
-      <div style= {{display: "inline-block", paddingLeft:10}}>
+      <div  style= {{display: "inline-block",alignContent:"center"}}>
       <CountdownCircleTimer
+      style={{position:"relative",top:"50%",left:"100%",transform:"translate(-50%,-50%)"}}
         {...timerProps}
         colors={[["#FFA500"]]}
         duration={minuteSeconds}
@@ -75,6 +83,7 @@ const TimerBar = (props) =>  {
         ]}
       >
         {({ elapsedTime }) =>
+        
           renderTime("seconds", getTimeSeconds(elapsedTime))
         }
       </CountdownCircleTimer>
