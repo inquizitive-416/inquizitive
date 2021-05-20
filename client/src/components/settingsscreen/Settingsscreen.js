@@ -429,7 +429,7 @@ const ChangeProfileVisibility = (props) => {
             <Col xs="2">
                 <Card className="bg-dark text-white text-center" border="dark">
                     <Card.Body>
-                        <Form.Label className="text-warning">Change your Profile Visibility</Form.Label>
+                        <Form.Label className="text-warning">Change your Platform Visibility</Form.Label>
                     </Card.Body>
                 </Card>
             </Col>
